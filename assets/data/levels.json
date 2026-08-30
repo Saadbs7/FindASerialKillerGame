@@ -1,0 +1,12 @@
+[
+  {
+    "id": "case_001",
+    "gender": "men",
+    "title": "The Quiet Connection",
+    "difficulty": "Medium",
+    "profileIds": ["m001", "m002", "m003", "m004", "m005", "m006", "m007", "m008", "m009", "m010"],
+    "killerProfileId": "m007",
+    "caseDescription": "A string of disappearances has one faint connection: each victim used the same dating platform. Somewhere among these ten profiles, a pattern is waiting to be noticed."
+  }
+]
+

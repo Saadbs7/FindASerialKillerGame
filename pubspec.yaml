@@ -1,0 +1,43 @@
+name: find_a_serial_killer
+description: A data-driven offline deduction game vertical slice.
+publish_to: "none"
+version: 0.1.0+1
+
+environment:
+  sdk: ">=3.2.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  shared_preferences: ^2.2.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+  flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.4.0
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logo.jpg" # Path to your logo
+  adaptive_icon_background: "#0F0C12" # Your app's background color
+  adaptive_icon_foreground: "assets/logo.jpg" # Usually the same as image_path
+
+flutter_native_splash:
+  color: "#0F0C12" # The background color (match your game theme)
+  image: "assets/splash_logo.jpg" # The image you want to show
+  android_12:
+    image: "assets/logo.jpg" # Required for newer Android versions
+    color: "#0F0C12"
+  fullscreen: true
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/data/profiles.json
+    - assets/data/levels.json
+    - assets/data/conversations.json
+    - assets/logo.jpg
+    - assets/splash_logo.jpg

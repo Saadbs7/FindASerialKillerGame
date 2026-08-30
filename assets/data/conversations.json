@@ -1,0 +1,73 @@
+{
+  "chat_m001": {
+    "stages": [
+      {"id":"m001_s1","suspectMessage":"You have excellent taste in profiles. What brought you onto the app?","responseOptions":[{"id":"a","playerText":"I’m looking for good conversation first.","suspectReply":"Same here. I’m usually out photographing old buildings on weekends.","nextStageId":"m001_s2"},{"id":"b","playerText":"A friend insisted I give it a chance.","suspectReply":"Friends are persuasive. Mine keeps trying to set me up at bookshops.","nextStageId":"m001_s2"}]},
+      {"id":"m001_s2","suspectMessage":"I’m planning a walk along the canal this Saturday. Do you get out much?","responseOptions":[{"id":"a","playerText":"Only when the weather behaves.","suspectReply":"Fair. I’ll take grey skies over crowds any day.","nextStageId":"m001_s3"},{"id":"b","playerText":"I prefer places with a little noise.","suspectReply":"Then I know a small cafe that gets wonderfully chaotic.","nextStageId":"m001_s3"}]},
+      {"id":"m001_s3","suspectMessage":"What makes someone trustworthy to you?","responseOptions":[{"id":"a","playerText":"When their small stories stay consistent.","suspectReply":"That’s a thoughtful answer. I think kindness is the better test, though.","nextStageId":null},{"id":"b","playerText":"When they can laugh at themselves.","suspectReply":"Good rule. I’ve broken enough tripods to qualify.","nextStageId":null}]}
+    ]
+  },
+  "chat_m002": {
+    "stages": [
+      {"id":"m002_s1","suspectMessage":"I’m between shifts, so forgive the late reply. What does your perfect Sunday look like?","responseOptions":[{"id":"a","playerText":"A long breakfast and no schedule.","suspectReply":"That sounds luxurious. I’m usually awake before the alarm.","nextStageId":"m002_s2"},{"id":"b","playerText":"A new place and a good playlist.","suspectReply":"I know a record shop with a very opinionated owner.","nextStageId":"m002_s2"}]},
+      {"id":"m002_s2","suspectMessage":"I moved around a lot for work. Have you ever lived somewhere unfamiliar?","responseOptions":[{"id":"a","playerText":"Yes, but I always miss home.","suspectReply":"The first winter is always the hardest part.","nextStageId":"m002_s3"},{"id":"b","playerText":"Not for long. I like familiar streets.","suspectReply":"Then I’ll show you the streets I’ve learned.","nextStageId":"m002_s3"}]},
+      {"id":"m002_s3","suspectMessage":"People think my hours are strange. I just like having daylight to myself.","responseOptions":[{"id":"a","playerText":"Night work can be peaceful.","suspectReply":"Exactly. No meetings, fewer opinions.","nextStageId":null},{"id":"b","playerText":"That sounds like a hard routine.","suspectReply":"It is sometimes, but the quiet is worth it.","nextStageId":null}]}
+    ]
+  },
+  "chat_m003": {
+    "stages": [
+      {"id":"m003_s1","suspectMessage":"Your profile says you like honest answers. I’ll try not to disappoint. What are you curious about?","responseOptions":[{"id":"a","playerText":"What people do when nobody is watching.","suspectReply":"Usually laundry. I hope that is not too revealing.","nextStageId":"m003_s2"},{"id":"b","playerText":"Where you go when you need to think.","suspectReply":"The hill above town. You can see every road from there.","nextStageId":"m003_s2"}]},
+      {"id":"m003_s2","suspectMessage":"I’ve never really spent time outside Bavaria, except for one quick conference in Berlin.","responseOptions":[{"id":"a","playerText":"Berlin is a memorable conference city.","suspectReply":"It was mostly fluorescent lights and bad coffee, honestly.","nextStageId":"m003_s3","optionalClueId":"m003_chat_berlin"},{"id":"b","playerText":"I’ve heard the museums are good.","suspectReply":"I only saw the airport and the hotel. I can’t recommend either.","nextStageId":"m003_s3","optionalClueId":"m003_chat_berlin"}]},
+      {"id":"m003_s3","suspectMessage":"What would make you leave a date immediately?","responseOptions":[{"id":"a","playerText":"A story that keeps changing.","suspectReply":"Then I’d better remember this one.","nextStageId":null},{"id":"b","playerText":"Cruelty disguised as a joke.","suspectReply":"That is a good boundary. I’ve got a few of my own.","nextStageId":null}]}
+    ]
+  },
+  "chat_m004": {
+    "stages": [
+      {"id":"m004_s1","suspectMessage":"I’m told my dog has more charisma than I do. What wins you over?","responseOptions":[{"id":"a","playerText":"A sense of humor.","suspectReply":"I can offer dad jokes and one excellent impression of a pigeon.","nextStageId":"m004_s2"},{"id":"b","playerText":"Someone who notices details.","suspectReply":"Then you’ll notice the dog has stolen my sock again.","nextStageId":"m004_s2"}]},
+      {"id":"m004_s2","suspectMessage":"I took a short trip recently, though I mostly stayed near the hotel.","responseOptions":[{"id":"a","playerText":"Sometimes that is the best way to travel.","suspectReply":"Exactly. A quiet room and a new breakfast menu.","nextStageId":"m004_s3"},{"id":"b","playerText":"No exploring at all?","suspectReply":"I explored the hotel vending machine. It was an adventure.","nextStageId":"m004_s3"}]},
+      {"id":"m004_s3","suspectMessage":"Do you trust people quickly?","responseOptions":[{"id":"a","playerText":"Not quickly, but sincerely.","suspectReply":"That sounds like a sensible pace.","nextStageId":null},{"id":"b","playerText":"I try to give everyone a chance.","suspectReply":"The dog approves of that policy.","nextStageId":null}]}
+    ]
+  },
+  "chat_m005": {
+    "stages": [
+      {"id":"m005_s1","suspectMessage":"I’m usually buried in a project. What keeps you busy?","responseOptions":[{"id":"a","playerText":"People, mostly.","suspectReply":"That can be the most demanding project.","nextStageId":"m005_s2"},{"id":"b","playerText":"Trying to learn something new.","suspectReply":"I’m learning to cook without instructions. Mixed results.","nextStageId":"m005_s2"}]},
+      {"id":"m005_s2","suspectMessage":"Someone once called me secretive. I prefer private. There’s a difference.","responseOptions":[{"id":"a","playerText":"I agree. Privacy is healthy.","suspectReply":"Thank you. Most people hear one quiet answer and invent the rest.","nextStageId":"m005_s3"},{"id":"b","playerText":"What are you keeping private?","suspectReply":"Nothing dramatic. Just an unfinished novel and terrible singing.","nextStageId":"m005_s3"}]},
+      {"id":"m005_s3","suspectMessage":"What is something you would never do again?","responseOptions":[{"id":"a","playerText":"Pretend to enjoy a bad first date.","suspectReply":"Then we’ll both be honest if this turns strange.","nextStageId":null},{"id":"b","playerText":"Book a red-eye before a workday.","suspectReply":"A mistake I have repeated with impressive consistency.","nextStageId":null}]}
+    ]
+  },
+  "chat_m006": {
+    "stages": [
+      {"id":"m006_s1","suspectMessage":"The best dates involve food. Are you adventurous with menus?","responseOptions":[{"id":"a","playerText":"I’ll try almost anything once.","suspectReply":"Brave. I know a tiny place with a menu that changes daily.","nextStageId":"m006_s2"},{"id":"b","playerText":"I’m loyal to a few favorites.","suspectReply":"Reliable choices have their own charm.","nextStageId":"m006_s2"}]},
+      {"id":"m006_s2","suspectMessage":"My profile photo was taken by the river, just before the rain.","responseOptions":[{"id":"a","playerText":"It has a calm feeling.","suspectReply":"That is what I liked about it too.","nextStageId":"m006_s3"},{"id":"b","playerText":"You seem more serious there.","suspectReply":"The rain was trying to ruin the mood.","nextStageId":"m006_s3"}]},
+      {"id":"m006_s3","suspectMessage":"What do people misunderstand about you?","responseOptions":[{"id":"a","playerText":"That I need more time than I do.","suspectReply":"I understand that. People rush the quiet parts.","nextStageId":null},{"id":"b","playerText":"That I am always as confident as I look.","suspectReply":"A surprisingly common disguise.","nextStageId":null}]}
+    ]
+  },
+  "chat_m007": {
+    "stages": [
+      {"id":"m007_s1","suspectMessage":"You seem observant. What caught your attention first?","responseOptions":[{"id":"a","playerText":"The line about quiet places.","suspectReply":"I like places where conversations can breathe.","nextStageId":"m007_s2"},{"id":"b","playerText":"The photograph by the water.","suspectReply":"That one was taken on a work trip. The light was perfect.","nextStageId":"m007_s2"}]},
+      {"id":"m007_s2","suspectMessage":"I’m often travelling for work, but I haven’t been to Berlin in years. Not since university.","responseOptions":[{"id":"a","playerText":"The city changes quickly.","suspectReply":"So I hear. I prefer smaller places now.","nextStageId":"m007_s3"},{"id":"b","playerText":"What did you study there?","suspectReply":"Urban planning. Mostly maps, models, and too much coffee.","nextStageId":"m007_s3","optionalClueId":"m007_chat_timeline"}]},
+      {"id":"m007_s3","suspectMessage":"I saw a photo you liked from Berlin. Have you been recently?","responseOptions":[{"id":"a","playerText":"Only passing through last spring.","suspectReply":"Ah. Then perhaps I confused the riverfront with somewhere else. Easy mistake.","nextStageId":null,"optionalClueId":"m007_chat_denial"},{"id":"b","playerText":"I have friends there.","suspectReply":"That explains it. I thought I recognized a street behind you.","nextStageId":null,"optionalClueId":"m007_chat_denial"}]}
+    ]
+  },
+  "chat_m008": {
+    "stages": [
+      {"id":"m008_s1","suspectMessage":"Do you believe people can reinvent themselves?","responseOptions":[{"id":"a","playerText":"Yes, with enough honesty.","suspectReply":"Honesty is the difficult part.","nextStageId":"m008_s2"},{"id":"b","playerText":"I think people mostly reveal themselves.","suspectReply":"That is a slightly terrifying answer.","nextStageId":"m008_s2"}]},
+      {"id":"m008_s2","suspectMessage":"I collect old maps, though I rarely follow them anywhere.","responseOptions":[{"id":"a","playerText":"Maps are stories too.","suspectReply":"Exactly. Every blank space feels like an invitation.","nextStageId":"m008_s3"},{"id":"b","playerText":"Do you get lost often?","suspectReply":"Only in museums and supermarkets.","nextStageId":"m008_s3"}]},
+      {"id":"m008_s3","suspectMessage":"What is your ideal first date?","responseOptions":[{"id":"a","playerText":"A walk and an easy conversation.","suspectReply":"That sounds hard to improve on.","nextStageId":null},{"id":"b","playerText":"A tiny restaurant nobody knows.","suspectReply":"I know exactly two of those.","nextStageId":null}]}
+    ]
+  },
+  "chat_m009": {
+    "stages": [
+      {"id":"m009_s1","suspectMessage":"I’m better in person than in a profile, supposedly. What is your tell?","responseOptions":[{"id":"a","playerText":"I over-explain when I am nervous.","suspectReply":"That makes two of us, though I under-explain first.","nextStageId":"m009_s2"},{"id":"b","playerText":"I ask too many questions.","suspectReply":"Useful. I am full of very ordinary answers.","nextStageId":"m009_s2"}]},
+      {"id":"m009_s2","suspectMessage":"I’ve never left Germany, but I’m saving for a long train trip.","responseOptions":[{"id":"a","playerText":"Where would you go first?","suspectReply":"Somewhere with mountains and a station cafe.","nextStageId":"m009_s3"},{"id":"b","playerText":"That sounds like a good project.","suspectReply":"It gives me something to look forward to.","nextStageId":"m009_s3"}]},
+      {"id":"m009_s3","suspectMessage":"What makes you trust somebody?","responseOptions":[{"id":"a","playerText":"Consistency over time.","suspectReply":"A patient answer. I like it.","nextStageId":null},{"id":"b","playerText":"When they make room for mistakes.","suspectReply":"Nobody gets through life without a few.","nextStageId":null}]}
+    ]
+  },
+  "chat_m010": {
+    "stages": [
+      {"id":"m010_s1","suspectMessage":"I have a theory that the best stories start with a wrong turn. Any good ones?","responseOptions":[{"id":"a","playerText":"I once missed a train and found a great bakery.","suspectReply":"That is a very good wrong turn.","nextStageId":"m010_s2"},{"id":"b","playerText":"I usually plan too carefully.","suspectReply":"Then I’ll suggest one small detour.","nextStageId":"m010_s2"}]},
+      {"id":"m010_s2","suspectMessage":"My hours are irregular because I work with emergency callouts.","responseOptions":[{"id":"a","playerText":"That must be exhausting.","suspectReply":"It can be. The quiet days help.","nextStageId":"m010_s3"},{"id":"b","playerText":"Do you ever get used to it?","suspectReply":"You get used to being ready, not to the calls.","nextStageId":"m010_s3"}]},
+      {"id":"m010_s3","suspectMessage":"What is something people misunderstand about you?","responseOptions":[{"id":"a","playerText":"That you are always calm.","suspectReply":"Exactly. Calm is often just careful breathing.","nextStageId":null},{"id":"b","playerText":"That you like being alone.","suspectReply":"Sometimes, but not tonight.","nextStageId":null}]}
+    ]
+  }
+}
+
