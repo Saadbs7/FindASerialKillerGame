@@ -3,10 +3,180 @@
     "id": "case_001",
     "gender": "men",
     "title": "The Quiet Connection",
-    "difficulty": "Medium",
+    "difficulty": "Easy",
     "profileIds": ["m001", "m002", "m003", "m004", "m005", "m006", "m007", "m008", "m009", "m010"],
     "killerProfileId": "m007",
     "caseDescription": "A string of disappearances has one faint connection: each victim used the same dating platform. Somewhere among these ten profiles, a pattern is waiting to be noticed."
+  },
+  {
+    "id": "case_002",
+    "gender": "men",
+    "title": "The Midnight Check-In",
+    "difficulty": "Easy",
+    "profileIds": ["m011", "m012", "m013", "m014", "m015", "m016", "m017", "m018", "m019", "m020"],
+    "killerProfileId": "m017",
+    "caseDescription": "Three travelers vanished after arranging private city meetups. Their last known locations form a trail through the same late-night check-in network. One of these ten profiles is hiding how well he knows the route."
+  },
+  {
+    "id": "case_003",
+    "gender": "women",
+    "title": "The Vanishing Hours",
+    "difficulty": "Easy",
+    "profileIds": ["f001", "f002", "f003", "f004", "f005", "f006", "f007", "f008", "f009", "f010"],
+    "killerProfileId": "f007",
+    "caseDescription": "Several women disappeared after meeting people through the same dating network. Each case includes a gap in the evening timeline, and one of these ten profiles knows exactly how to make those hours disappear."
+  },
+  {
+    "id": "case_004",
+    "gender": "women",
+    "title": "The Borrowed Alibi",
+    "difficulty": "Easy",
+    "profileIds": ["f011", "f012", "f013", "f014", "f015", "f016", "f017", "f018", "f019", "f020"],
+    "killerProfileId": "f017",
+    "caseDescription": "A chain of disappearances points to borrowed names, copied routines, and alibis that sound almost too polished. Among these ten profiles, one person has been hiding behind someone else’s story."
+  },
+  {
+    "id": "case_013",
+    "gender": "women",
+    "title": "The Blue Hour Signal",
+    "difficulty": "Easy",
+    "profileIds": ["f021", "f022", "f023", "f024", "f025", "f026", "f027", "f028", "f029", "f030"],
+    "killerProfileId": "f027",
+    "caseDescription": "Three women vanished during the blue hour between sunset and nightfall. Their phones went quiet near the same riverside signal tower, and one profile knows why the tower mattered."
+  },
+  {
+    "id": "case_014",
+    "gender": "women",
+    "title": "The House with No Address",
+    "difficulty": "Medium",
+    "profileIds": ["f031", "f032", "f033", "f034", "f035", "f036", "f037", "f038", "f039", "f040"],
+    "killerProfileId": "f037",
+    "caseDescription": "Each missing person received an invitation to a house that did not appear on any map. The invitations looked personal, but their wording reveals one careful author hiding among these profiles."
+  },
+  {
+    "id": "case_015",
+    "gender": "women",
+    "title": "The Borrowed Voice",
+    "difficulty": "Medium",
+    "profileIds": ["f041", "f042", "f043", "f044", "f045", "f046", "f047", "f048", "f049", "f050"],
+    "killerProfileId": "f047",
+    "caseDescription": "The victims all heard the same comforting voice before they disappeared, though the calls came from different numbers. One profile has been collecting other people’s phrases a little too carefully."
+  },
+  {
+    "id": "case_016",
+    "gender": "women",
+    "title": "The Last Ferry Home",
+    "difficulty": "Medium",
+    "profileIds": ["f051", "f052", "f053", "f054", "f055", "f056", "f057", "f058", "f059", "f060"],
+    "killerProfileId": "f057",
+    "caseDescription": "Three people boarded the last ferry across the lake and never reached the other side. The timetable appears ordinary until travel records, weather, and private messages are compared."
+  },
+  {
+    "id": "case_017",
+    "gender": "women",
+    "title": "The Orchard of Alibis",
+    "difficulty": "Hard",
+    "profileIds": ["f061", "f062", "f063", "f064", "f065", "f066", "f067", "f068", "f069", "f070"],
+    "killerProfileId": "f067",
+    "caseDescription": "A rural orchard becomes the common thread in disappearances that were reported miles apart. Everyone has a reason to have been nearby, but one alibi repeats details from another person’s account."
+  },
+  {
+    "id": "case_018",
+    "gender": "women",
+    "title": "The Unsent Invitations",
+    "difficulty": "Hard",
+    "profileIds": ["f071", "f072", "f073", "f074", "f075", "f076", "f077", "f078", "f079", "f080"],
+    "killerProfileId": "f077",
+    "caseDescription": "Several victims received invitations that vanished from their inboxes before anyone could open them. The sender kept no visible account, yet one profile’s activity mirrors every missing invitation."
+  },
+  {
+    "id": "case_019",
+    "gender": "women",
+    "title": "The Glass Thread",
+    "difficulty": "Hard",
+    "profileIds": ["f081", "f082", "f083", "f084", "f085", "f086", "f087", "f088", "f089", "f090"],
+    "killerProfileId": "f087",
+    "caseDescription": "Tiny fragments of blue glass connect four disappearance sites, but the material is common enough to mislead. The decisive clue is a thread linking the victims to a place one profile denies visiting."
+  },
+  {
+    "id": "case_020",
+    "gender": "women",
+    "title": "The Witness in Every Photo",
+    "difficulty": "Very Hard",
+    "profileIds": ["f091", "f092", "f093", "f094", "f095", "f096", "f097", "f098", "f099", "f100"],
+    "killerProfileId": "f097",
+    "caseDescription": "Every disappearance has a photograph taken nearby, and the same unseen witness appears in the reflections. The final case rewards patient comparison: the truth is hidden in what each image leaves out."
+  },
+  {
+    "id": "case_005",
+    "gender": "men",
+    "title": "The Last Seen Playlist",
+    "difficulty": "Easy",
+    "profileIds": ["m021", "m022", "m023", "m024", "m025", "m026", "m027", "m028", "m029", "m030"],
+    "killerProfileId": "m027",
+    "caseDescription": "Three people vanished after sharing the same late-night playlist. The songs are harmless on their own, but one profile keeps appearing in the listening history just before each disappearance."
+  },
+  {
+    "id": "case_006",
+    "gender": "men",
+    "title": "The Empty Platform",
+    "difficulty": "Medium",
+    "profileIds": ["m031", "m032", "m033", "m034", "m035", "m036", "m037", "m038", "m039", "m040"],
+    "killerProfileId": "m037",
+    "caseDescription": "A commuter disappears from a station platform with no usable camera footage. Ten profiles share the same transit app, but only one has been quietly changing the records after midnight."
+  },
+  {
+    "id": "case_007",
+    "gender": "men",
+    "title": "The Glasshouse Alibi",
+    "difficulty": "Medium",
+    "profileIds": ["m041", "m042", "m043", "m044", "m045", "m046", "m047", "m048", "m049", "m050"],
+    "killerProfileId": "m047",
+    "caseDescription": "A private greenhouse becomes the last known location in a string of disappearances. The killer has built an alibi from weather reports, delivery logs, and one carefully planted photograph."
+  },
+  {
+    "id": "case_008",
+    "gender": "men",
+    "title": "The Borrowed Weekend",
+    "difficulty": "Medium",
+    "profileIds": ["m051", "m052", "m053", "m054", "m055", "m056", "m057", "m058", "m059", "m060"],
+    "killerProfileId": "m057",
+    "caseDescription": "Several dates end with a weekend trip that nobody remembers agreeing to. One profile has been borrowing other people’s plans, locations, and excuses to make every meeting look accidental."
+  },
+  {
+    "id": "case_009",
+    "gender": "men",
+    "title": "The Silent Checkpoint",
+    "difficulty": "Hard",
+    "profileIds": ["m061", "m062", "m063", "m064", "m065", "m066", "m067", "m068", "m069", "m070"],
+    "killerProfileId": "m067",
+    "caseDescription": "A string of disappearances follows a route through quiet border towns. Messages were deleted, checkpoints were skipped, and one profile knows the route without ever admitting to taking it."
+  },
+  {
+    "id": "case_010",
+    "gender": "men",
+    "title": "The False Emergency",
+    "difficulty": "Hard",
+    "profileIds": ["m071", "m072", "m073", "m074", "m075", "m076", "m077", "m078", "m079", "m080"],
+    "killerProfileId": "m077",
+    "caseDescription": "Victims received urgent messages from people they trusted, then disappeared while trying to help. The emergency was always convincing, and one profile understands exactly how to manufacture panic."
+  },
+  {
+    "id": "case_011",
+    "gender": "men",
+    "title": "The Night Archive",
+    "difficulty": "Hard",
+    "profileIds": ["m081", "m082", "m083", "m084", "m085", "m086", "m087", "m088", "m089", "m090"],
+    "killerProfileId": "m087",
+    "caseDescription": "Old case files reveal a pattern that the current disappearances repeat almost perfectly. Someone has been studying the archive closely enough to turn forgotten mistakes into a new method."
+  },
+  {
+    "id": "case_012",
+    "gender": "men",
+    "title": "The Perfect Witness",
+    "difficulty": "Very Hard",
+    "profileIds": ["m091", "m092", "m093", "m094", "m095", "m096", "m097", "m098", "m099", "m100"],
+    "killerProfileId": "m097",
+    "caseDescription": "Every disappearance has a witness, every witness has a story, and every story points somewhere else. The final case is built on a perfect account that may have been rehearsed from the beginning."
   }
 ]
-

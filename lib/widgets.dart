@@ -8,11 +8,14 @@ const coral = Color(0xFFE97964);
 const aqua = Color(0xFF6ED5C8);
 
 class PageFrame extends StatelessWidget {
-  const PageFrame({super.key, required this.child, this.title, this.subtitle, this.action});
+  const PageFrame({super.key, required this.child, this.title, this.subtitle, this.subtitleAction, this.leading, this.action, this.centerTitle = false});
   final Widget child;
   final String? title;
   final String? subtitle;
+  final Widget? subtitleAction;
+  final Widget? leading;
   final Widget? action;
+  final bool centerTitle;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,10 +26,20 @@ class PageFrame extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(20, 18, 20, 18),
               child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                if (title != null) Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(title!, style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800)), if (subtitle != null) ...[const SizedBox(height: 5), Text(subtitle!, style: const TextStyle(color: muted))]])),
-                  if (action != null) action!,
-                ]),
+                if (title != null) ...[
+                  Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                    if (leading != null) leading!,
+                    Expanded(child: Text(title!, textAlign: centerTitle ? TextAlign.center : TextAlign.start, style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800))),
+                    if (action != null) action!,
+                  ]),
+                  if (subtitle != null || subtitleAction != null) ...[
+                    const SizedBox(height: 5),
+                    Row(children: [
+                      if (subtitle != null) Expanded(child: Text(subtitle!, style: const TextStyle(color: muted), maxLines: subtitle!.contains('\n') ? 2 : 1, overflow: TextOverflow.ellipsis)),
+                      if (subtitleAction != null) ...[if (subtitle != null) const SizedBox(width: 10), subtitleAction!],
+                    ]),
+                  ],
+                ],
                 if (title != null) const SizedBox(height: 18),
                 Expanded(child: child),
               ]),
@@ -43,7 +56,7 @@ class BrandMark extends StatelessWidget {
   final bool compact;
   @override
   Widget build(BuildContext context) => Row(mainAxisSize: MainAxisSize.min, children: [
-    ClipRRect(borderRadius: BorderRadius.circular(compact ? 11 : 14), child: Image.asset('assets/images/app_logo.jpg', width: compact ? 54 : 64, height: compact ? 54 : 64, fit: BoxFit.cover, semanticLabel: 'Find a Serial Killer app logo')),
+    ClipRRect(borderRadius: BorderRadius.circular(compact ? 11 : 14), child: Image.asset('assets/logo.jpg', width: compact ? 54 : 64, height: compact ? 54 : 64, fit: BoxFit.cover, semanticLabel: 'Find a Serial Killer app logo')),
     const SizedBox(width: 10),
     Text('FIND A', style: TextStyle(fontSize: compact ? 30 : 35, fontWeight: FontWeight.w400, letterSpacing: 2.2, color: Colors.white)),
   ]);
@@ -62,6 +75,176 @@ class PrimaryButton extends StatelessWidget {
       ? OutlinedButton.icon(onPressed: onPressed, icon: icon == null ? const SizedBox.shrink() : Icon(icon), label: Text(label))
       : FilledButton.icon(onPressed: onPressed, icon: icon == null ? const SizedBox.shrink() : Icon(icon), label: Text(label));
     return SizedBox(width: expand ? double.infinity : null, height: 52, child: button);
+  }
+}
+
+class MenuActionButton extends StatefulWidget {
+  const MenuActionButton({super.key, required this.label, required this.onPressed, this.icon, this.primary = false, this.showChevron = true, this.centerContent = false});
+  final String label;
+  final VoidCallback? onPressed;
+  final IconData? icon;
+  final bool primary;
+  final bool showChevron;
+  final bool centerContent;
+
+  @override
+  State<MenuActionButton> createState() => _MenuActionButtonState();
+}
+
+class _MenuActionButtonState extends State<MenuActionButton> {
+  bool _hovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final enabled = widget.onPressed != null;
+    final accent = widget.primary ? coral : aqua;
+    final background = widget.primary
+        ? const LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Color(0xFFE97964), Color(0xFFB9404B)])
+        : LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [panel.withValues(alpha: .96), const Color(0xFF101827)]);
+
+    return Semantics(
+      button: true,
+      enabled: enabled,
+      label: widget.label,
+      child: MouseRegion(
+        cursor: enabled ? SystemMouseCursors.click : SystemMouseCursors.basic,
+        onEnter: enabled ? (_) => setState(() => _hovered = true) : null,
+        onExit: enabled ? (_) => setState(() => _hovered = false) : null,
+        child: AnimatedScale(
+          scale: _hovered ? 1.012 : 1,
+          duration: const Duration(milliseconds: 140),
+          child: SizedBox(
+            width: double.infinity,
+            height: 64,
+            child: Material(
+              color: Colors.transparent,
+              child: Ink(
+                decoration: BoxDecoration(
+                  gradient: enabled ? background : null,
+                  color: enabled ? null : Colors.white.withValues(alpha: .035),
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: enabled ? accent.withValues(alpha: widget.primary ? .95 : .72) : Colors.white.withValues(alpha: .12), width: _hovered ? 1.6 : 1),
+                  boxShadow: enabled ? [BoxShadow(color: accent.withValues(alpha: widget.primary ? .28 : .12), blurRadius: _hovered ? 20 : 11, spreadRadius: _hovered ? 1 : 0, offset: const Offset(0, 6))] : const [],
+                ),
+                child: InkWell(
+                  onTap: widget.onPressed,
+                  onHover: (value) => setState(() => _hovered = value),
+                  borderRadius: BorderRadius.circular(18),
+                  splashColor: accent.withValues(alpha: .22),
+                  highlightColor: accent.withValues(alpha: .08),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 18),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        if (widget.centerContent)
+                          Center(child: Row(mainAxisSize: MainAxisSize.min, children: [
+                            Container(
+                              width: 36,
+                              height: 36,
+                              decoration: BoxDecoration(color: widget.primary ? Colors.black.withValues(alpha: .16) : accent.withValues(alpha: .13), borderRadius: BorderRadius.circular(11)),
+                              child: Icon(widget.icon ?? Icons.arrow_forward_rounded, color: widget.primary ? Colors.white : accent, size: 21),
+                            ),
+                            const SizedBox(width: 10),
+                            Text(widget.label.toUpperCase(), textAlign: TextAlign.center, style: TextStyle(color: enabled ? Colors.white : muted, fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1.7)),
+                          ]))
+                        else ...[
+                          Center(child: Text(widget.label.toUpperCase(), textAlign: TextAlign.center, style: TextStyle(color: enabled ? Colors.white : muted, fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1.7))),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              width: 36,
+                              height: 36,
+                              decoration: BoxDecoration(color: widget.primary ? Colors.black.withValues(alpha: .16) : accent.withValues(alpha: .13), borderRadius: BorderRadius.circular(11)),
+                              child: Icon(widget.icon ?? Icons.arrow_forward_rounded, color: widget.primary ? Colors.white : accent, size: 21),
+                            ),
+                          ),
+                        ],
+                        if (widget.showChevron && !widget.centerContent) Align(alignment: Alignment.centerRight, child: Icon(Icons.chevron_right_rounded, color: enabled ? (widget.primary ? Colors.white70 : accent) : muted, size: 25)),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ProfileActionButton extends StatefulWidget {
+  const ProfileActionButton({super.key, required this.label, required this.icon, required this.accent, required this.onPressed, this.primary = false, this.backgroundColor, this.horizontal = false});
+  final String label;
+  final IconData icon;
+  final Color accent;
+  final VoidCallback? onPressed;
+  final bool primary;
+  final Color? backgroundColor;
+  final bool horizontal;
+
+  @override
+  State<ProfileActionButton> createState() => _ProfileActionButtonState();
+}
+
+class _ProfileActionButtonState extends State<ProfileActionButton> {
+  bool _hovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final enabled = widget.onPressed != null;
+    final radius = BorderRadius.circular(24);
+    return Semantics(
+      button: true,
+      enabled: enabled,
+      label: widget.label,
+      child: MouseRegion(
+        cursor: enabled ? SystemMouseCursors.click : SystemMouseCursors.basic,
+        onEnter: enabled ? (_) => setState(() => _hovered = true) : null,
+        onExit: enabled ? (_) => setState(() => _hovered = false) : null,
+        child: AnimatedScale(
+          scale: _hovered ? 1.025 : 1,
+          duration: const Duration(milliseconds: 140),
+          child: SizedBox(
+            height: 66,
+            child: Material(
+              color: Colors.transparent,
+              child: Ink(
+                decoration: BoxDecoration(
+                  gradient: enabled && widget.primary ? LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [widget.accent, Color.lerp(widget.accent, ink, .36)!]) : null,
+                  color: widget.backgroundColor ?? (enabled && !widget.primary ? widget.accent.withValues(alpha: .08) : (!enabled ? Colors.white.withValues(alpha: .035) : null)),
+                  borderRadius: radius,
+                  border: Border.all(color: enabled ? widget.accent.withValues(alpha: widget.primary ? .95 : .7) : Colors.white.withValues(alpha: .12), width: _hovered ? 1.6 : 1),
+                  boxShadow: enabled ? [BoxShadow(color: widget.accent.withValues(alpha: widget.primary ? .25 : .1), blurRadius: _hovered ? 16 : 8, offset: const Offset(0, 5))] : const [],
+                ),
+                child: InkWell(
+                  onTap: widget.onPressed,
+                  onHover: (value) => setState(() => _hovered = value),
+                  borderRadius: radius,
+                  splashColor: widget.accent.withValues(alpha: .22),
+                  highlightColor: widget.accent.withValues(alpha: .08),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
+                    child: widget.horizontal
+                        ? Row(mainAxisSize: MainAxisSize.min, mainAxisAlignment: MainAxisAlignment.center, children: [
+                            Icon(widget.icon, color: enabled ? (widget.primary ? Colors.white : widget.accent) : muted, size: 22),
+                            const SizedBox(width: 8),
+                            Flexible(child: Text(widget.label, textAlign: TextAlign.center, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: enabled ? (widget.primary ? Colors.white : Colors.white70) : muted, fontSize: 12, height: 1.05, fontWeight: FontWeight.w900, letterSpacing: .25))),
+                          ])
+                        : Column(mainAxisSize: MainAxisSize.min, mainAxisAlignment: MainAxisAlignment.center, children: [
+                            Icon(widget.icon, color: enabled ? (widget.primary ? Colors.white : widget.accent) : muted, size: 20),
+                            const SizedBox(height: 2),
+                            Text(widget.label, textAlign: TextAlign.center, maxLines: 2, overflow: TextOverflow.ellipsis, style: TextStyle(color: enabled ? (widget.primary ? Colors.white : Colors.white70) : muted, fontSize: 10, height: 1.05, fontWeight: FontWeight.w900, letterSpacing: .35)),
+                          ]),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -95,11 +278,18 @@ class _PlaceholderPhotoState extends State<PlaceholderPhoto> {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 250),
           decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(26), gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [color, ink])),
-          child: Stack(children: [
-            Center(child: Column(mainAxisSize: MainAxisSize.min, children: [Icon(Icons.person_outline_rounded, size: 82, color: Colors.white.withValues(alpha: .72)), const SizedBox(height: 14), Text(widget.profile.id.toUpperCase(), style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w900, letterSpacing: 3)), Text('PHOTO ${index + 1}', style: const TextStyle(color: aqua, fontWeight: FontWeight.bold, letterSpacing: 2))])),
-            Positioned(top: 14, left: 14, right: 14, child: Row(children: List.generate(widget.profile.photos.length, (dot) => Expanded(child: Container(height: 4, margin: const EdgeInsets.symmetric(horizontal: 2), decoration: BoxDecoration(color: dot == index ? Colors.white : Colors.white.withValues(alpha: .25), borderRadius: BorderRadius.circular(4))))))),
-            const Positioned(bottom: 15, left: 17, child: Text('Tap or swipe to browse', style: TextStyle(color: Colors.white70, fontSize: 11))),
-          ]),
+          child: LayoutBuilder(builder: (context, constraints) {
+            final compact = constraints.maxWidth < 140;
+            final iconSize = compact ? 38.0 : 82.0;
+            final gap = compact ? 5.0 : 14.0;
+            final idSize = compact ? 14.0 : 28.0;
+            final photoSize = compact ? 9.0 : 14.0;
+            return Stack(children: [
+              Center(child: Column(mainAxisSize: MainAxisSize.min, children: [Icon(Icons.person_outline_rounded, size: iconSize, color: Colors.white.withValues(alpha: .72)), SizedBox(height: gap), Text(widget.profile.id.toUpperCase(), style: TextStyle(fontSize: idSize, fontWeight: FontWeight.w900, letterSpacing: compact ? 1 : 3)), Text('PHOTO ${index + 1}', style: TextStyle(color: aqua, fontSize: photoSize, fontWeight: FontWeight.bold, letterSpacing: compact ? .8 : 2))])),
+              Positioned(top: compact ? 8 : 14, left: compact ? 8 : 14, right: compact ? 8 : 14, child: Row(children: List.generate(widget.profile.photos.length, (dot) => Expanded(child: Container(height: compact ? 3 : 4, margin: const EdgeInsets.symmetric(horizontal: 2), decoration: BoxDecoration(color: dot == index ? Colors.white : Colors.white.withValues(alpha: .25), borderRadius: BorderRadius.circular(4))))))),
+              if (!compact) const Positioned(bottom: 15, left: 17, child: Text('Tap or swipe to browse', style: TextStyle(color: Colors.white70, fontSize: 11))),
+            ]);
+          }),
         ),
       ),
     );

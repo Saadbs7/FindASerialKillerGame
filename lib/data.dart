@@ -22,15 +22,58 @@ class ContentRepository {
     final levelModels = levelsJson.map((item) => Level.fromJson(Map<String, dynamic>.from(item as Map))).toList(growable: false);
     if (profileModels.map((profile) => profile.id).toSet().length != profileModels.length) throw const FormatException('Content validation failed: profile IDs must be unique.');
     if (levelModels.map((level) => level.id).toSet().length != levelModels.length) throw const FormatException('Content validation failed: level IDs must be unique.');
+    final conversationModels = {
+      for (final entry in conversationsJson.entries) entry.key as String: Conversation.fromJson(entry.key as String, Map<String, dynamic>.from(entry.value as Map)),
+    };
+    for (final profile in profileModels) {
+      conversationModels.putIfAbsent(profile.conversationId, () => _generatedConversation(profile));
+    }
     final content = GameContent(
       profiles: {for (final profile in profileModels) profile.id: profile},
       levels: {for (final level in levelModels) level.id: level},
-      conversations: {for (final entry in conversationsJson.entries) entry.key as String: Conversation.fromJson(entry.key as String, Map<String, dynamic>.from(entry.value as Map))},
+      conversations: conversationModels,
     );
     final errors = ContentValidator().validate(content);
     assert(errors.isEmpty, 'Content validation failed:\n${errors.join('\n')}');
     return content;
   }
+}
+
+Conversation _generatedConversation(Profile profile) {
+  const prompts = {
+    'case_005': ['Which song would you keep after a difficult day?', 'When does a playlist become private?', 'What makes a memory attached to music trustworthy?'],
+    'case_006': ['How do you find your way through a crowded station?', 'What should a useful travel record contain?', 'What makes an absence noticeable?'],
+    'case_007': ['What do you notice in a greenhouse?', 'How much can weather explain about a day?', 'What makes a photograph honest?'],
+    'case_008': ['What makes a weekend trip worth taking?', 'How much of a plan should you share?', 'When does borrowing an idea become suspicious?'],
+    'case_009': ['What makes a route worth remembering?', 'What should happen at a checkpoint?', 'When does a missing message matter?'],
+    'case_010': ['What makes an emergency believable?', 'How quickly should someone act on a warning?', 'What makes a witness trustworthy?'],
+    'case_011': ['What should an old case file preserve?', 'How do you know a pattern is real?', 'What detail would you never leave out?'],
+    'case_012': ['What makes a witness convincing?', 'How should a person handle an uncertain memory?', 'What makes a perfect story suspicious?'],
+    'case_013': ['What makes a place feel safe after dark?', 'Why might someone ignore a message at sunset?', 'What detail would you remember from a riverside walk?'],
+    'case_014': ['What makes an invitation feel personal?', 'When should an unfamiliar address raise questions?', 'What makes a handwriting or message memorable?'],
+    'case_015': ['What makes a voice reassuring?', 'How can a person borrow someone else’s identity?', 'Which small phrase can expose a copied story?'],
+    'case_016': ['What makes a journey feel final?', 'How much can weather change a travel plan?', 'What would prove someone was on the last ferry?'],
+    'case_017': ['What makes an alibi strong?', 'How do repeated details change a story?', 'What can a quiet place hide from a timeline?'],
+    'case_018': ['What does an unsent message suggest?', 'When does privacy become concealment?', 'How can timing reveal who sent an invitation?'],
+    'case_019': ['What makes a physical clue useful?', 'How can a common object still form a pattern?', 'What does a person reveal by denying a place too quickly?'],
+    'case_020': ['What can a reflection reveal?', 'How do you test whether photographs share a witness?', 'What makes an omission more suspicious than a lie?'],
+  };
+  final questions = prompts[profile.levelId] ?? const ['What brought you here?', 'What do people misunderstand about you?', 'What makes a story trustworthy?'];
+  final id = profile.conversationId;
+  return Conversation(id: id, stages: [
+    ConversationStage(id: '${id}_s1', suspectMessage: questions[0], responseOptions: [
+      ResponseOption(id: 'a', playerText: 'I look for the details people usually skip.', suspectReply: 'That can reveal more than a polished answer.', nextStageId: '${id}_s2'),
+      ResponseOption(id: 'b', playerText: 'I prefer to hear the simple version first.', suspectReply: 'Simple versions are useful, if they hold up later.', nextStageId: '${id}_s2'),
+    ]),
+    ConversationStage(id: '${id}_s2', suspectMessage: questions[1], responseOptions: [
+      ResponseOption(id: 'a', playerText: 'I would compare it with what happened before.', suspectReply: 'Patterns are helpful, but they can also mislead.', nextStageId: '${id}_s3'),
+      ResponseOption(id: 'b', playerText: 'I would ask what is missing from the account.', suspectReply: 'The missing part is often the most interesting one.', nextStageId: '${id}_s3'),
+    ]),
+    ConversationStage(id: '${id}_s3', suspectMessage: questions[2], responseOptions: [
+      const ResponseOption(id: 'a', playerText: 'It stays consistent when the details are checked.', suspectReply: 'Consistency is harder than confidence.', nextStageId: null),
+      const ResponseOption(id: 'b', playerText: 'It admits what the speaker does not know.', suspectReply: 'That is a rare kind of honesty.', nextStageId: null),
+    ]),
+  ]);
 }
 
 class ContentValidator {
@@ -55,6 +98,7 @@ class ContentValidator {
     }
     for (final level in content.levels.values) {
       if (level.profileIds.length != 10) errors.add('Level ${level.id} must contain exactly 10 profiles.');
+      if (level.caseDescription.trim().isEmpty) errors.add('Level ${level.id} must include a case description.');
       if (level.profileIds.toSet().length != level.profileIds.length) errors.add('Level ${level.id} contains duplicate profile ids.');
       final levelProfiles = <Profile>[];
       for (final id in level.profileIds) {

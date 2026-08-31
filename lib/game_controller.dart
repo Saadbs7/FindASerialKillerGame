@@ -1,11 +1,17 @@
 import 'dart:convert';
+import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'data.dart';
 import 'models.dart';
 
 class GameController extends ChangeNotifier {
-  GameController({required this.content, required this.preferences});
+  GameController({required this.content, required this.preferences}) {
+    for (final gender in Gender.values) {
+      final firstCase = content.levels.values.where((level) => level.gender == gender).firstOrNull;
+      if (firstCase != null) unlockedLevelIds.add(firstCase.id);
+    }
+  }
   final GameContent content;
   final SharedPreferences preferences;
 
@@ -20,17 +26,27 @@ class GameController extends ChangeNotifier {
   final Map<String, List<ChatEntry>> conversationHistory = {};
   final Set<String> completedConversationIds = {};
   final Set<String> completedLevelIds = {};
-  final Set<String> unlockedLevelIds = {'case_001'};
+  final Set<String> unlockedLevelIds = {};
+  final Map<String, List<String>> _profileOrderByLevel = {};
+  final math.Random _random = math.Random();
   String? selectedAccusationId;
   double musicVolume = 0.70;
   double effectsVolume = 0.85;
 
   Level get currentLevel => content.levels[currentLevelId]!;
-  List<Profile> get currentProfiles => content.profilesFor(currentLevel);
+  List<Profile> get currentProfiles {
+    final level = currentLevel;
+    final orderedIds = _profileOrderByLevel[level.id] ?? level.profileIds;
+    return orderedIds.map((id) => content.profiles[id]!).toList(growable: false);
+  }
   Profile get activeProfile => currentProfiles[currentProfileIndex];
   int get selectedCount => selectedSuspectIds.length;
-  bool get canContinue => preferences.containsKey('game_save') && investigationGender != null && !(completedLevelIds.contains(currentLevelId) && allProfilesReviewed && allConversationsCompleted);
-  bool get allProfilesReviewed => reviewedProfileIds.length == currentProfiles.length;
+  bool get canContinue => preferences.containsKey('game_save') && investigationGender != null && !(completedLevelIds.contains(currentLevelId) && allConversationsCompleted);
+  bool get allAvailableLevelsCompleted {
+    final availableLevels = content.levels.values.where((level) => unlockedLevelIds.contains(level.id));
+    return availableLevels.isNotEmpty && availableLevels.every((level) => completedLevelIds.contains(level.id));
+  }
+  bool get allProfilesReviewed => selectedSuspectIds.length == 3;
   bool get allConversationsCompleted => selectedSuspectIds.every(completedConversationIds.contains);
   Profile profileById(String id) => content.profiles[id]!;
   Conversation conversationFor(String profileId) => content.conversations[profileById(profileId).conversationId]!;
@@ -50,6 +66,17 @@ class GameController extends ChangeNotifier {
       investigationGender = genderName == null ? null : Gender.values.firstWhere((value) => value.name == genderName);
       currentLevelId = data['currentLevelId'] as String? ?? 'case_001';
       if (!content.levels.containsKey(currentLevelId)) throw const FormatException('Unknown level');
+      final savedOrders = Map<String, dynamic>.from(data['profileOrderByLevel'] as Map? ?? const {});
+      savedOrders.forEach((levelId, rawOrder) {
+        final level = content.levels[levelId];
+        if (level == null) throw const FormatException('Unknown profile order level');
+        final order = List<String>.from(rawOrder as List);
+        if (order.length != level.profileIds.length || order.toSet().length != order.length || !order.every(level.profileIds.contains)) {
+          throw const FormatException('Invalid profile order');
+        }
+        _profileOrderByLevel[levelId] = order;
+      });
+      _ensureProfileOrder(currentLevelId);
       currentProfileIndex = (data['currentProfileIndex'] as int? ?? 0).clamp(0, currentProfiles.length - 1).toInt();
       reviewedProfileIds.addAll(List<String>.from(data['reviewedProfileIds'] as List? ?? const []));
       rejectedProfileIds.addAll(List<String>.from(data['rejectedProfileIds'] as List? ?? const []));
@@ -77,10 +104,19 @@ class GameController extends ChangeNotifier {
   }
 
   void chooseGender(Gender gender) {
-    investigationGender = gender;
     final matching = content.levels.values.where((level) => level.gender == gender).toList();
-    currentLevelId = matching.isEmpty ? 'case_001' : matching.first.id;
+    final nextPlayable = matching.where((level) => unlockedLevelIds.contains(level.id) && !completedLevelIds.contains(level.id)).toList();
+    final selectedLevel = nextPlayable.isEmpty ? (matching.isEmpty ? null : matching.first) : nextPlayable.first;
+    if (selectedLevel != null) chooseCase(selectedLevel.id);
+  }
+
+  void chooseCase(String levelId) {
+    final level = content.levels[levelId];
+    if (level == null || !unlockedLevelIds.contains(levelId)) return;
+    investigationGender = level.gender;
+    currentLevelId = levelId;
     _resetCaseState();
+    _randomizeProfileOrder(levelId);
     phase = GamePhase.briefing;
     _commit();
   }
@@ -98,7 +134,9 @@ class GameController extends ChangeNotifier {
   void resumeSavedGame() {
     if (!canContinue) return;
     if (phase == GamePhase.mainMenu) {
-      phase = allConversationsCompleted ? GamePhase.finalAccusation : (allProfilesReviewed ? GamePhase.messaging : GamePhase.profileReview);
+      _resetCaseState();
+      _randomizeProfileOrder(currentLevelId);
+      phase = GamePhase.profileReview;
       _commit();
     } else {
       notifyListeners();
@@ -106,28 +144,20 @@ class GameController extends ChangeNotifier {
   }
 
   void beginCase() {
+    _ensureProfileOrder(currentLevelId);
     phase = GamePhase.profileReview;
     _commit();
   }
 
   bool processCurrentProfile({required bool investigate}) {
-    if (reviewedProfileIds.contains(activeProfile.id)) return false;
-    if (investigate && selectedSuspectIds.length >= 3) return false;
-    final selectedAfter = selectedSuspectIds.length + (investigate ? 1 : 0);
-    final remainingAfter = currentProfiles.length - reviewedProfileIds.length - 1;
-    if (remainingAfter < 3 - selectedAfter) return false;
+    if (!investigate) return goToNextProfile();
+    if (phase != GamePhase.profileReview || reviewedProfileIds.contains(activeProfile.id) || selectedSuspectIds.length >= 3) return false;
     reviewedProfileIds.add(activeProfile.id);
-    if (investigate) {
-      selectedSuspectIds.add(activeProfile.id);
-    } else {
-      rejectedProfileIds.add(activeProfile.id);
-    }
-    final nextIndex = currentProfiles.indexWhere((profile) => !reviewedProfileIds.contains(profile.id));
-    if (nextIndex == -1) {
-      currentProfileIndex = currentProfiles.length - 1;
+    selectedSuspectIds.add(activeProfile.id);
+    if (selectedSuspectIds.length == 3) {
       phase = GamePhase.messaging;
     } else {
-      currentProfileIndex = nextIndex;
+      _moveToNextUnselectedProfile();
     }
     _commit();
     return true;
@@ -141,10 +171,38 @@ class GameController extends ChangeNotifier {
     }
   }
 
+  bool get canGoToPreviousProfile => currentProfileIndex > 0;
+
+  bool get canGoToNextProfile => currentProfileIndex < currentProfiles.length - 1;
+
+  bool goToPreviousProfile() {
+    if (phase != GamePhase.profileReview || !canGoToPreviousProfile) return false;
+    currentProfileIndex -= 1;
+    _commit();
+    return true;
+  }
+
+  bool goToNextProfile() {
+    if (phase != GamePhase.profileReview || !canGoToNextProfile) return false;
+    currentProfileIndex += 1;
+    _commit();
+    return true;
+  }
+
   void openMessaging() {
-    if (allProfilesReviewed && selectedSuspectIds.length == 3) {
+    if (selectedSuspectIds.length == 3) {
       phase = GamePhase.messaging;
       _commit();
+    }
+  }
+
+  void _moveToNextUnselectedProfile() {
+    for (var offset = 1; offset <= currentProfiles.length; offset++) {
+      final nextIndex = (currentProfileIndex + offset) % currentProfiles.length;
+      if (!selectedSuspectIds.contains(currentProfiles[nextIndex].id)) {
+        currentProfileIndex = nextIndex;
+        return;
+      }
     }
   }
 
@@ -165,7 +223,12 @@ class GameController extends ChangeNotifier {
     } else {
       conversationStageIndexes[profileId] = index + 1;
     }
-    if (allConversationsCompleted) phase = GamePhase.finalAccusation;
+    _commit();
+  }
+
+  void openFinalAccusation() {
+    if (!allConversationsCompleted) return;
+    phase = GamePhase.finalAccusation;
     _commit();
   }
 
@@ -178,22 +241,48 @@ class GameController extends ChangeNotifier {
 
   bool submitAccusation() {
     if (selectedAccusationId == null || !allConversationsCompleted) return false;
-    phase = selectedAccusationId == currentLevel.killerProfileId ? GamePhase.levelWon : GamePhase.levelFailed;
+    final correct = selectedAccusationId == currentLevel.killerProfileId;
+    if (correct) _markCurrentLevelComplete();
+    phase = correct ? GamePhase.levelWon : GamePhase.levelFailed;
     _commit();
     return true;
   }
 
   void retryCase() {
+    final previousOrder = List<String>.from(_profileOrderByLevel[currentLevelId] ?? currentLevel.profileIds);
     _resetCaseState();
+    _randomizeProfileOrder(currentLevelId, avoid: previousOrder);
     phase = GamePhase.profileReview;
     _commit();
   }
 
   void continueToNextCase() {
+    _markCurrentLevelComplete();
+    final nextLevel = _nextLevel();
+    if (nextLevel == null) {
+      phase = GamePhase.mainMenu;
+    } else {
+      currentLevelId = nextLevel.id;
+      investigationGender = nextLevel.gender;
+      unlockedLevelIds.add(nextLevel.id);
+      _resetCaseState();
+      _randomizeProfileOrder(nextLevel.id);
+      phase = GamePhase.briefing;
+    }
+    _commit();
+  }
+
+  void _markCurrentLevelComplete() {
     completedLevelIds.add(currentLevelId);
     unlockedLevelIds.add(currentLevelId);
-    phase = GamePhase.mainMenu;
-    _commit();
+    final nextLevel = _nextLevel();
+    if (nextLevel != null) unlockedLevelIds.add(nextLevel.id);
+  }
+
+  Level? _nextLevel() {
+    final levels = content.levels.values.where((level) => level.gender == currentLevel.gender).toList();
+    final currentLevelIndex = levels.indexWhere((level) => level.id == currentLevelId);
+    return currentLevelIndex >= 0 && currentLevelIndex + 1 < levels.length ? levels[currentLevelIndex + 1] : null;
   }
 
   void setMusicVolume(double value) {
@@ -223,6 +312,7 @@ class GameController extends ChangeNotifier {
     'investigationGender': investigationGender?.name,
     'currentLevelId': currentLevelId,
     'currentProfileIndex': currentProfileIndex,
+    'profileOrderByLevel': _profileOrderByLevel,
     'reviewedProfileIds': reviewedProfileIds.toList(),
     'rejectedProfileIds': rejectedProfileIds.toList(),
     'selectedSuspectIds': selectedSuspectIds,
@@ -252,6 +342,23 @@ class GameController extends ChangeNotifier {
     conversationHistory.clear();
     completedConversationIds.clear();
     selectedAccusationId = null;
+    _profileOrderByLevel.clear();
+  }
+
+  void _ensureProfileOrder(String levelId) {
+    if (!_profileOrderByLevel.containsKey(levelId)) _randomizeProfileOrder(levelId);
+  }
+
+  void _randomizeProfileOrder(String levelId, {List<String>? avoid}) {
+    final level = content.levels[levelId]!;
+    final order = List<String>.from(level.profileIds);
+    order.shuffle(_random);
+    if (avoid != null && order.length > 1 && listEquals(order, avoid)) {
+      final first = order[0];
+      order[0] = order[1];
+      order[1] = first;
+    }
+    _profileOrderByLevel[levelId] = order;
   }
 
   void _repairProfileIndex() {
