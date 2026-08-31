@@ -1,4 +1,4 @@
-package com.example.find_a_serial_killer
+package com.safama.findaserialkiller
 
 import io.flutter.embedding.android.FlutterActivity
 
