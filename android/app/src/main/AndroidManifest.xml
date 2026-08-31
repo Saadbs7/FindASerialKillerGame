@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="find_a_serial_killer"
+        android:label="Find a Serial Killer"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
