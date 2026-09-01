@@ -28,7 +28,10 @@ class GameController extends ChangeNotifier {
   final Set<String> completedLevelIds = {};
   final Set<String> unlockedLevelIds = {};
   final Map<String, List<String>> _profileOrderByLevel = {};
+  final Set<String> gogglesViewedProfileIds = {};
   final math.Random _random = math.Random();
+  DateTime? _caseStartedAt;
+  Duration? _completedInvestigationDuration;
   String? selectedAccusationId;
   double musicVolume = 0.70;
   double effectsVolume = 0.85;
@@ -41,6 +44,41 @@ class GameController extends ChangeNotifier {
   }
   Profile get activeProfile => currentProfiles[currentProfileIndex];
   int get selectedCount => selectedSuspectIds.length;
+  int get gogglesScansViewed => gogglesViewedProfileIds.length;
+  Duration get investigationDuration {
+    final completedDuration = _completedInvestigationDuration;
+    if (completedDuration != null) return completedDuration;
+    final startedAt = _caseStartedAt;
+    return startedAt == null ? Duration.zero : DateTime.now().difference(startedAt);
+  }
+  String get investigationTime {
+    final seconds = investigationDuration.inSeconds.clamp(0, 99 * 60 * 60);
+    final hours = seconds ~/ 3600;
+    final minutes = (seconds % 3600) ~/ 60;
+    final remainingSeconds = seconds % 60;
+    return hours > 0 ? '${hours}h ${minutes.toString().padLeft(2, '0')}m' : '${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}';
+  }
+  String detectiveRank({required bool won}) {
+    if (!won) return 'FAILED';
+    final seconds = investigationDuration.inSeconds;
+    if (seconds <= 240 && gogglesScansViewed <= 3) return 'S';
+    if (seconds <= 600 && gogglesScansViewed <= 6) return 'A';
+    if (gogglesScansViewed >= currentProfiles.length) return 'C';
+    return 'B';
+  }
+  String detectiveTagline({required bool won}) {
+    if (!won) return 'The case remains open. The truth is still out there.';
+    switch (detectiveRank(won: true)) {
+      case 'S':
+        return 'Masterful deduction. Nothing got past you.';
+      case 'A':
+        return 'Sharp work, detective. You followed the evidence.';
+      case 'C':
+        return 'You used every lead—and still found the truth.';
+      default:
+        return 'You took your time—and found the truth.';
+    }
+  }
   bool get canContinue => preferences.containsKey('game_save') && investigationGender != null && !(completedLevelIds.contains(currentLevelId) && allConversationsCompleted);
   bool get allAvailableLevelsCompleted {
     final availableLevels = content.levels.values.where((level) => unlockedLevelIds.contains(level.id));
@@ -66,6 +104,10 @@ class GameController extends ChangeNotifier {
       investigationGender = genderName == null ? null : Gender.values.firstWhere((value) => value.name == genderName);
       currentLevelId = data['currentLevelId'] as String? ?? 'case_001';
       if (!content.levels.containsKey(currentLevelId)) throw const FormatException('Unknown level');
+      final startedAt = data['caseStartedAt'] as String?;
+      _caseStartedAt = startedAt == null ? null : DateTime.tryParse(startedAt);
+      final completedMilliseconds = (data['completedInvestigationMilliseconds'] as num?)?.round();
+      _completedInvestigationDuration = completedMilliseconds == null || completedMilliseconds < 0 ? null : Duration(milliseconds: completedMilliseconds);
       final savedOrders = Map<String, dynamic>.from(data['profileOrderByLevel'] as Map? ?? const {});
       savedOrders.forEach((levelId, rawOrder) {
         final level = content.levels[levelId];
@@ -81,6 +123,7 @@ class GameController extends ChangeNotifier {
       reviewedProfileIds.addAll(List<String>.from(data['reviewedProfileIds'] as List? ?? const []));
       rejectedProfileIds.addAll(List<String>.from(data['rejectedProfileIds'] as List? ?? const []));
       selectedSuspectIds.addAll(List<String>.from(data['selectedSuspectIds'] as List? ?? const []));
+      gogglesViewedProfileIds.addAll(List<String>.from(data['gogglesViewedProfileIds'] as List? ?? const []));
       completedLevelIds.addAll(List<String>.from(data['completedLevelIds'] as List? ?? const []));
       unlockedLevelIds.addAll(List<String>.from(data['unlockedLevelIds'] as List? ?? const []));
       final stages = Map<String, dynamic>.from(data['conversationStageIndexes'] as Map? ?? const {});
@@ -93,10 +136,13 @@ class GameController extends ChangeNotifier {
       effectsVolume = ((data['effectsVolume'] as num?)?.toDouble() ?? effectsVolume).clamp(0, 1).toDouble();
       if (phase == GamePhase.profileReview && selectedSuspectIds.length > 3) throw const FormatException('Invalid suspect count');
       final validProfileIds = currentProfiles.map((profile) => profile.id).toSet();
-      if (!reviewedProfileIds.every(validProfileIds.contains) || !rejectedProfileIds.every(validProfileIds.contains) || !selectedSuspectIds.every(validProfileIds.contains)) throw const FormatException('Invalid profile reference');
+      if (!reviewedProfileIds.every(validProfileIds.contains) || !rejectedProfileIds.every(validProfileIds.contains) || !selectedSuspectIds.every(validProfileIds.contains) || !gogglesViewedProfileIds.every(validProfileIds.contains)) throw const FormatException('Invalid profile reference');
       if (selectedSuspectIds.toSet().length != selectedSuspectIds.length || selectedSuspectIds.any((id) => !reviewedProfileIds.contains(id))) throw const FormatException('Invalid suspect selection');
       if (selectedAccusationId != null && !selectedSuspectIds.contains(selectedAccusationId)) throw const FormatException('Invalid accusation');
       _repairProfileIndex();
+      if (_completedInvestigationDuration == null && (phase == GamePhase.levelWon || phase == GamePhase.levelFailed)) {
+        _completedInvestigationDuration = investigationDuration;
+      }
     } catch (_) {
       await clearSave();
     }
@@ -117,6 +163,7 @@ class GameController extends ChangeNotifier {
     currentLevelId = levelId;
     _resetCaseState();
     _randomizeProfileOrder(levelId);
+    _caseStartedAt = DateTime.now();
     phase = GamePhase.briefing;
     _commit();
   }
@@ -136,6 +183,7 @@ class GameController extends ChangeNotifier {
     if (phase == GamePhase.mainMenu) {
       _resetCaseState();
       _randomizeProfileOrder(currentLevelId);
+      _caseStartedAt = DateTime.now();
       phase = GamePhase.profileReview;
       _commit();
     } else {
@@ -196,6 +244,10 @@ class GameController extends ChangeNotifier {
     }
   }
 
+  void recordGogglesScan(String profileId) {
+    if (currentProfiles.any((profile) => profile.id == profileId) && gogglesViewedProfileIds.add(profileId)) _commit();
+  }
+
   void _moveToNextUnselectedProfile() {
     for (var offset = 1; offset <= currentProfiles.length; offset++) {
       final nextIndex = (currentProfileIndex + offset) % currentProfiles.length;
@@ -242,6 +294,7 @@ class GameController extends ChangeNotifier {
   bool submitAccusation() {
     if (selectedAccusationId == null || !allConversationsCompleted) return false;
     final correct = selectedAccusationId == currentLevel.killerProfileId;
+    _completedInvestigationDuration = investigationDuration;
     if (correct) _markCurrentLevelComplete();
     phase = correct ? GamePhase.levelWon : GamePhase.levelFailed;
     _commit();
@@ -252,6 +305,7 @@ class GameController extends ChangeNotifier {
     final previousOrder = List<String>.from(_profileOrderByLevel[currentLevelId] ?? currentLevel.profileIds);
     _resetCaseState();
     _randomizeProfileOrder(currentLevelId, avoid: previousOrder);
+    _caseStartedAt = DateTime.now();
     phase = GamePhase.profileReview;
     _commit();
   }
@@ -267,6 +321,7 @@ class GameController extends ChangeNotifier {
       unlockedLevelIds.add(nextLevel.id);
       _resetCaseState();
       _randomizeProfileOrder(nextLevel.id);
+      _caseStartedAt = DateTime.now();
       phase = GamePhase.briefing;
     }
     _commit();
@@ -311,11 +366,14 @@ class GameController extends ChangeNotifier {
     'phase': phase.name,
     'investigationGender': investigationGender?.name,
     'currentLevelId': currentLevelId,
+    'caseStartedAt': _caseStartedAt?.toIso8601String(),
+    'completedInvestigationMilliseconds': _completedInvestigationDuration?.inMilliseconds,
     'currentProfileIndex': currentProfileIndex,
     'profileOrderByLevel': _profileOrderByLevel,
     'reviewedProfileIds': reviewedProfileIds.toList(),
     'rejectedProfileIds': rejectedProfileIds.toList(),
     'selectedSuspectIds': selectedSuspectIds,
+    'gogglesViewedProfileIds': gogglesViewedProfileIds.toList(),
     'conversationStageIndexes': conversationStageIndexes,
     'conversationHistory': conversationHistory.map((key, value) => MapEntry(key, value.map((entry) => entry.toJson()).toList())),
     'completedConversationIds': completedConversationIds.toList(),
@@ -331,6 +389,7 @@ class GameController extends ChangeNotifier {
     _resetCaseState();
     phase = GamePhase.mainMenu;
     investigationGender = null;
+    _caseStartedAt = null;
   }
 
   void _resetCaseState() {
@@ -342,6 +401,9 @@ class GameController extends ChangeNotifier {
     conversationHistory.clear();
     completedConversationIds.clear();
     selectedAccusationId = null;
+    gogglesViewedProfileIds.clear();
+    _caseStartedAt = null;
+    _completedInvestigationDuration = null;
     _profileOrderByLevel.clear();
   }
 

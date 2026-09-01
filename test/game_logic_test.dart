@@ -153,6 +153,38 @@ void main() {
     expect(restored.phase, GamePhase.profileReview);
   });
 
+    test('investigation report metrics track and restore Goggles scans', () async {
+    game.chooseGender(Gender.men);
+    game.beginCase();
+    final firstProfileId = game.activeProfile.id;
+    game.recordGogglesScan(firstProfileId);
+    game.recordGogglesScan(firstProfileId);
+
+    expect(game.gogglesScansViewed, 1);
+    expect(game.investigationTime, matches(RegExp(r'^\d{2}:\d{2}$')));
+
+    final restored = GameController(content: content, preferences: await SharedPreferences.getInstance());
+    await restored.restore();
+    expect(restored.gogglesViewedProfileIds, contains(firstProfileId));
+      expect(restored.gogglesScansViewed, 1);
+    });
+
+    test('detective ranks include failed and full-scan C rank', () {
+      game.chooseGender(Gender.men);
+      game.beginCase();
+
+      expect(game.detectiveRank(won: false), 'FAILED');
+      expect(game.detectiveTagline(won: false), 'The case remains open. The truth is still out there.');
+
+      for (final profile in game.currentProfiles) {
+        game.recordGogglesScan(profile.id);
+      }
+
+      expect(game.gogglesScansViewed, game.currentProfiles.length);
+      expect(game.detectiveRank(won: true), 'C');
+      expect(game.detectiveTagline(won: true), 'You used every lead—and still found the truth.');
+    });
+
   test('Continue restarts the active case from its beginning', () {
     game.chooseGender(Gender.men);
     game.beginCase();
@@ -209,7 +241,7 @@ void main() {
     expect(game.conversationHistory[id], hasLength(9));
   });
 
-  test('accusation correctness and progression are state-driven', () {
+  test('accusation correctness and progression are state-driven', () async {
     game.chooseGender(Gender.men);
     game.beginCase();
     final killerId = game.currentLevel.killerProfileId;
@@ -230,7 +262,10 @@ void main() {
     expect(game.submitAccusation(), isTrue);
     expect(game.phase, GamePhase.levelWon);
     expect(game.unlockedLevelIds, contains('case_002'));
+    final completedTime = game.investigationTime;
+    await Future<void>.delayed(const Duration(seconds: 1));
     game.returnToMainMenu();
+    expect(game.investigationTime, completedTime);
     game.startNewGame();
     game.chooseGender(Gender.men);
     expect(game.currentLevelId, 'case_002');

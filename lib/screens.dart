@@ -336,7 +336,7 @@ class ProfileReviewScreen extends StatelessWidget {
     return PageFrame(title: 'Browse Profiles', subtitle: 'Case $caseNumber  ·  ${game.currentProfileIndex + 1} of ${game.currentProfiles.length} profiles', subtitleAction: SuspectCounter(count: game.selectedCount), action: const _CaseHeaderActions(), child: LayoutBuilder(builder: (context, constraints) {
       final wide = constraints.maxWidth > 700;
       final details = _ProfileDetails(profile: profile);
-      final gallery = Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [PlaceholderPhoto(profile: profile), const SizedBox(height: 12), GogglesButton(onPressed: () => GogglesDialog.show(context, profile))]);
+      final gallery = Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [PlaceholderPhoto(profile: profile), const SizedBox(height: 12), GogglesButton(onPressed: () { game.recordGogglesScan(profile.id); GogglesDialog.show(context, profile); })]);
       return Stack(
         fit: StackFit.expand,
         children: [
@@ -412,9 +412,10 @@ class _InboxScreenState extends State<InboxScreen> {
             children: const [_SelectedProfilesTab(), _InboxMessagesTab()],
           ),
         ),
-        if (_tabIndex == 1 && game.allConversationsCompleted) ...[
+        if (_tabIndex == 1 && game.selectedCount == 3) ...[
           const SizedBox(height: 12),
-          MenuActionButton(label: 'Choose the killer', icon: Icons.gavel_rounded, primary: true, onPressed: game.openFinalAccusation),
+          if (!game.allConversationsCompleted) const Padding(padding: EdgeInsets.only(bottom: 8), child: Text('Complete all three conversations to unlock your final accusation.', textAlign: TextAlign.center, style: TextStyle(color: muted, fontSize: 12))),
+          MenuActionButton(label: 'Choose the killer', icon: Icons.gavel_rounded, primary: true, onPressed: game.allConversationsCompleted ? game.openFinalAccusation : null),
         ],
         const SizedBox(height: 12),
         ClipRRect(
@@ -456,7 +457,7 @@ class _SelectedProfilesTabState extends State<_SelectedProfilesTab> {
     final profile = game.profileById(selectedIds[index]);
     return LayoutBuilder(builder: (context, constraints) {
       final wide = constraints.maxWidth > 700;
-      final gallery = Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [PlaceholderPhoto(profile: profile), const SizedBox(height: 12), GogglesButton(onPressed: () => GogglesDialog.show(context, profile))]);
+      final gallery = Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [PlaceholderPhoto(profile: profile), const SizedBox(height: 12), GogglesButton(onPressed: () { game.recordGogglesScan(profile.id); GogglesDialog.show(context, profile); })]);
       final details = _ProfileDetails(profile: profile);
       return Stack(
         fit: StackFit.expand,
@@ -610,20 +611,97 @@ class AccusationScreen extends StatelessWidget {
   }
 }
 
-class ResultScreen extends StatelessWidget {
+class _DetectiveReportCard extends StatelessWidget {
+  const _DetectiveReportCard({required this.won, required this.rank, required this.time, required this.scans, required this.tagline});
+  final bool won;
+  final String rank;
+  final String time;
+  final int scans;
+  final String tagline;
+
+  @override
+  Widget build(BuildContext context) {
+    final accent = won ? aqua : coral;
+    return SectionCard(
+      color: const Color(0xFF121C2E),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        Row(children: [
+          Container(width: 44, height: 44, decoration: BoxDecoration(color: accent.withValues(alpha: .14), borderRadius: BorderRadius.circular(14), border: Border.all(color: accent.withValues(alpha: .45))), child: Icon(won ? Icons.workspace_premium_rounded : Icons.fact_check_outlined, color: accent, size: 25)),
+          const SizedBox(width: 12),
+          const Expanded(child: Text('DETECTIVE REPORT', style: TextStyle(color: muted, fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1.4))),
+          Text(rank, style: TextStyle(color: accent, fontSize: 30, fontWeight: FontWeight.w900)),
+        ]),
+        const SizedBox(height: 18),
+        Row(children: [
+          Expanded(child: _ReportMetric(icon: Icons.timer_outlined, label: 'TIME TO SOLVE', value: time, description: 'From briefing to accusation')),
+          Expanded(child: _ReportMetric(icon: Icons.radar_rounded, label: 'PROFILES SCANNED', value: '$scans', description: 'Using Goggles intelligence')),
+        ]),
+        const SizedBox(height: 16),
+        Text(tagline, textAlign: TextAlign.center, style: const TextStyle(color: muted, height: 1.35)),
+      ]),
+    );
+  }
+}
+
+class _ReportMetric extends StatelessWidget {
+  const _ReportMetric({required this.icon, required this.label, required this.value, required this.description});
+  final IconData icon;
+  final String label;
+  final String value;
+  final String description;
+
+  @override
+  Widget build(BuildContext context) => Column(children: [
+    Icon(icon, color: aqua, size: 20),
+    const SizedBox(height: 5),
+    Text(value, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900)),
+    const SizedBox(height: 2),
+    Text(label, textAlign: TextAlign.center, style: const TextStyle(color: muted, fontSize: 9, fontWeight: FontWeight.w900, letterSpacing: .8)),
+    const SizedBox(height: 4),
+    Text(description, textAlign: TextAlign.center, style: const TextStyle(color: muted, fontSize: 10, height: 1.2)),
+  ]);
+}
+
+class ResultScreen extends StatefulWidget {
   const ResultScreen({super.key, required this.won});
   final bool won;
+
+  @override
+  State<ResultScreen> createState() => _ResultScreenState();
+}
+
+class _ResultScreenState extends State<ResultScreen> {
+  late String _rank;
+  late String _time;
+  late int _scans;
+  late String _tagline;
+  bool _reportCaptured = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_reportCaptured) return;
+    final game = GameScope.of(context);
+    _rank = game.detectiveRank(won: widget.won);
+    _time = game.investigationTime;
+    _scans = game.gogglesScansViewed;
+    _tagline = game.detectiveTagline(won: widget.won);
+    _reportCaptured = true;
+  }
+
   @override
   Widget build(BuildContext context) {
     final game = GameScope.of(context);
     return PageFrame(child: Center(child: SingleChildScrollView(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      won ? const CaseClosedScene() : const CaseDismissedScene(),
+      widget.won ? const CaseClosedScene() : const CaseDismissedScene(),
       const SizedBox(height: 24),
-      Text(won ? 'CASE CLOSED' : 'WRONG SUSPECT', style: Theme.of(context).textTheme.displaySmall?.copyWith(fontWeight: FontWeight.w900, color: won ? aqua : coral), textAlign: TextAlign.center),
+      Text(widget.won ? 'CASE CLOSED' : 'WRONG SUSPECT', style: Theme.of(context).textTheme.displaySmall?.copyWith(fontWeight: FontWeight.w900, color: widget.won ? aqua : coral), textAlign: TextAlign.center),
       const SizedBox(height: 14),
-      Text(won ? 'You found the killer.' : 'Your accusation could not be proven. The killer remains free.', style: const TextStyle(color: muted, fontSize: 17), textAlign: TextAlign.center),
+      Text(widget.won ? 'You found the killer.' : 'Your accusation could not be proven. The killer remains free.', style: const TextStyle(color: muted, fontSize: 17), textAlign: TextAlign.center),
+      const SizedBox(height: 20),
+      _DetectiveReportCard(won: widget.won, rank: _rank, time: _time, scans: _scans, tagline: _tagline),
       const SizedBox(height: 30),
-      MenuActionButton(label: won ? 'Continue to next case' : 'Retry case', icon: won ? Icons.arrow_forward : Icons.replay, primary: true, onPressed: won ? game.continueToNextCase : game.retryCase),
+      MenuActionButton(label: widget.won ? 'Continue to next case' : 'Retry case', icon: widget.won ? Icons.arrow_forward : Icons.replay, primary: true, onPressed: widget.won ? game.continueToNextCase : game.retryCase),
       const SizedBox(height: 10),
       MenuActionButton(label: 'Return to main menu', icon: Icons.home_rounded, onPressed: game.returnToMainMenu),
     ]))));
