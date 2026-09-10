@@ -9,6 +9,8 @@ abstract interface class AudioService {
 }
 
 class NoopAudioService implements AudioService {
+  const NoopAudioService();
+
   @override
   Future<void> playMusic(String assetPath) async {}
   @override
@@ -20,4 +22,3 @@ class NoopAudioService implements AudioService {
   @override
   void setEffectsVolume(double value) {}
 }
-

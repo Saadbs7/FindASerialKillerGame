@@ -19,8 +19,11 @@ class CaseClosedScene extends StatefulWidget {
   State<CaseClosedScene> createState() => _CaseClosedSceneState();
 }
 
-class _CaseClosedSceneState extends State<CaseClosedScene> with SingleTickerProviderStateMixin {
-  late final AnimationController _c = AnimationController(vsync: this, duration: const Duration(milliseconds: 2400))..forward();
+class _CaseClosedSceneState extends State<CaseClosedScene>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _c = AnimationController(
+      vsync: this, duration: const Duration(milliseconds: 2400))
+    ..forward();
 
   @override
   void dispose() {
@@ -43,7 +46,8 @@ class _CaseClosedSceneState extends State<CaseClosedScene> with SingleTickerProv
           final cameraTiltY = (1 - camera) * 0.10;
           // Bars begin raised flat overhead and slam down to vertical, staggered.
           const barCount = 7;
-          final impact = (((t - 0.62).clamp(0.0, 0.06)) / 0.06).clamp(0.0, 1.0); // brief shake window
+          final impact = (((t - 0.62).clamp(0.0, 0.06)) / 0.06)
+              .clamp(0.0, 1.0); // brief shake window
           final shake = math.sin(impact * math.pi * 6) * (1 - impact) * 3.0;
           final spotlight = Curves.easeIn.transform((t / 0.5).clamp(0.0, 1.0));
 
@@ -53,7 +57,14 @@ class _CaseClosedSceneState extends State<CaseClosedScene> with SingleTickerProv
               offset: Offset(shake, 0),
               child: Container(
                 decoration: const BoxDecoration(
-                  gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Color(0xFF090C13), Color(0xFF0F1626), Color(0xFF05070C)]),
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color(0xFF090C13),
+                        Color(0xFF0F1626),
+                        Color(0xFF05070C)
+                      ]),
                 ),
                 child: Transform(
                   alignment: Alignment.center,
@@ -70,7 +81,13 @@ class _CaseClosedSceneState extends State<CaseClosedScene> with SingleTickerProv
                         child: Container(
                           width: 220,
                           height: 220,
-                          decoration: BoxDecoration(shape: BoxShape.circle, gradient: RadialGradient(colors: [aqua.withValues(alpha: .34), coral.withValues(alpha: .12), Colors.transparent])),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: RadialGradient(colors: [
+                                aqua.withValues(alpha: .34),
+                                coral.withValues(alpha: .12),
+                                Colors.transparent
+                              ])),
                         ),
                       ),
                       // The killer is painted before the bars, so the cell door visibly
@@ -86,8 +103,15 @@ class _CaseClosedSceneState extends State<CaseClosedScene> with SingleTickerProv
                       Positioned(
                         bottom: 18,
                         child: Opacity(
-                          opacity: (Curves.easeIn.transform((((t - 0.55) / 0.3).clamp(0.0, 1.0)))) * .55,
-                          child: Container(width: 190, height: 14, decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(20))),
+                          opacity: (Curves.easeIn.transform(
+                                  (((t - 0.55) / 0.3).clamp(0.0, 1.0)))) *
+                              .55,
+                          child: Container(
+                              width: 190,
+                              height: 14,
+                              decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(20))),
                         ),
                       ),
                       // The bars, each hinged at the top and slamming from flat-overhead to vertical.
@@ -116,9 +140,18 @@ class _CaseClosedSceneState extends State<CaseClosedScene> with SingleTickerProv
                                   gradient: LinearGradient(
                                     begin: Alignment.centerLeft,
                                     end: Alignment.centerRight,
-                                    colors: [Colors.grey.shade600, Colors.grey.shade200, Colors.grey.shade800],
+                                    colors: [
+                                      Colors.grey.shade600,
+                                      Colors.grey.shade200,
+                                      Colors.grey.shade800
+                                    ],
                                   ),
-                                  boxShadow: const [BoxShadow(color: Colors.black87, blurRadius: 6, offset: Offset(3, 3))],
+                                  boxShadow: const [
+                                    BoxShadow(
+                                        color: Colors.black87,
+                                        blurRadius: 6,
+                                        offset: Offset(3, 3))
+                                  ],
                                 ),
                               ),
                             ),
@@ -127,15 +160,50 @@ class _CaseClosedSceneState extends State<CaseClosedScene> with SingleTickerProv
                       ),
                       // Horizontal crossbar, drops in last for the "lock" beat.
                       Positioned(
-                        top: 24 + (1 - Curves.easeOutBack.transform((((t - 0.5) / 0.25).clamp(0.0, 1.0)))) * -60,
-                        child: Container(width: 224, height: 8, decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), gradient: LinearGradient(colors: [Colors.grey.shade500, Colors.grey.shade200]), boxShadow: const [BoxShadow(color: Colors.black87, blurRadius: 5)])),
+                        top: 24 +
+                            (1 -
+                                    Curves.easeOutBack.transform(
+                                        (((t - 0.5) / 0.25).clamp(0.0, 1.0)))) *
+                                -60,
+                        child: Container(
+                            width: 224,
+                            height: 8,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4),
+                                gradient: LinearGradient(colors: [
+                                  Colors.grey.shade500,
+                                  Colors.grey.shade200
+                                ]),
+                                boxShadow: const [
+                                  BoxShadow(
+                                      color: Colors.black87, blurRadius: 5)
+                                ])),
                       ),
                       Positioned(
-                        bottom: 24 - (1 - Curves.easeOutBack.transform((((t - 0.5) / 0.25).clamp(0.0, 1.0)))) * -60,
-                        child: Container(width: 224, height: 8, decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), gradient: LinearGradient(colors: [Colors.grey.shade500, Colors.grey.shade200]), boxShadow: const [BoxShadow(color: Colors.black87, blurRadius: 5)])),
+                        bottom: 24 -
+                            (1 -
+                                    Curves.easeOutBack.transform(
+                                        (((t - 0.5) / 0.25).clamp(0.0, 1.0)))) *
+                                -60,
+                        child: Container(
+                            width: 224,
+                            height: 8,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4),
+                                gradient: LinearGradient(colors: [
+                                  Colors.grey.shade500,
+                                  Colors.grey.shade200
+                                ]),
+                                boxShadow: const [
+                                  BoxShadow(
+                                      color: Colors.black87, blurRadius: 5)
+                                ])),
                       ),
                       // Impact flash.
-                      Opacity(opacity: (1 - impact) * impact * 2.2, child: Container(color: Colors.white.withValues(alpha: .5))),
+                      Opacity(
+                          opacity: (1 - impact) * impact * 2.2,
+                          child: Container(
+                              color: Colors.white.withValues(alpha: .5))),
                     ],
                   ),
                 ),
@@ -203,7 +271,8 @@ class _KillerStickmanPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 17
       ..strokeCap = StrokeCap.round;
-    canvas.drawLine(const Offset(137, 70), const Offset(157, 50), handleOutline);
+    canvas.drawLine(
+        const Offset(137, 70), const Offset(157, 50), handleOutline);
 
     final handle = Paint()
       ..color = const Color(0xFFB51F4B)
@@ -260,8 +329,11 @@ class CaseDismissedScene extends StatefulWidget {
   State<CaseDismissedScene> createState() => _CaseDismissedSceneState();
 }
 
-class _CaseDismissedSceneState extends State<CaseDismissedScene> with SingleTickerProviderStateMixin {
-  late final AnimationController _c = AnimationController(vsync: this, duration: const Duration(milliseconds: 2200))..forward();
+class _CaseDismissedSceneState extends State<CaseDismissedScene>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _c = AnimationController(
+      vsync: this, duration: const Duration(milliseconds: 2200))
+    ..forward();
 
   @override
   void dispose() {
@@ -279,13 +351,19 @@ class _CaseDismissedSceneState extends State<CaseDismissedScene> with SingleTick
         builder: (context, _) {
           final t = _c.value;
           // The handle end is the fixed pivot: only the gavel rotates around it.
-          final swing = Curves.easeInCubic.transform((t / 0.58).clamp(0.0, 1.0));
-          final impactWindow = (((t - 0.58).clamp(0.0, 0.16)) / 0.16).clamp(0.0, 1.0);
-          final rebound = Curves.easeOut.transform((((t - 0.58) / 0.14).clamp(0.0, 1.0)));
+          final swing =
+              Curves.easeInCubic.transform((t / 0.58).clamp(0.0, 1.0));
+          final impactWindow =
+              (((t - 0.58).clamp(0.0, 0.16)) / 0.16).clamp(0.0, 1.0);
+          final rebound =
+              Curves.easeOut.transform((((t - 0.58) / 0.14).clamp(0.0, 1.0)));
           final gavelAngle = 0.58 * (1 - swing) - rebound * 0.08;
-          final shake = math.sin(impactWindow * math.pi * 6) * (1 - impactWindow) * 4.0;
-          final ringT = Curves.easeOut.transform((((t - 0.58) / 0.42).clamp(0.0, 1.0)));
-          final flashT = Curves.easeOut.transform((((t - 0.58) / 0.13).clamp(0.0, 1.0)));
+          final shake =
+              math.sin(impactWindow * math.pi * 6) * (1 - impactWindow) * 4.0;
+          final ringT =
+              Curves.easeOut.transform((((t - 0.58) / 0.42).clamp(0.0, 1.0)));
+          final flashT =
+              Curves.easeOut.transform((((t - 0.58) / 0.13).clamp(0.0, 1.0)));
           const dismissalRed = Color(0xFFFF4058);
           final dismissalTextEdge = Paint()
             ..style = PaintingStyle.stroke
@@ -293,7 +371,9 @@ class _CaseDismissedSceneState extends State<CaseDismissedScene> with SingleTick
             ..color = Colors.black;
           // easeOutBack intentionally overshoots, but Opacity requires a strict
           // 0..1 value, so keep the visual animation bounded at the widget edge.
-          final stampT = Curves.easeOutBack.transform((((t - 0.68) / 0.32).clamp(0.0, 1.0))).clamp(0.0, 1.0);
+          final stampT = Curves.easeOutBack
+              .transform((((t - 0.68) / 0.32).clamp(0.0, 1.0)))
+              .clamp(0.0, 1.0);
           final cameraTiltX = (1 - Curves.easeOutCubic.transform(t)) * 0.16;
 
           return ClipRRect(
@@ -302,7 +382,14 @@ class _CaseDismissedSceneState extends State<CaseDismissedScene> with SingleTick
               offset: Offset(shake, 0),
               child: Container(
                 decoration: const BoxDecoration(
-                  gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Color(0xFF1B1210), Color(0xFF2A1A16), Color(0xFF120B0A)]),
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color(0xFF1B1210),
+                        Color(0xFF2A1A16),
+                        Color(0xFF120B0A)
+                      ]),
                 ),
                 child: Transform(
                   alignment: Alignment.center,
@@ -323,7 +410,12 @@ class _CaseDismissedSceneState extends State<CaseDismissedScene> with SingleTick
                               child: Container(
                                 width: 34 + ringT * 150,
                                 height: 12 + ringT * 34,
-                                decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.elliptical(100, 30)), border: Border.all(color: coral.withValues(alpha: .9), width: 2.5)),
+                                decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.elliptical(100, 30)),
+                                    border: Border.all(
+                                        color: coral.withValues(alpha: .9),
+                                        width: 2.5)),
                               ),
                             ),
                           ),
@@ -331,7 +423,9 @@ class _CaseDismissedSceneState extends State<CaseDismissedScene> with SingleTick
                       // The wooden sounding block receives the blow and shows a central strike mark.
                       Positioned(
                         bottom: 40,
-                        child: Transform.translate(offset: const Offset(-35, 0), child: const _HammerBoard()),
+                        child: Transform.translate(
+                            offset: const Offset(-35, 0),
+                            child: const _HammerBoard()),
                       ),
                       // Keep the handle edge fixed in the air while the head swings into the block.
                       Align(
@@ -345,7 +439,8 @@ class _CaseDismissedSceneState extends State<CaseDismissedScene> with SingleTick
                             transform: Matrix4.identity()
                               ..setEntry(3, 2, 0.0028)
                               ..rotateZ(gavelAngle)
-                              ..scaleByDouble(1.0 + swing * 0.12, 1.0 + swing * 0.12, 1.0 + swing * 0.12, 1.0),
+                              ..scaleByDouble(1.0 + swing * 0.12,
+                                  1.0 + swing * 0.12, 1.0 + swing * 0.12, 1.0),
                             child: const _GavelShape(),
                           ),
                         ),
@@ -355,7 +450,13 @@ class _CaseDismissedSceneState extends State<CaseDismissedScene> with SingleTick
                         bottom: 30,
                         child: Opacity(
                           opacity: ((1 - flashT) * flashT * 4).clamp(0.0, 1.0),
-                          child: Transform.translate(offset: const Offset(-35, 0), child: Transform.scale(scale: 0.55 + flashT * 0.7, child: const CustomPaint(size: Size(150, 95), painter: _ImpactBurstPainter()))),
+                          child: Transform.translate(
+                              offset: const Offset(-35, 0),
+                              child: Transform.scale(
+                                  scale: 0.55 + flashT * 0.7,
+                                  child: const CustomPaint(
+                                      size: Size(150, 95),
+                                      painter: _ImpactBurstPainter()))),
                         ),
                       ),
                       // "CASE DISMISSED" stamp slams in.
@@ -368,18 +469,35 @@ class _CaseDismissedSceneState extends State<CaseDismissedScene> with SingleTick
                               child: Opacity(
                                 opacity: stampT,
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 24, vertical: 10),
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.black, width: 5),
+                                    border: Border.all(
+                                        color: Colors.black, width: 5),
                                     borderRadius: BorderRadius.circular(13),
                                     color: dismissalRed.withValues(alpha: .16),
-                                    boxShadow: const [BoxShadow(color: Color(0x66FF4058), blurRadius: 14, spreadRadius: 1)],
+                                    boxShadow: const [
+                                      BoxShadow(
+                                          color: Color(0x66FF4058),
+                                          blurRadius: 14,
+                                          spreadRadius: 1)
+                                    ],
                                   ),
                                   child: Stack(
                                     alignment: Alignment.center,
                                     children: [
-                                      Text('DISMISSED', style: TextStyle(foreground: dismissalTextEdge, fontSize: 24, fontWeight: FontWeight.w900, letterSpacing: 4)),
-                                      const Text('DISMISSED', style: TextStyle(color: Color(0xFFFF4058), fontSize: 24, fontWeight: FontWeight.w900, letterSpacing: 4)),
+                                      Text('DISMISSED',
+                                          style: TextStyle(
+                                              foreground: dismissalTextEdge,
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.w900,
+                                              letterSpacing: 4)),
+                                      const Text('DISMISSED',
+                                          style: TextStyle(
+                                              color: Color(0xFFFF4058),
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.w900,
+                                              letterSpacing: 4)),
                                     ],
                                   ),
                                 ),
@@ -404,7 +522,8 @@ class _GavelShape extends StatelessWidget {
   const _GavelShape();
 
   @override
-  Widget build(BuildContext context) => const CustomPaint(size: Size(180, 140), painter: _GavelPainter());
+  Widget build(BuildContext context) =>
+      const CustomPaint(size: Size(180, 140), painter: _GavelPainter());
 }
 
 class _GavelPainter extends CustomPainter {
@@ -421,9 +540,14 @@ class _GavelPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 25
       ..strokeCap = StrokeCap.round;
-    canvas.drawLine(const Offset(101, 62), const Offset(174, 135), handleShadow);
+    canvas.drawLine(
+        const Offset(101, 62), const Offset(174, 135), handleShadow);
     final handle = Paint()
-      ..shader = const LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Color(0xFF6B351F), Color(0xFFC47A43), Color(0xFF713820)]).createShader(const Rect.fromLTWH(101, 62, 73, 73))
+      ..shader = const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Color(0xFF6B351F), Color(0xFFC47A43), Color(0xFF713820)])
+          .createShader(const Rect.fromLTWH(101, 62, 73, 73))
       ..style = PaintingStyle.stroke
       ..strokeWidth = 16
       ..strokeCap = StrokeCap.round;
@@ -431,26 +555,65 @@ class _GavelPainter extends CustomPainter {
 
     // Rounded wooden pommel completes the handle without introducing a bright band.
     canvas.drawCircle(const Offset(174, 135), 10, outline);
-    canvas.drawCircle(const Offset(174, 135), 5, Paint()..color = const Color(0xFF9B552F));
-    canvas.drawLine(const Offset(115, 76), const Offset(145, 106), Paint()..color = Colors.white.withValues(alpha: .16)..strokeWidth = 2..strokeCap = StrokeCap.round);
+    canvas.drawCircle(
+        const Offset(174, 135), 5, Paint()..color = const Color(0xFF9B552F));
+    canvas.drawLine(
+        const Offset(115, 76),
+        const Offset(145, 106),
+        Paint()
+          ..color = Colors.white.withValues(alpha: .16)
+          ..strokeWidth = 2
+          ..strokeCap = StrokeCap.round);
 
     // Large diagonal wooden head, with rounded end caps like the supplied reference.
     canvas.save();
     canvas.translate(101, 62);
     canvas.rotate(-math.pi / 4);
 
-    canvas.drawRRect(RRect.fromRectAndRadius(const Rect.fromLTWH(-64, -27, 128, 54), const Radius.circular(14)), outline);
-    final head = Paint()..shader = const LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Color(0xFFC47A43), Color(0xFF9B552F), Color(0xFF6B351F)]).createShader(const Rect.fromLTWH(-58, -21, 116, 42));
-    canvas.drawRRect(RRect.fromRectAndRadius(const Rect.fromLTWH(-58, -21, 116, 42), const Radius.circular(10)), head);
+    canvas.drawRRect(
+        RRect.fromRectAndRadius(
+            const Rect.fromLTWH(-64, -27, 128, 54), const Radius.circular(14)),
+        outline);
+    final head = Paint()
+      ..shader = const LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xFFC47A43), Color(0xFF9B552F), Color(0xFF6B351F)])
+          .createShader(const Rect.fromLTWH(-58, -21, 116, 42));
+    canvas.drawRRect(
+        RRect.fromRectAndRadius(
+            const Rect.fromLTWH(-58, -21, 116, 42), const Radius.circular(10)),
+        head);
 
-    final cap = Paint()..shader = const LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Color(0xFFD18A4D), Color(0xFF9C552F)]).createShader(const Rect.fromLTWH(-70, -28, 22, 56));
-    canvas.drawRRect(RRect.fromRectAndRadius(const Rect.fromLTWH(-70, -28, 22, 56), const Radius.circular(12)), outline);
-    canvas.drawRRect(RRect.fromRectAndRadius(const Rect.fromLTWH(-65, -23, 12, 46), const Radius.circular(6)), cap);
-    canvas.drawRRect(RRect.fromRectAndRadius(const Rect.fromLTWH(48, -28, 22, 56), const Radius.circular(12)), outline);
-    canvas.drawRRect(RRect.fromRectAndRadius(const Rect.fromLTWH(53, -23, 12, 46), const Radius.circular(6)), cap);
+    final cap = Paint()
+      ..shader = const LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xFFD18A4D), Color(0xFF9C552F)])
+          .createShader(const Rect.fromLTWH(-70, -28, 22, 56));
+    canvas.drawRRect(
+        RRect.fromRectAndRadius(
+            const Rect.fromLTWH(-70, -28, 22, 56), const Radius.circular(12)),
+        outline);
+    canvas.drawRRect(
+        RRect.fromRectAndRadius(
+            const Rect.fromLTWH(-65, -23, 12, 46), const Radius.circular(6)),
+        cap);
+    canvas.drawRRect(
+        RRect.fromRectAndRadius(
+            const Rect.fromLTWH(48, -28, 22, 56), const Radius.circular(12)),
+        outline);
+    canvas.drawRRect(
+        RRect.fromRectAndRadius(
+            const Rect.fromLTWH(53, -23, 12, 46), const Radius.circular(6)),
+        cap);
 
-    final headHighlight = Paint()..color = Colors.white.withValues(alpha: .2)..strokeWidth = 3..strokeCap = StrokeCap.round;
-    canvas.drawLine(const Offset(-47, -14), const Offset(40, -14), headHighlight);
+    final headHighlight = Paint()
+      ..color = Colors.white.withValues(alpha: .2)
+      ..strokeWidth = 3
+      ..strokeCap = StrokeCap.round;
+    canvas.drawLine(
+        const Offset(-47, -14), const Offset(40, -14), headHighlight);
     canvas.restore();
   }
 
@@ -462,7 +625,8 @@ class _HammerBoard extends StatelessWidget {
   const _HammerBoard();
 
   @override
-  Widget build(BuildContext context) => const CustomPaint(size: Size(170, 50), painter: _HammerBoardPainter());
+  Widget build(BuildContext context) =>
+      const CustomPaint(size: Size(170, 50), painter: _HammerBoardPainter());
 }
 
 class _HammerBoardPainter extends CustomPainter {
@@ -470,10 +634,26 @@ class _HammerBoardPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawRRect(RRect.fromRectAndRadius(const Rect.fromLTWH(7, 14, 156, 30), const Radius.circular(8)), Paint()..color = Colors.black.withValues(alpha: .6));
-    final board = Paint()..shader = const LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Color(0xFF9A603B), Color(0xFF4B2C1D)]).createShader(const Rect.fromLTWH(9, 9, 152, 31));
-    canvas.drawRRect(RRect.fromRectAndRadius(const Rect.fromLTWH(9, 9, 152, 31), const Radius.circular(7)), board);
-    canvas.drawLine(const Offset(13, 14), const Offset(157, 14), Paint()..color = const Color(0xFFD08A55).withValues(alpha: .7)..strokeWidth = 2);
+    canvas.drawRRect(
+        RRect.fromRectAndRadius(
+            const Rect.fromLTWH(7, 14, 156, 30), const Radius.circular(8)),
+        Paint()..color = Colors.black.withValues(alpha: .6));
+    final board = Paint()
+      ..shader = const LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xFF9A603B), Color(0xFF4B2C1D)])
+          .createShader(const Rect.fromLTWH(9, 9, 152, 31));
+    canvas.drawRRect(
+        RRect.fromRectAndRadius(
+            const Rect.fromLTWH(9, 9, 152, 31), const Radius.circular(7)),
+        board);
+    canvas.drawLine(
+        const Offset(13, 14),
+        const Offset(157, 14),
+        Paint()
+          ..color = const Color(0xFFD08A55).withValues(alpha: .7)
+          ..strokeWidth = 2);
 
     // A dark strike mark remains on the board after the hit.
     final mark = Paint()
@@ -481,7 +661,8 @@ class _HammerBoardPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3
       ..strokeCap = StrokeCap.round;
-    canvas.drawArc(const Rect.fromLTWH(68, 10, 34, 15), math.pi * .1, math.pi * .8, false, mark);
+    canvas.drawArc(const Rect.fromLTWH(68, 10, 34, 15), math.pi * .1,
+        math.pi * .8, false, mark);
     canvas.drawLine(const Offset(84, 18), const Offset(77, 29), mark);
     canvas.drawLine(const Offset(84, 18), const Offset(91, 29), mark);
   }

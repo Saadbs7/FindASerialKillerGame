@@ -2,181 +2,1537 @@
   {
     "id": "case_001",
     "gender": "men",
-    "title": "The Quiet Connection",
+    "title": "The Match That Never Existed",
     "difficulty": "Easy",
-    "profileIds": ["m001", "m002", "m003", "m004", "m005", "m006", "m007", "m008", "m009", "m010"],
+    "profileIds": [
+      "m001",
+      "m002",
+      "m003",
+      "m004",
+      "m005",
+      "m006",
+      "m007",
+      "m008",
+      "m009",
+      "m010"
+    ],
     "killerProfileId": "m007",
-    "caseDescription": "A string of disappearances has one faint connection: each victim used the same dating platform. Somewhere among these ten profiles, a pattern is waiting to be noticed."
+    "caseDescription": "On three different nights, each at exactly midnight, a different person matched with the same account. Each agreed to meet at a different late-night cafe and disappeared before dawn. By morning, the account, its photographs, and every message had vanished. Each victim saved a different fragment of the conversation. Ten profiles touched their dating circles. Find the ordinary life that connects all three.",
+    "caseIntelligenceFormat": [
+      {
+        "type": "paragraph",
+        "text": "On three different nights, each at exactly midnight, a different person matched with the same account."
+      },
+      {
+        "type": "bullets",
+        "heading": "THE PATTERN",
+        "items": [
+          "Each agreed to meet at a different late-night cafe and disappeared before dawn.",
+          "By morning, the account, its photographs, and every message had vanished.",
+          "Each victim saved a different fragment of the conversation."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Ten profiles touched their dating circles."
+      },
+      {
+        "type": "callout",
+        "heading": "INVESTIGATIVE FOCUS",
+        "text": "Find the ordinary life that connects all three."
+      }
+    ]
   },
   {
     "id": "case_002",
     "gender": "men",
     "title": "The Midnight Check-In",
     "difficulty": "Easy",
-    "profileIds": ["m011", "m012", "m013", "m014", "m015", "m016", "m017", "m018", "m019", "m020"],
+    "profileIds": [
+      "m011",
+      "m012",
+      "m013",
+      "m014",
+      "m015",
+      "m016",
+      "m017",
+      "m018",
+      "m019",
+      "m020"
+    ],
     "killerProfileId": "m017",
-    "caseDescription": "Three travelers vanished after arranging private city meetups. Their last known locations form a trail through the same late-night check-in network. One of these ten profiles is hiding how well he knows the route."
+    "caseDescription": "Over six weeks, three dating-app users received hotel confirmations in their names for rooms they had never booked. Minutes later, a recent match sent the same message: 'Your room is ready.' On three separate nights, at exactly 12:14 a.m., a valid mobile key opened a different hotel's side entrance. None of the victims appeared at the front desk or left through the main entrance. Their rooms were untouched. Inside every minibar lay a transit ticket folded twice with the printed side hidden. All three reservations passed through the same hotel-and-driver partner system. Ten profiles crossed the victims' recent match circles. Find who turned a check-in into a disappearance.",
+    "caseIntelligenceFormat": [
+      {
+        "type": "paragraph",
+        "text": "Over six weeks, three dating-app users received hotel confirmations in their names for rooms they had never booked."
+      },
+      {
+        "type": "quote",
+        "heading": "THE REPEATED MESSAGE",
+        "text": "Minutes later, a recent match sent the same message: 'Your room is ready.'"
+      },
+      {
+        "type": "bullets",
+        "heading": "WHAT THE HOTELS SHOW",
+        "items": [
+          "On three separate nights, at exactly 12:14 a.m., a valid mobile key opened a different hotel's side entrance.",
+          "None of the victims appeared at the front desk or left through the main entrance.",
+          "Their rooms were untouched.",
+          "Inside every minibar lay a transit ticket folded twice with the printed side hidden."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "All three reservations passed through the same hotel-and-driver partner system."
+      },
+      {
+        "type": "paragraph",
+        "text": "Ten profiles crossed the victims' recent match circles."
+      },
+      {
+        "type": "callout",
+        "heading": "INVESTIGATIVE FOCUS",
+        "text": "Find who turned a check-in into a disappearance."
+      }
+    ]
   },
   {
     "id": "case_003",
-    "gender": "women",
-    "title": "The Vanishing Hours",
+    "gender": "men",
+    "title": "The Playlist That Knew Too Much",
     "difficulty": "Easy",
-    "profileIds": ["f001", "f002", "f003", "f004", "f005", "f006", "f007", "f008", "f009", "f010"],
-    "killerProfileId": "f007",
-    "caseDescription": "Several women disappeared after meeting people through the same dating network. Each case includes a gap in the evening timeline, and one of these ten profiles knows exactly how to make those hours disappear."
+    "profileIds": [
+      "m021",
+      "m022",
+      "m023",
+      "m024",
+      "m025",
+      "m026",
+      "m027",
+      "m028",
+      "m029",
+      "m030"
+    ],
+    "killerProfileId": "m027",
+    "caseDescription": "Over five weeks, three dating-app users received the same private playlist, AFTER MIDNIGHT, from a recent match. Each vanished during a late walk home. In the final ten minutes of every listening session, the playlist's last song changed to an unreleased instrumental named for the place where that listener was last seen: Glass Arcade, River Steps, or North Platform. None of those locations was public yet. After each disappearance, the new ending remained on the playlist, preserving the route in order. Every altered track also carried the same four-second voice sample: 'last stop home.' Ten profiles followed or worked with the playlist. Find who was editing tomorrow's memory before anyone knew it mattered.",
+    "caseIntelligenceFormat": [
+      {
+        "type": "paragraph",
+        "text": "Over five weeks, three dating-app users received the same private playlist, AFTER MIDNIGHT, from a recent match. Each vanished during a late walk home."
+      },
+      {
+        "type": "bullets",
+        "heading": "PLAYLIST CHANGES",
+        "items": [
+          "In the final ten minutes of every listening session, the playlist's last song changed to an unreleased instrumental named for the place where that listener was last seen: Glass Arcade, River Steps, or North Platform.",
+          "None of those locations was public yet.",
+          "After each disappearance, the new ending remained on the playlist, preserving the route in order."
+        ]
+      },
+      {
+        "type": "quote",
+        "heading": "VOICE SAMPLE",
+        "text": "Every altered track also carried the same four-second voice sample: 'last stop home.'"
+      },
+      {
+        "type": "paragraph",
+        "text": "Ten profiles followed or worked with the playlist."
+      },
+      {
+        "type": "callout",
+        "heading": "INVESTIGATIVE FOCUS",
+        "text": "Find who was editing tomorrow's memory before anyone knew it mattered."
+      }
+    ]
   },
   {
     "id": "case_004",
+    "gender": "men",
+    "title": "Platform Zero",
+    "difficulty": "Medium",
+    "profileIds": [
+      "m031",
+      "m032",
+      "m033",
+      "m034",
+      "m035",
+      "m036",
+      "m037",
+      "m038",
+      "m039",
+      "m040"
+    ],
+    "killerProfileId": "m037",
+    "caseDescription": "At 00:06 last night, Mara Voss used a transit ticket sent by \"Leon, 35\", a match she had spoken with for eleven days. Central Station has no Platform 0, yet his QR code opened a disused staff gate beneath a display bearing that name. The gate slammed shut and the corridor lights died. Footsteps came down the stairs, and a man called Mara by the name she used only on the dating app. She cut both hands forcing open a rusted emergency hatch and reached a maintenance crew seconds before someone struck it from the other side. Inside the passage, police found seven luggage tags bearing the names of people missing over nine years. The photographs on Leon's profile belong to Leon Arendt, missing for nine years. His tag is the oldest in the passage. While paramedics treated Mara, the account changed its bio to MISSED CONNECTION and sent a return ticket for Friday at 00:06: 'This time, stay for the departure.' Ten profiles connect to the station, the forged ticket, or Leon's stolen identity. Find who built Platform 0 before the return journey begins.",
+    "caseIntelligenceFormat": [
+      {
+        "type": "paragraph",
+        "text": "At 00:06 last night, Mara Voss used a transit ticket sent by \"Leon, 35\", a match she had spoken with for eleven days."
+      },
+      {
+        "type": "timeline",
+        "heading": "MARA'S ESCAPE",
+        "items": [
+          "Central Station has no Platform 0, yet his QR code opened a disused staff gate beneath a display bearing that name.",
+          "The gate slammed shut and the corridor lights died.",
+          "Footsteps came down the stairs, and a man called Mara by the name she used only on the dating app.",
+          "She cut both hands forcing open a rusted emergency hatch and reached a maintenance crew seconds before someone struck it from the other side."
+        ]
+      },
+      {
+        "type": "bullets",
+        "heading": "WHAT POLICE FOUND",
+        "items": [
+          "Inside the passage, police found seven luggage tags bearing the names of people missing over nine years.",
+          "The photographs on Leon's profile belong to Leon Arendt, missing for nine years.",
+          "His tag is the oldest in the passage."
+        ]
+      },
+      {
+        "type": "quote",
+        "heading": "THE RETURN TICKET",
+        "text": "While paramedics treated Mara, the account changed its bio to MISSED CONNECTION and sent a return ticket for Friday at 00:06: 'This time, stay for the departure.'"
+      },
+      {
+        "type": "paragraph",
+        "text": "Ten profiles connect to the station, the forged ticket, or Leon's stolen identity."
+      },
+      {
+        "type": "callout",
+        "heading": "INVESTIGATIVE FOCUS",
+        "text": "Find who built Platform 0 before the return journey begins."
+      }
+    ]
+  },
+  {
+    "id": "case_005",
+    "gender": "men",
+    "title": "The Glasshouse Alibi",
+    "difficulty": "Medium",
+    "profileIds": [
+      "m041",
+      "m042",
+      "m043",
+      "m044",
+      "m045",
+      "m046",
+      "m047",
+      "m048",
+      "m049",
+      "m050"
+    ],
+    "killerProfileId": "m047",
+    "caseDescription": "At 2:13 a.m., Lena Winter left her sister a seven-second voicemail: 'He knew about the orchid. I never told him it was here.' The line went dead. Lena was already dead when emergency services reached her apartment. A white orchid had been delivered anonymously that afternoon. Its pollen matched samples preserved from five unsolved deaths over eight years. Every victim had used the same dating platform, but no account appeared in all six match histories. One of Lena's recent connections claims he spent the entire night inside Central Glasshouse. His access card entered shortly before midnight and never left. Security footage shows him tending plants at 2:13, the exact minute Lena's smartwatch stopped. His alibi appears perfect. But rain runs down the glass in the footage although the night was clear, and beside him blooms the same white orchid that greenhouse records moved into quarantine three weeks earlier. The footage is real. The timestamp is not. Ten profiles connect to Lena, the orchid, or the glasshouse. Find who manufactured a night that never happened.",
+    "caseIntelligenceFormat": [
+      {
+        "type": "quote",
+        "heading": "LENA'S FINAL VOICEMAIL",
+        "text": "At 2:13 a.m., Lena Winter left her sister a seven-second voicemail: 'He knew about the orchid. I never told him it was here.'"
+      },
+      {
+        "type": "paragraph",
+        "text": "The line went dead. Lena was already dead when emergency services reached her apartment."
+      },
+      {
+        "type": "bullets",
+        "heading": "THE ORCHID",
+        "items": [
+          "A white orchid had been delivered anonymously that afternoon.",
+          "Its pollen matched samples preserved from five unsolved deaths over eight years.",
+          "Every victim had used the same dating platform, but no account appeared in all six match histories."
+        ]
+      },
+      {
+        "type": "bullets",
+        "heading": "THE GLASSHOUSE ALIBI",
+        "items": [
+          "One of Lena's recent connections claims he spent the entire night inside Central Glasshouse.",
+          "His access card entered shortly before midnight and never left.",
+          "Security footage shows him tending plants at 2:13, the exact minute Lena's smartwatch stopped.",
+          "His alibi appears perfect."
+        ]
+      },
+      {
+        "type": "callout",
+        "heading": "THE IMPOSSIBLE DETAIL",
+        "text": "But rain runs down the glass in the footage although the night was clear, and beside him blooms the same white orchid that greenhouse records moved into quarantine three weeks earlier. The footage is real. The timestamp is not."
+      },
+      {
+        "type": "paragraph",
+        "text": "Ten profiles connect to Lena, the orchid, or the glasshouse."
+      },
+      {
+        "type": "callout",
+        "heading": "INVESTIGATIVE FOCUS",
+        "text": "Find who manufactured a night that never happened."
+      }
+    ]
+  },
+  {
+    "id": "case_006",
+    "gender": "men",
+    "title": "The Eleventh Date",
+    "difficulty": "Medium",
+    "profileIds": [
+      "m051",
+      "m052",
+      "m053",
+      "m054",
+      "m055",
+      "m056",
+      "m057",
+      "m058",
+      "m059",
+      "m060"
+    ],
+    "killerProfileId": "m057",
+    "caseDescription": "At an invitation-only speed-dating night called Ten Chances, every guest surrendered their phone and completed ten six-minute dates. Elisa Dorn, 31, marked NO MATCH beside every name on the carbon copy of her scorecard. When the tenth bell ended, staff collected the original cards and gathered the daters for a group photograph. Then the speakers called only her guest number: 'Guest 27, your wildcard is waiting.' Elisa looked at her friend and laughed nervously. 'There were only ten.' She stepped into the venue's vintage photo booth, which was officially closed for repairs. Six minutes later, an eleventh bell rang. The booth's counter records four exposures, but only three photographs reached the tray. In the first Elisa is smiling. In the second she looks beyond the camera. In the third, the curtain behind her has begun to move. The fourth photograph is missing. Elisa was found dead inside, clutching an embossed card: WILDCARD — NOBODY LEAVES UNCHOSEN. Every registered dater appears in the final group photograph. But matching three-frame strips were later found among the belongings of two women who vanished after earlier singles nights operated under different company names. Both women had also rejected every person they met. Ten male profiles connect to Elisa, the venue, or the event. Find who created the extra round and what the missing fourth photograph was meant to hide.",
+    "caseIntelligenceFormat": [
+      {
+        "type": "paragraph",
+        "text": "At an invitation-only speed-dating night called Ten Chances, every guest surrendered their phone and completed ten six-minute dates."
+      },
+      {
+        "type": "paragraph",
+        "heading": "THE TENTH BELL",
+        "text": "Elisa Dorn, 31, marked NO MATCH beside every name on the carbon copy of her scorecard. When the tenth bell ended, staff collected the original cards and gathered the daters for a group photograph."
+      },
+      {
+        "type": "quote",
+        "heading": "THE WILDCARD CALL",
+        "text": "Then the speakers called only her guest number: 'Guest 27, your wildcard is waiting.' Elisa looked at her friend and laughed nervously. 'There were only ten.'"
+      },
+      {
+        "type": "timeline",
+        "heading": "INSIDE THE PHOTO BOOTH",
+        "items": [
+          "She stepped into the venue's vintage photo booth, which was officially closed for repairs. Six minutes later, an eleventh bell rang.",
+          "The booth's counter records four exposures, but only three photographs reached the tray.",
+          "In the first Elisa is smiling.",
+          "In the second she looks beyond the camera.",
+          "In the third, the curtain behind her has begun to move.",
+          "The fourth photograph is missing."
+        ]
+      },
+      {
+        "type": "callout",
+        "heading": "CARD FOUND",
+        "text": "Elisa was found dead inside, clutching an embossed card: WILDCARD — NOBODY LEAVES UNCHOSEN."
+      },
+      {
+        "type": "paragraph",
+        "text": "Every registered dater appears in the final group photograph."
+      },
+      {
+        "type": "bullets",
+        "heading": "EARLIER EVENTS",
+        "items": [
+          "But matching three-frame strips were later found among the belongings of two women who vanished after earlier singles nights operated under different company names.",
+          "Both women had also rejected every person they met."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Ten male profiles connect to Elisa, the venue, or the event."
+      },
+      {
+        "type": "callout",
+        "heading": "INVESTIGATIVE FOCUS",
+        "text": "Find who created the extra round and what the missing fourth photograph was meant to hide."
+      }
+    ]
+  },
+  {
+    "id": "case_007",
+    "gender": "men",
+    "title": "The Unsent Question",
+    "difficulty": "Hard",
+    "profileIds": [
+      "m061",
+      "m062",
+      "m063",
+      "m064",
+      "m065",
+      "m066",
+      "m067",
+      "m068",
+      "m069",
+      "m070"
+    ],
+    "killerProfileId": "m067",
+    "caseDescription": "At 10:07 p.m., Nora Ebert called her brother, struggling to speak: 'One of them answered the sentence I crossed out. He knew Amelie.' Nora, 34, had joined Letters First, a dating experiment in which ten anonymous matches exchanged handwritten letters before seeing one another's profiles. Every envelope passed through a forwarding centre; no correspondent received her surname, telephone number, or home address. Three days earlier, Nora had written one match a question: 'Did you know Amelie Rauch?' Amelie was Nora's closest friend. She vanished nine years ago after using an earlier version of the same programme. Nora lost her nerve and covered the question with opaque correction film before mailing the page. To her, it had never been sent. That evening, an unstamped envelope was pushed beneath Nora's apartment door. Inside was one line: 'Amelie asked me about Klara too.' Klara Weiss vanished six years before Amelie. No public record connected the two women. Nora's brother arrived twenty-two minutes after her call and found her dead at the writing desk. Nine routed replies were arranged beside her; the tenth position was empty. Beneath the desk lay a fragment of dark-green sealing wax containing a circular recess where a miniature tracker had been hidden. The platform confirms that none of Nora's ten correspondents received her address. One of them uncovered the question she tried to erase, tracked his returning letter to her home, and silenced the third woman following the same trail. Ten profiles received Nora's letters. Find which man was already writing this story fifteen years ago.",
+    "caseIntelligenceFormat": [
+      {
+        "type": "quote",
+        "heading": "NORA'S FINAL CALL",
+        "text": "At 10:07 p.m., Nora Ebert called her brother, struggling to speak: 'One of them answered the sentence I crossed out. He knew Amelie.'"
+      },
+      {
+        "type": "paragraph",
+        "heading": "LETTERS FIRST",
+        "text": "Nora, 34, had joined Letters First, a dating experiment in which ten anonymous matches exchanged handwritten letters before seeing one another's profiles. Every envelope passed through a forwarding centre; no correspondent received her surname, telephone number, or home address."
+      },
+      {
+        "type": "timeline",
+        "heading": "THE ERASED QUESTION",
+        "items": [
+          "Three days earlier, Nora had written one match a question: 'Did you know Amelie Rauch?'",
+          "Amelie was Nora's closest friend. She vanished nine years ago after using an earlier version of the same programme.",
+          "Nora lost her nerve and covered the question with opaque correction film before mailing the page. To her, it had never been sent."
+        ]
+      },
+      {
+        "type": "quote",
+        "heading": "THE UNSTAMPED LETTER",
+        "text": "That evening, an unstamped envelope was pushed beneath Nora's apartment door. Inside was one line: 'Amelie asked me about Klara too.'"
+      },
+      {
+        "type": "paragraph",
+        "text": "Klara Weiss vanished six years before Amelie. No public record connected the two women."
+      },
+      {
+        "type": "bullets",
+        "heading": "AT THE WRITING DESK",
+        "items": [
+          "Nora's brother arrived twenty-two minutes after her call and found her dead at the writing desk.",
+          "Nine routed replies were arranged beside her; the tenth position was empty.",
+          "Beneath the desk lay a fragment of dark-green sealing wax containing a circular recess where a miniature tracker had been hidden.",
+          "The platform confirms that none of Nora's ten correspondents received her address."
+        ]
+      },
+      {
+        "type": "callout",
+        "heading": "THE BREACH",
+        "text": "One of them uncovered the question she tried to erase, tracked his returning letter to her home, and silenced the third woman following the same trail."
+      },
+      {
+        "type": "paragraph",
+        "text": "Ten profiles received Nora's letters."
+      },
+      {
+        "type": "callout",
+        "heading": "INVESTIGATIVE FOCUS",
+        "text": "Find which man was already writing this story fifteen years ago."
+      }
+    ]
+  },
+  {
+    "id": "case_008",
+    "gender": "men",
+    "title": "If You're Home",
+    "difficulty": "Hard",
+    "profileIds": [
+      "m071",
+      "m072",
+      "m073",
+      "m074",
+      "m075",
+      "m076",
+      "m077",
+      "m078",
+      "m079",
+      "m080"
+    ],
+    "killerProfileId": "m077",
+    "caseDescription": "At 1:16 a.m., Eva Lindner received a call from her younger sister, Mia. Mia said her car had left the road beside an abandoned civil-defence warning station. She sounded injured and terrified. Before asking Eva to come, she whispered: 'Red shoes. No questions.' It was a private rescue phrase the sisters had used since childhood. It had never appeared online. Eva replied: 'I'm coming.' Twenty-three minutes later, Eva called Mia. The call was recorded. Mia answered: 'Eva? Why are you calling me? I'm at home.' A voice near Eva called: 'Eva... over here.' Eva whispered: 'If you're home, who am I hearing?' The line went dead. Police found Eva's car and phone outside the warning station forty-one minutes later. Eva was gone. Inside, a supposedly disconnected emergency-relay console had transmitted for ninety-six seconds before erasing its outgoing records. One fragment survived: a synthetic model of Mia's voice built from a thirteen-second birthday video. The recording could reproduce her voice, but the video contained no mention of 'Red shoes. No questions.' A search for Eva's final reply uncovered four older deaths previously classified as unrelated accidents. Each woman had left home after receiving an emergency call from someone she trusted. Each sent the same final message: 'I'm coming.' All four had recently exchanged voice messages on the same dating platform. At 2:03 a.m., after Eva vanished, the warning system created another voice model, this time using recordings of Eva. A call in her voice is scheduled to reach Mia at 6:00 a.m. Ten men exchanged voice messages with Eva. One learned the words she could never ignore, recreated the voice she would always trust, and turned an emergency system into a hunting tool. Find him before Mia answers her sister's voice.",
+    "caseIntelligenceFormat": [
+      {
+        "type": "paragraph",
+        "text": "At 1:16 a.m., Eva Lindner received a call from her younger sister, Mia. Mia said her car had left the road beside an abandoned civil-defence warning station. She sounded injured and terrified."
+      },
+      {
+        "type": "quote",
+        "heading": "THE PRIVATE PHRASE",
+        "text": "Before asking Eva to come, she whispered: 'Red shoes. No questions.' It was a private rescue phrase the sisters had used since childhood. It had never appeared online. Eva replied: 'I'm coming.'"
+      },
+      {
+        "type": "timeline",
+        "heading": "THE SECOND CALL",
+        "items": [
+          "Twenty-three minutes later, Eva called Mia.",
+          "The call was recorded.",
+          "Mia answered: 'Eva? Why are you calling me? I'm at home.'",
+          "A voice near Eva called: 'Eva... over here.'",
+          "Eva whispered: 'If you're home, who am I hearing?'",
+          "The line went dead."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Police found Eva's car and phone outside the warning station forty-one minutes later. Eva was gone."
+      },
+      {
+        "type": "bullets",
+        "heading": "INSIDE THE WARNING STATION",
+        "items": [
+          "Inside, a supposedly disconnected emergency-relay console had transmitted for ninety-six seconds before erasing its outgoing records.",
+          "One fragment survived: a synthetic model of Mia's voice built from a thirteen-second birthday video.",
+          "The recording could reproduce her voice, but the video contained no mention of 'Red shoes. No questions.'"
+        ]
+      },
+      {
+        "type": "bullets",
+        "heading": "THE OLDER DEATHS",
+        "items": [
+          "A search for Eva's final reply uncovered four older deaths previously classified as unrelated accidents.",
+          "Each woman had left home after receiving an emergency call from someone she trusted.",
+          "Each sent the same final message: 'I'm coming.'",
+          "All four had recently exchanged voice messages on the same dating platform."
+        ]
+      },
+      {
+        "type": "timeline",
+        "heading": "THE NEXT VOICE",
+        "items": [
+          "At 2:03 a.m., after Eva vanished, the warning system created another voice model, this time using recordings of Eva.",
+          "A call in her voice is scheduled to reach Mia at 6:00 a.m."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Ten men exchanged voice messages with Eva."
+      },
+      {
+        "type": "callout",
+        "heading": "INVESTIGATIVE FOCUS",
+        "text": "One learned the words she could never ignore, recreated the voice she would always trust, and turned an emergency system into a hunting tool. Find him before Mia answers her sister's voice."
+      }
+    ]
+  },
+  {
+    "id": "case_009",
+    "gender": "men",
+    "title": "The Night Archive",
+    "difficulty": "Hard",
+    "profileIds": [
+      "m081",
+      "m082",
+      "m083",
+      "m084",
+      "m085",
+      "m086",
+      "m087",
+      "m088",
+      "m089",
+      "m090"
+    ],
+    "killerProfileId": "m087",
+    "caseDescription": "During the past eighteen months, five women were murdered in ways that appeared to recreate five unsolved crimes from the city archive. Each modern scene removed a mistake described in its matching older file: a fingerprint was avoided, a camera angle was blocked, or an escape route was sealed. The press named the unknown murderer The Revisionist. Leona Weiss, 38, was leading an overnight project to digitize the original files. At 11:52 p.m., Leona sent her sister photographs of two versions of the same report. A scan made six months earlier contained no mention of red thread. The physical page now described red thread tied around the victim's wrist. The paper was twenty years old, but the new paragraph had only recently been written in pencil. Leona left a voice message: 'He isn't repeating old crimes. He's changing them afterward. Someone is giving himself a past.' A metal shelving wheel began turning behind her. Leona whispered: 'I locked aisle seven. Someone is inside.' The recording ended. At 12:26 a.m., security found Leona dead between the compact archive shelves. Red thread had been tied around her wrist, matching a murder from 2003. But an afternoon scan of the 2003 file still showed the original victim's wrist bare. The original attacker had left a fingerprint on a shelf handle. Around Leona, every handle had been covered with transparent plastic film. Whoever killed her had studied the old mistake and made sure it could not happen again. Inside the historical file, investigators found a message written in fresh pencil: 'NEXT TIME, CLEANER.' The digital log claims the file had not been opened in twelve years. The archive camera lost exactly four minutes, no door was forced, and the altered paper never passed through the public reading room. Ten men connect to the archive, its security system, or the reconstructed images. One became celebrated for discovering links between the modern murders and forgotten files. Find the man who did not solve a twenty-year pattern. He wrote it backward.",
+    "caseIntelligenceFormat": [
+      {
+        "type": "paragraph",
+        "text": "During the past eighteen months, five women were murdered in ways that appeared to recreate five unsolved crimes from the city archive. Each modern scene removed a mistake described in its matching older file: a fingerprint was avoided, a camera angle was blocked, or an escape route was sealed. The press named the unknown murderer The Revisionist."
+      },
+      {
+        "type": "paragraph",
+        "text": "Leona Weiss, 38, was leading an overnight project to digitize the original files."
+      },
+      {
+        "type": "bullets",
+        "heading": "THE ALTERED REPORT",
+        "items": [
+          "At 11:52 p.m., Leona sent her sister photographs of two versions of the same report.",
+          "A scan made six months earlier contained no mention of red thread.",
+          "The physical page now described red thread tied around the victim's wrist.",
+          "The paper was twenty years old, but the new paragraph had only recently been written in pencil."
+        ]
+      },
+      {
+        "type": "quote",
+        "heading": "LEONA'S LAST MESSAGE",
+        "text": "Leona left a voice message: 'He isn't repeating old crimes. He's changing them afterward. Someone is giving himself a past.'"
+      },
+      {
+        "type": "timeline",
+        "heading": "AISLE SEVEN",
+        "items": [
+          "A metal shelving wheel began turning behind her.",
+          "Leona whispered: 'I locked aisle seven. Someone is inside.'",
+          "The recording ended.",
+          "At 12:26 a.m., security found Leona dead between the compact archive shelves."
+        ]
+      },
+      {
+        "type": "bullets",
+        "heading": "THE RECREATED SCENE",
+        "items": [
+          "Red thread had been tied around her wrist, matching a murder from 2003.",
+          "But an afternoon scan of the 2003 file still showed the original victim's wrist bare.",
+          "The original attacker had left a fingerprint on a shelf handle.",
+          "Around Leona, every handle had been covered with transparent plastic film.",
+          "Whoever killed her had studied the old mistake and made sure it could not happen again."
+        ]
+      },
+      {
+        "type": "quote",
+        "heading": "FRESH PENCIL",
+        "text": "Inside the historical file, investigators found a message written in fresh pencil: 'NEXT TIME, CLEANER.'"
+      },
+      {
+        "type": "bullets",
+        "heading": "ARCHIVE ACCESS",
+        "items": [
+          "The digital log claims the file had not been opened in twelve years.",
+          "The archive camera lost exactly four minutes, no door was forced, and the altered paper never passed through the public reading room."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Ten men connect to the archive, its security system, or the reconstructed images. One became celebrated for discovering links between the modern murders and forgotten files."
+      },
+      {
+        "type": "callout",
+        "heading": "INVESTIGATIVE FOCUS",
+        "text": "Find the man who did not solve a twenty-year pattern. He wrote it backward."
+      }
+    ]
+  },
+  {
+    "id": "case_010",
+    "gender": "men",
+    "title": "The Perfect Witness",
+    "difficulty": "Very Hard",
+    "profileIds": [
+      "m091",
+      "m092",
+      "m093",
+      "m094",
+      "m095",
+      "m096",
+      "m097",
+      "m098",
+      "m099",
+      "m100"
+    ],
+    "killerProfileId": "m097",
+    "caseDescription": "During the past fourteen months, four women were murdered in public places. Each crime left one surviving witness. Every witness confidently remembered exactly seven details: the attacker's coat, shoes, height, walk, gloves, voice, and escape route. Each description led police toward a different man. Independent records later proved that all four men were innocent. The witnesses had never met, yet each ended her first statement with the same sentence: 'I had a clear view.' At 10:38 p.m. last night, Sophie Kern was recording a hands-free voice message to her sister while crossing West Station car park. Beneath a damaged lamp, she saw a man attacking Alina Brandt, 32. His face was covered. He ran behind a service stairwell before Sophie could reach Alina. Less than a minute later, a calm stranger approached from the same direction. He said that he had called the police and guided Sophie toward the station entrance. When Sophie admitted that the darkness had hidden most of the attacker, the stranger began helping her remember. 'Dark coat. Heavy boots. He favored his left leg. You saw that.' Sophie answered, 'Maybe.' He continued until she had repeated seven clear details. Then he said, 'Good. You had a clear view.' Six minutes passed without police arriving. Sophie called them herself. Officers found Alina dead behind the parked cars. No earlier emergency call had been made. Sophie's unfinished voice message was still recording in her pocket. It captured her original uncertainty, every detail supplied by the stranger, and the sentence shared by the four previous witnesses. Her final description points toward one of Alina's recent dating connections, but the recording proves that the description was planted. Ten men connect to Alina, the earlier witnesses, the men who were falsely accused, or the organizations that reached them afterward. One profile appears patient, gentle, and unusually good at helping frightened people find the right words. Find the man who did not escape the witnesses. He returned to tell them what they saw.",
+    "caseIntelligenceFormat": [
+      {
+        "type": "paragraph",
+        "text": "During the past fourteen months, four women were murdered in public places. Each crime left one surviving witness."
+      },
+      {
+        "type": "bullets",
+        "heading": "THE FOUR WITNESSES",
+        "items": [
+          "Every witness confidently remembered exactly seven details: the attacker's coat, shoes, height, walk, gloves, voice, and escape route.",
+          "Each description led police toward a different man.",
+          "Independent records later proved that all four men were innocent.",
+          "The witnesses had never met, yet each ended her first statement with the same sentence: 'I had a clear view.'"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "At 10:38 p.m. last night, Sophie Kern was recording a hands-free voice message to her sister while crossing West Station car park."
+      },
+      {
+        "type": "timeline",
+        "heading": "WEST STATION CAR PARK",
+        "items": [
+          "Beneath a damaged lamp, she saw a man attacking Alina Brandt, 32. His face was covered. He ran behind a service stairwell before Sophie could reach Alina.",
+          "Less than a minute later, a calm stranger approached from the same direction.",
+          "He said that he had called the police and guided Sophie toward the station entrance.",
+          "When Sophie admitted that the darkness had hidden most of the attacker, the stranger began helping her remember."
+        ]
+      },
+      {
+        "type": "quote",
+        "heading": "THE SEVEN DETAILS",
+        "text": "'Dark coat. Heavy boots. He favored his left leg. You saw that.' Sophie answered, 'Maybe.' He continued until she had repeated seven clear details. Then he said, 'Good. You had a clear view.'"
+      },
+      {
+        "type": "timeline",
+        "heading": "WHAT HAPPENED NEXT",
+        "items": [
+          "Six minutes passed without police arriving.",
+          "Sophie called them herself.",
+          "Officers found Alina dead behind the parked cars.",
+          "No earlier emergency call had been made."
+        ]
+      },
+      {
+        "type": "bullets",
+        "heading": "SOPHIE'S RECORDING",
+        "items": [
+          "Sophie's unfinished voice message was still recording in her pocket.",
+          "It captured her original uncertainty, every detail supplied by the stranger, and the sentence shared by the four previous witnesses.",
+          "Her final description points toward one of Alina's recent dating connections, but the recording proves that the description was planted."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Ten men connect to Alina, the earlier witnesses, the men who were falsely accused, or the organizations that reached them afterward. One profile appears patient, gentle, and unusually good at helping frightened people find the right words."
+      },
+      {
+        "type": "callout",
+        "heading": "INVESTIGATIVE FOCUS",
+        "text": "Find the man who did not escape the witnesses. He returned to tell them what they saw."
+      }
+    ]
+  },
+  {
+    "id": "case_011",
     "gender": "women",
-    "title": "The Borrowed Alibi",
+    "title": "The Empty Chair",
     "difficulty": "Easy",
-    "profileIds": ["f011", "f012", "f013", "f014", "f015", "f016", "f017", "f018", "f019", "f020"],
+    "profileIds": [
+      "f001",
+      "f002",
+      "f003",
+      "f004",
+      "f005",
+      "f006",
+      "f007",
+      "f008",
+      "f009",
+      "f010"
+    ],
+    "killerProfileId": "f007",
+    "caseDescription": "Over fourteen months, five men living alone died at their dining tables. Each death first appeared natural. There was no forced entry, no struggle, and no sign that anyone else had eaten with them. Before dying, every man had described a thoughtful woman from the dating app who asked which meal made him feel most at home, then offered to cook it for him. Last night, Oscar Faber became the fifth victim. His table had been set for two, but police found only one plate and one chair. Poison was detected in the remaining meal. The only unfamiliar object was a blue ceramic cup. A fingerprint preserved inside it matched Mathias Krüger, whose unexplained death had been investigated four months earlier. Mathias's daughter identified the cup as one that vanished from his kitchen the night he died. Rechecking the earlier homes revealed a chain: the killer leaves one dining object taken from her previous victim, then carries away something belonging to the newest. Oscar's engraved silver honey spoon is now missing. If the ritual continues, it may already be sitting on another man's table. Oscar had ten recent connections on the dating platform, and the dinner was arranged outside the app. One of these women brought Mathias's cup, removed her place setting, and left with Oscar's next trophy. Find her before another empty chair is discovered.",
+    "caseIntelligenceFormat": [
+      {
+        "type": "paragraph",
+        "text": "Over fourteen months, five men living alone died at their dining tables."
+      },
+      {
+        "type": "bullets",
+        "heading": "THE FIVE DINNERS",
+        "items": [
+          "Each death first appeared natural.",
+          "There was no forced entry, no struggle, and no sign that anyone else had eaten with them.",
+          "Before dying, every man had described a thoughtful woman from the dating app who asked which meal made him feel most at home, then offered to cook it for him."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Last night, Oscar Faber became the fifth victim."
+      },
+      {
+        "type": "bullets",
+        "heading": "OSCAR'S TABLE",
+        "items": [
+          "His table had been set for two, but police found only one plate and one chair.",
+          "Poison was detected in the remaining meal.",
+          "The only unfamiliar object was a blue ceramic cup.",
+          "A fingerprint preserved inside it matched Mathias Krüger, whose unexplained death had been investigated four months earlier.",
+          "Mathias's daughter identified the cup as one that vanished from his kitchen the night he died."
+        ]
+      },
+      {
+        "type": "callout",
+        "heading": "THE TROPHY CHAIN",
+        "text": "Rechecking the earlier homes revealed a chain: the killer leaves one dining object taken from her previous victim, then carries away something belonging to the newest."
+      },
+      {
+        "type": "paragraph",
+        "text": "Oscar's engraved silver honey spoon is now missing. If the ritual continues, it may already be sitting on another man's table."
+      },
+      {
+        "type": "paragraph",
+        "text": "Oscar had ten recent connections on the dating platform, and the dinner was arranged outside the app. One of these women brought Mathias's cup, removed her place setting, and left with Oscar's next trophy."
+      },
+      {
+        "type": "callout",
+        "heading": "INVESTIGATIVE FOCUS",
+        "text": "Find her before another empty chair is discovered."
+      }
+    ]
+  },
+  {
+    "id": "case_012",
+    "gender": "women",
+    "title": "Three Minutes Early",
+    "difficulty": "Easy",
+    "profileIds": [
+      "f011",
+      "f012",
+      "f013",
+      "f014",
+      "f015",
+      "f016",
+      "f017",
+      "f018",
+      "f019",
+      "f020"
+    ],
     "killerProfileId": "f017",
-    "caseDescription": "A chain of disappearances points to borrowed names, copied routines, and alibis that sound almost too polished. Among these ten profiles, one person has been hiding behind someone else’s story."
+    "caseDescription": "During the past eighteen months, four men died while recovering from apparently unrelated household accidents. Each survived the first injury after a woman they had recently met through the dating platform became deeply involved in his recovery. She organized appointments, answered messages, discouraged visitors, and made herself indispensable. Each man died in a second apparent accident shortly after regaining some independence. Paul Gerber was the latest. Seven weeks ago, an unidentified woman called emergency services at 7:12 p.m. and calmly reported that Paul had fallen from a ladder in his workshop. Paul's synchronized workshop camera records the fall at 7:15 p.m. The caller described his position and injury three minutes before they existed. Paul survived. A woman he called Nora then took control of his recovery, but his distant family knew her only through messages sent from Paul's phone. Two days before his death, Paul left his sister a voicemail: 'She was wonderful when I could not stand. Yesterday I walked to the kitchen alone. She did not smile.' Last night, Paul died in a second fall inside his apartment. Rechecking the earlier cases exposed the same impossible order: emergency calls were placed two to four minutes before each first accident, help arrived quickly enough to keep the man alive, and the devoted new partner isolated him during recovery. Messages sent to every family included the same sentence: 'Quiet helps before questions do.' Paul had ten recent connections before his first fall. His conversation with Nora moved outside the app, and the name was false. One of these women caused the fall, called for help before it happened, and spent seven weeks making herself necessary. Find her before she chooses another man to save.",
+    "caseIntelligenceFormat": [
+      {
+        "type": "paragraph",
+        "text": "During the past eighteen months, four men died while recovering from apparently unrelated household accidents."
+      },
+      {
+        "type": "bullets",
+        "heading": "THE RECOVERY PATTERN",
+        "items": [
+          "Each survived the first injury after a woman they had recently met through the dating platform became deeply involved in his recovery.",
+          "She organized appointments, answered messages, discouraged visitors, and made herself indispensable.",
+          "Each man died in a second apparent accident shortly after regaining some independence."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Paul Gerber was the latest."
+      },
+      {
+        "type": "timeline",
+        "heading": "PAUL'S FIRST FALL",
+        "items": [
+          "Seven weeks ago, an unidentified woman called emergency services at 7:12 p.m. and calmly reported that Paul had fallen from a ladder in his workshop.",
+          "Paul's synchronized workshop camera records the fall at 7:15 p.m.",
+          "The caller described his position and injury three minutes before they existed.",
+          "Paul survived."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "A woman he called Nora then took control of his recovery, but his distant family knew her only through messages sent from Paul's phone."
+      },
+      {
+        "type": "quote",
+        "heading": "PAUL'S VOICEMAIL",
+        "text": "Two days before his death, Paul left his sister a voicemail: 'She was wonderful when I could not stand. Yesterday I walked to the kitchen alone. She did not smile.'"
+      },
+      {
+        "type": "paragraph",
+        "text": "Last night, Paul died in a second fall inside his apartment."
+      },
+      {
+        "type": "bullets",
+        "heading": "THE IMPOSSIBLE ORDER",
+        "items": [
+          "Rechecking the earlier cases exposed the same impossible order: emergency calls were placed two to four minutes before each first accident, help arrived quickly enough to keep the man alive, and the devoted new partner isolated him during recovery.",
+          "Messages sent to every family included the same sentence: 'Quiet helps before questions do.'"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Paul had ten recent connections before his first fall. His conversation with Nora moved outside the app, and the name was false."
+      },
+      {
+        "type": "callout",
+        "heading": "INVESTIGATIVE FOCUS",
+        "text": "One of these women caused the fall, called for help before it happened, and spent seven weeks making herself necessary. Find her before she chooses another man to save."
+      }
+    ]
   },
   {
     "id": "case_013",
     "gender": "women",
-    "title": "The Blue Hour Signal",
+    "title": "Someone in the Water",
     "difficulty": "Easy",
-    "profileIds": ["f021", "f022", "f023", "f024", "f025", "f026", "f027", "f028", "f029", "f030"],
+    "profileIds": [
+      "f021",
+      "f022",
+      "f023",
+      "f024",
+      "f025",
+      "f026",
+      "f027",
+      "f028",
+      "f029",
+      "f030"
+    ],
     "killerProfileId": "f027",
-    "caseDescription": "Three women vanished during the blue hour between sunset and nightfall. Their phones went quiet near the same riverside signal tower, and one profile knows why the tower mattered."
+    "caseDescription": "During the past ten months, three men drowned at different points along the same river. Each had gone there to meet a recent dating-app connection shortly before sunset. Their phones were found safely on the riverbank beside old signal posts that had been disconnected for years. Shortly before entering the water, each man received the same short voice message: 'Look at the water.' The old posts once flashed blue to warn that someone had fallen into the river. Their warning plates and maintenance ladders still remain, but the lights no longer have electricity. Last night, David Lorenz became the third victim. While waiting beside the South Lock signal post, he sent his brother a photograph showing the tower completely dark. Four minutes later, David sent a hurried voice message: 'There's a woman in the water. Call emergency services. I'm going down.' He placed his phone on the bench with its camera recording before approaching the ladder. His brother called repeatedly while driving toward the river. His final unanswered message was: 'Please pick up. I am almost there. Just pick up.' The recording shows the blue warning light switching on. David climbed down the maintenance ladder, and a woman below him said, 'Careful. The last step is loose.' David asked, 'Where are you?' A metal impact followed, then the sound of him entering the water. His body was recovered the next morning. A head injury proved that he had been struck before he drowned. Because David's brother called for help immediately, the attacker had no time to clear the scene. Police found a red coat fastened around a weighted rehearsal dummy below the platform. From the riverbank, it looked like a woman struggling in the current. A portable battery had been used to switch on the dead warning light. Rechecking the earlier deaths revealed matching cable marks below the other warning lights. All three men had also written in their dating profiles about helping strangers in danger. David had ten recent female connections. One of them learned that he would come when somebody needed help, built a drowning that never happened, and waited below the light.",
+    "caseIntelligenceFormat": [
+      {
+        "type": "paragraph",
+        "text": "During the past ten months, three men drowned at different points along the same river."
+      },
+      {
+        "type": "bullets",
+        "heading": "THE RIVER PATTERN",
+        "items": [
+          "Each had gone there to meet a recent dating-app connection shortly before sunset.",
+          "Their phones were found safely on the riverbank beside old signal posts that had been disconnected for years.",
+          "Shortly before entering the water, each man received the same short voice message: 'Look at the water.'",
+          "The old posts once flashed blue to warn that someone had fallen into the river.",
+          "Their warning plates and maintenance ladders still remain, but the lights no longer have electricity."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Last night, David Lorenz became the third victim."
+      },
+      {
+        "type": "timeline",
+        "heading": "DAVID'S FINAL MINUTES",
+        "items": [
+          "While waiting beside the South Lock signal post, he sent his brother a photograph showing the tower completely dark.",
+          "Four minutes later, David sent a hurried voice message: 'There's a woman in the water. Call emergency services. I'm going down.'",
+          "He placed his phone on the bench with its camera recording before approaching the ladder.",
+          "His brother called repeatedly while driving toward the river.",
+          "His final unanswered message was: 'Please pick up. I am almost there. Just pick up.'"
+        ]
+      },
+      {
+        "type": "quote",
+        "heading": "THE RECORDING",
+        "text": "The recording shows the blue warning light switching on. David climbed down the maintenance ladder, and a woman below him said, 'Careful. The last step is loose.' David asked, 'Where are you?' A metal impact followed, then the sound of him entering the water."
+      },
+      {
+        "type": "bullets",
+        "heading": "CAUSE OF DEATH",
+        "items": [
+          "His body was recovered the next morning.",
+          "A head injury proved that he had been struck before he drowned."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Because David's brother called for help immediately, the attacker had no time to clear the scene."
+      },
+      {
+        "type": "bullets",
+        "heading": "SCENE LEFT BEHIND",
+        "items": [
+          "Police found a red coat fastened around a weighted rehearsal dummy below the platform.",
+          "From the riverbank, it looked like a woman struggling in the current.",
+          "A portable battery had been used to switch on the dead warning light.",
+          "Rechecking the earlier deaths revealed matching cable marks below the other warning lights."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "All three men had also written in their dating profiles about helping strangers in danger. David had ten recent female connections."
+      },
+      {
+        "type": "callout",
+        "heading": "INVESTIGATIVE FOCUS",
+        "text": "One of them learned that he would come when somebody needed help, built a drowning that never happened, and waited below the light."
+      }
+    ]
   },
   {
     "id": "case_014",
     "gender": "women",
     "title": "The House with No Address",
     "difficulty": "Medium",
-    "profileIds": ["f031", "f032", "f033", "f034", "f035", "f036", "f037", "f038", "f039", "f040"],
+    "profileIds": [
+      "f031",
+      "f032",
+      "f033",
+      "f034",
+      "f035",
+      "f036",
+      "f037",
+      "f038",
+      "f039",
+      "f040"
+    ],
     "killerProfileId": "f037",
-    "caseDescription": "Each missing person received an invitation to a house that did not appear on any map. The invitations looked personal, but their wording reveals one careful author hiding among these profiles."
+    "caseDescription": "Eleven months ago, a man was found dead at an empty roadside unloading area. Four months later, another man was found in a different industrial district. Both died from carbon monoxide poisoning, but neither body was near a vehicle, fire, or heater. Hours before dying, each man sent his family a photograph from the same candlelit room. One photograph showed a hand-painted clock from the first man's childhood. The other showed the second man's favorite chair from his grandparents' home. Neither object had appeared online. The photographs carried locations, but one led to an empty parking area and the other to a demolished warehouse. No such room existed at either place. Tonight, Lars Decker became the third target. A card was delivered to him with the words: 'THE HOUSE YOU REMEMBER IS READY.' It showed a yellow wooden train that his grandfather had made for him. Lars had mentioned the train only once, during a private conversation with a woman he met through the dating app. The card contained no address. It told him to begin at the cafe where they first met and follow a short sequence of turns. Lars sent the card to his sister and wrote: 'She remembered the train. I told her once. I thought that meant she listened.' His shared location ended at an empty industrial yard. Shortly afterward, Lars sent a video from inside a candlelit room that looked almost exactly like the room he remembered from childhood. Then he noticed that the view outside the window repeated, water in a glass was trembling, and the candle flames leaned in one direction. An engine was running behind the wall. His final words were: 'The window is a screen. This isn't a house. I'm inside a truck.' The video ended. A traffic camera recorded an unmarked furniture truck leaving the yard with its rear plate covered. Lars has not been found. The two earlier deaths suggest that the killer runs a portable generator behind the room and sends its exhaust into the sealed space. The room is built inside a truck, so it can be moved before anyone searches the location. Lars had ten recent female connections. One of them learned which memory made him feel safe, rebuilt it from second-hand furniture, and invited him into a house that never stays anywhere.",
+    "caseIntelligenceFormat": [
+      {
+        "type": "timeline",
+        "heading": "TWO EARLIER DEATHS",
+        "items": [
+          "Eleven months ago, a man was found dead at an empty roadside unloading area.",
+          "Four months later, another man was found in a different industrial district.",
+          "Both died from carbon monoxide poisoning, but neither body was near a vehicle, fire, or heater."
+        ]
+      },
+      {
+        "type": "bullets",
+        "heading": "THE SAME ROOM",
+        "items": [
+          "Hours before dying, each man sent his family a photograph from the same candlelit room.",
+          "One photograph showed a hand-painted clock from the first man's childhood.",
+          "The other showed the second man's favorite chair from his grandparents' home.",
+          "Neither object had appeared online.",
+          "The photographs carried locations, but one led to an empty parking area and the other to a demolished warehouse.",
+          "No such room existed at either place."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Tonight, Lars Decker became the third target."
+      },
+      {
+        "type": "quote",
+        "heading": "THE CARD",
+        "text": "A card was delivered to him with the words: 'THE HOUSE YOU REMEMBER IS READY.' It showed a yellow wooden train that his grandfather had made for him. Lars had mentioned the train only once, during a private conversation with a woman he met through the dating app. The card contained no address. It told him to begin at the cafe where they first met and follow a short sequence of turns."
+      },
+      {
+        "type": "quote",
+        "heading": "LARS'S MESSAGE",
+        "text": "Lars sent the card to his sister and wrote: 'She remembered the train. I told her once. I thought that meant she listened.'"
+      },
+      {
+        "type": "timeline",
+        "heading": "THE LAST VIDEO",
+        "items": [
+          "His shared location ended at an empty industrial yard.",
+          "Shortly afterward, Lars sent a video from inside a candlelit room that looked almost exactly like the room he remembered from childhood.",
+          "Then he noticed that the view outside the window repeated, water in a glass was trembling, and the candle flames leaned in one direction.",
+          "An engine was running behind the wall.",
+          "His final words were: 'The window is a screen. This isn't a house. I'm inside a truck.'",
+          "The video ended."
+        ]
+      },
+      {
+        "type": "bullets",
+        "heading": "THE MOVING HOUSE",
+        "items": [
+          "A traffic camera recorded an unmarked furniture truck leaving the yard with its rear plate covered.",
+          "Lars has not been found.",
+          "The two earlier deaths suggest that the killer runs a portable generator behind the room and sends its exhaust into the sealed space.",
+          "The room is built inside a truck, so it can be moved before anyone searches the location."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Lars had ten recent female connections."
+      },
+      {
+        "type": "callout",
+        "heading": "INVESTIGATIVE FOCUS",
+        "text": "One of them learned which memory made him feel safe, rebuilt it from second-hand furniture, and invited him into a house that never stays anywhere."
+      }
+    ]
   },
   {
     "id": "case_015",
     "gender": "women",
-    "title": "The Borrowed Voice",
+    "title": "The Black Funeral Card",
     "difficulty": "Medium",
-    "profileIds": ["f041", "f042", "f043", "f044", "f045", "f046", "f047", "f048", "f049", "f050"],
-    "killerProfileId": "f047",
-    "caseDescription": "The victims all heard the same comforting voice before they disappeared, though the calls came from different numbers. One profile has been collecting other people’s phrases a little too carefully."
+    "profileIds": [
+      "f041",
+      "f042",
+      "f043",
+      "f044",
+      "f045",
+      "f046",
+      "f047",
+      "f048",
+      "f049",
+      "f050"
+    ],
+    "killerProfileId": "f049",
+    "caseDescription": "Nine months ago, a man disappeared after an evening date. Four hours before his body was found, his family received a black funeral card. It contained a recent photograph that had never been posted publicly, the name of a song he had discussed in a private dating conversation, and the words: 'HE IS COMING HOME.' Beneath them was a precise arrival time. At that time, a black funeral van was left one street from the family home. Inside its sealed rear compartment was a display coffin containing the missing man. Three months ago, a second family received an almost identical card. Another stolen funeral van arrived at the printed time with another man sealed inside. Both men had been given a fast-acting sedative and then suffocated inside the coffins during the final journey. The coffins were demonstration models with no release handles on the inside. The two vans belonged to unrelated funeral companies. Each displayed a license plate copied from a similar vehicle parked elsewhere. There was no damage around the doors, which means valid digital keys had been used, and both tracking units had been removed. Police eventually identified the people who completed the deliveries. They were different freelance vehicle-relocation drivers hired through fake exhibition-company accounts. Each driver was told that an empty trade-show vehicle needed to be returned. They collected a locked van from a rented garage, never opened the sealed rear compartment, and left it at the address supplied through their work app. Their location histories prove that neither driver took part in the abductions. Tonight, at 7:40 p.m., Noah Reiter's sister received the third black card. Its photograph shows Noah wearing a jacket he bought yesterday and pictured only in a private dating chat. It names 'Northern Sky', a song he said reminded him of his late father. The card reads: 'HE IS COMING HOME. 11:40 P.M.' Noah does not answer his phone. His car remains outside the restaurant where he met a woman tonight, and his phone was found beneath his chair. A waiter remembers Noah becoming unusually dizzy. The woman claimed that he had a migraine and said she would drive him home. Exterior footage shows her helping Noah into a black funeral van, but the open rear door blocks the camera's view of her face. The plate belongs to a hearse parked thirty kilometres away. The woman drove Noah away herself, but if the earlier ritual is repeated, she will leave the van at another garage for an innocent relocation driver to collect. The time on the card is the planned delivery time. Noah may still be alive inside the coffin. He had ten recent female connections. One of them knew his private photograph and song, could obtain temporary keys to funeral vehicles, and had access to display coffins before they vanished from trade exhibitions. Find the woman and the collection garage before Noah is brought home.",
+    "caseIntelligenceFormat": [
+      {
+        "type": "paragraph",
+        "text": "Nine months ago, a man disappeared after an evening date. Four hours before his body was found, his family received a black funeral card."
+      },
+      {
+        "type": "quote",
+        "heading": "THE FIRST CARD",
+        "text": "It contained a recent photograph that had never been posted publicly, the name of a song he had discussed in a private dating conversation, and the words: 'HE IS COMING HOME.' Beneath them was a precise arrival time."
+      },
+      {
+        "type": "timeline",
+        "heading": "FIRST DELIVERY",
+        "items": [
+          "At that time, a black funeral van was left one street from the family home.",
+          "Inside its sealed rear compartment was a display coffin containing the missing man."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Three months ago, a second family received an almost identical card. Another stolen funeral van arrived at the printed time with another man sealed inside."
+      },
+      {
+        "type": "bullets",
+        "heading": "CAUSE AND METHOD",
+        "items": [
+          "Both men had been given a fast-acting sedative and then suffocated inside the coffins during the final journey.",
+          "The coffins were demonstration models with no release handles on the inside.",
+          "The two vans belonged to unrelated funeral companies.",
+          "Each displayed a license plate copied from a similar vehicle parked elsewhere.",
+          "There was no damage around the doors, which means valid digital keys had been used, and both tracking units had been removed."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Police eventually identified the people who completed the deliveries."
+      },
+      {
+        "type": "bullets",
+        "heading": "THE DRIVERS",
+        "items": [
+          "They were different freelance vehicle-relocation drivers hired through fake exhibition-company accounts.",
+          "Each driver was told that an empty trade-show vehicle needed to be returned.",
+          "They collected a locked van from a rented garage, never opened the sealed rear compartment, and left it at the address supplied through their work app.",
+          "Their location histories prove that neither driver took part in the abductions."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Tonight, at 7:40 p.m., Noah Reiter's sister received the third black card."
+      },
+      {
+        "type": "quote",
+        "heading": "NOAH'S CARD",
+        "text": "Its photograph shows Noah wearing a jacket he bought yesterday and pictured only in a private dating chat. It names 'Northern Sky', a song he said reminded him of his late father. The card reads: 'HE IS COMING HOME. 11:40 P.M.'"
+      },
+      {
+        "type": "bullets",
+        "heading": "NOAH'S LAST KNOWN MOVEMENTS",
+        "items": [
+          "Noah does not answer his phone.",
+          "His car remains outside the restaurant where he met a woman tonight, and his phone was found beneath his chair.",
+          "A waiter remembers Noah becoming unusually dizzy.",
+          "The woman claimed that he had a migraine and said she would drive him home.",
+          "Exterior footage shows her helping Noah into a black funeral van, but the open rear door blocks the camera's view of her face.",
+          "The plate belongs to a hearse parked thirty kilometres away."
+        ]
+      },
+      {
+        "type": "callout",
+        "heading": "THE DELIVERY WINDOW",
+        "text": "The woman drove Noah away herself, but if the earlier ritual is repeated, she will leave the van at another garage for an innocent relocation driver to collect. The time on the card is the planned delivery time. Noah may still be alive inside the coffin."
+      },
+      {
+        "type": "paragraph",
+        "text": "He had ten recent female connections."
+      },
+      {
+        "type": "callout",
+        "heading": "INVESTIGATIVE FOCUS",
+        "text": "One of them knew his private photograph and song, could obtain temporary keys to funeral vehicles, and had access to display coffins before they vanished from trade exhibitions. Find the woman and the collection garage before Noah is brought home."
+      }
+    ]
   },
   {
     "id": "case_016",
     "gender": "women",
     "title": "The Last Ferry Home",
     "difficulty": "Medium",
-    "profileIds": ["f051", "f052", "f053", "f054", "f055", "f056", "f057", "f058", "f059", "f060"],
-    "killerProfileId": "f057",
-    "caseDescription": "Three people boarded the last ferry across the lake and never reached the other side. The timetable appears ordinary until travel records, weather, and private messages are compared."
+    "profileIds": [
+      "f051",
+      "f052",
+      "f053",
+      "f054",
+      "f055",
+      "f056",
+      "f057",
+      "f058",
+      "f059",
+      "f060"
+    ],
+    "killerProfileId": "f056",
+    "caseDescription": "Eight months ago, Felix Brandt spent an evening at the market on Halden Island. He had enabled Crossed Paths, a dating-app feature that shows people whose phones remain near each other for several minutes, even when they never match or exchange messages. A cafe worker saw Felix leave with a woman he had met there. Ferry records later showed Felix boarding the final boat to the mainland. Someone wearing his grey raincoat scanned his ticket, and his phone travelled across the water with the ferry. Felix never arrived home. Eleven weeks ago, Nils Berger disappeared from the same island. A person in his dark green coat used his return ticket, and his phone also reached the mainland. The seasonal timetable was different, so the two ferries left at different hours. There was no repeated departure time. Last month, renovation workers opened two locked cold rooms beneath the island's abandoned fish market. Felix and Nils were inside. Both men had died from hypothermia after being locked in alive. The rooms could be secured from the corridor but had no release handles inside. Neither man had been drugged or attacked before entering. Investigators believe each man removed his coat inside a warm market office and was then persuaded to help carry something into a cold room. The killer closed the door, collected his coat, phone, and ferry ticket, and walked to the harbour. Rechecked ferry footage showed a hooded passenger in each man's coat entering an onboard restroom. No passenger wearing that coat appeared at the mainland exit. The killer had changed clothes, hidden the coat and phone aboard the ferry, and left among the crowd. An ordinary cash ticket could be used to reach the island without giving a passenger name, while the victim's digital return ticket made the records show that he had gone home. Tonight, Jonas Riedel visited the same evening market with Crossed Paths enabled. A cafe owner served him and a woman who joked that the app kept placing them near each other. Hanging market decorations hide the woman's face in the cafe footage, but the owner clearly remembers speaking to her. At 10:18 p.m., someone wearing Jonas's red raincoat scanned his ticket. The final ferry departed at 10:25. During the crossing, a crew member heard a phone vibrating behind a loose cleaning panel in the restroom. Jonas's phone and abandoned coat were hidden inside. Jonas was not on the ferry. His visible Crossed Paths list contains ten women whose devices were near him at the market. The older profile lists disappeared after thirty days, but the app retained anonymous device markers for safety investigations. The same unidentified marker had been close to both Felix and Nils. It now belongs to one of the ten profiles on Jonas's current list. Jonas may still be alive in one of the island's refrigerated rooms. Find the woman and the room before the cold takes him.",
+    "caseIntelligenceFormat": [
+      {
+        "type": "paragraph",
+        "text": "Eight months ago, Felix Brandt spent an evening at the market on Halden Island. He had enabled Crossed Paths, a dating-app feature that shows people whose phones remain near each other for several minutes, even when they never match or exchange messages."
+      },
+      {
+        "type": "timeline",
+        "heading": "FELIX'S DISAPPEARANCE",
+        "items": [
+          "A cafe worker saw Felix leave with a woman he had met there.",
+          "Ferry records later showed Felix boarding the final boat to the mainland.",
+          "Someone wearing his grey raincoat scanned his ticket, and his phone travelled across the water with the ferry.",
+          "Felix never arrived home."
+        ]
+      },
+      {
+        "type": "timeline",
+        "heading": "NILS'S DISAPPEARANCE",
+        "items": [
+          "Eleven weeks ago, Nils Berger disappeared from the same island.",
+          "A person in his dark green coat used his return ticket, and his phone also reached the mainland.",
+          "The seasonal timetable was different, so the two ferries left at different hours.",
+          "There was no repeated departure time."
+        ]
+      },
+      {
+        "type": "bullets",
+        "heading": "THE COLD ROOMS",
+        "items": [
+          "Last month, renovation workers opened two locked cold rooms beneath the island's abandoned fish market.",
+          "Felix and Nils were inside.",
+          "Both men had died from hypothermia after being locked in alive.",
+          "The rooms could be secured from the corridor but had no release handles inside.",
+          "Neither man had been drugged or attacked before entering."
+        ]
+      },
+      {
+        "type": "bullets",
+        "heading": "HOW THE EXIT WAS FAKED",
+        "items": [
+          "Investigators believe each man removed his coat inside a warm market office and was then persuaded to help carry something into a cold room.",
+          "The killer closed the door, collected his coat, phone, and ferry ticket, and walked to the harbour.",
+          "Rechecked ferry footage showed a hooded passenger in each man's coat entering an onboard restroom.",
+          "No passenger wearing that coat appeared at the mainland exit.",
+          "The killer had changed clothes, hidden the coat and phone aboard the ferry, and left among the crowd.",
+          "An ordinary cash ticket could be used to reach the island without giving a passenger name, while the victim's digital return ticket made the records show that he had gone home."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Tonight, Jonas Riedel visited the same evening market with Crossed Paths enabled."
+      },
+      {
+        "type": "bullets",
+        "heading": "TONIGHT AT THE MARKET",
+        "items": [
+          "A cafe owner served him and a woman who joked that the app kept placing them near each other.",
+          "Hanging market decorations hide the woman's face in the cafe footage, but the owner clearly remembers speaking to her."
+        ]
+      },
+      {
+        "type": "timeline",
+        "heading": "THE FINAL FERRY",
+        "items": [
+          "At 10:18 p.m., someone wearing Jonas's red raincoat scanned his ticket.",
+          "The final ferry departed at 10:25.",
+          "During the crossing, a crew member heard a phone vibrating behind a loose cleaning panel in the restroom.",
+          "Jonas's phone and abandoned coat were hidden inside.",
+          "Jonas was not on the ferry."
+        ]
+      },
+      {
+        "type": "bullets",
+        "heading": "CROSSED PATHS DATA",
+        "items": [
+          "His visible Crossed Paths list contains ten women whose devices were near him at the market.",
+          "The older profile lists disappeared after thirty days, but the app retained anonymous device markers for safety investigations.",
+          "The same unidentified marker had been close to both Felix and Nils.",
+          "It now belongs to one of the ten profiles on Jonas's current list."
+        ]
+      },
+      {
+        "type": "callout",
+        "heading": "RESCUE WINDOW",
+        "text": "Jonas may still be alive in one of the island's refrigerated rooms. Find the woman and the room before the cold takes him."
+      }
+    ]
   },
   {
     "id": "case_017",
     "gender": "women",
-    "title": "The Orchard of Alibis",
+    "title": "The Kindness Test",
     "difficulty": "Hard",
-    "profileIds": ["f061", "f062", "f063", "f064", "f065", "f066", "f067", "f068", "f069", "f070"],
-    "killerProfileId": "f067",
-    "caseDescription": "A rural orchard becomes the common thread in disappearances that were reported miles apart. Everyone has a reason to have been nearby, but one alibi repeats details from another person’s account."
+    "profileIds": [
+      "f061",
+      "f062",
+      "f063",
+      "f064",
+      "f065",
+      "f066",
+      "f067",
+      "f068",
+      "f069",
+      "f070"
+    ],
+    "killerProfileId": "f068",
+    "caseDescription": "A viral account called THE KINDNESS TEST secretly films men during staged tests of character. Its latest video appears to show Milan Eckert taking a lost wallet and walking past an injured cyclist. The video ends with one word: FAILED. The following morning, Milan is found dead inside a rented interview studio. Unedited public footage tells a different story. Milan gave the wallet to station staff. He also stopped traffic while another person helped the cyclist. Someone deliberately removed these moments to make him appear cruel. Police have now connected Milan's death to two earlier victims, Henrik Mauer and Oskar Venn. Both men were publicly humiliated by similar videos. The anonymous account then offered each man a recorded chance to answer the accusation. All three entered a self-service recording room willingly, where they were stunned and strangled. Staffing records show that twelve temporary actors were hired across the three productions, four for each victim. The actors believed they were performing harmless street research and never knew the men were targets. All three victims had been discussed inside Before You Meet Him, a private social media group where women share dating experiences and safety concerns. The group was created to protect women, but someone inside it used private stories to select targets, design convincing tests, and ruin innocent men's reputations before killing them. Milan spoke with ten women through the dating app. Each woman also viewed, commented on, saved, or moderated his private group thread. One of them read the discussions, hired the actors, manipulated the footage, and arranged the studio interviews. Find the person turning red flags into death sentences.",
+    "caseIntelligenceFormat": [
+      {
+        "type": "paragraph",
+        "text": "A viral account called THE KINDNESS TEST secretly films men during staged tests of character."
+      },
+      {
+        "type": "quote",
+        "heading": "THE VIRAL VIDEO",
+        "text": "Its latest video appears to show Milan Eckert taking a lost wallet and walking past an injured cyclist. The video ends with one word: FAILED."
+      },
+      {
+        "type": "paragraph",
+        "text": "The following morning, Milan is found dead inside a rented interview studio."
+      },
+      {
+        "type": "bullets",
+        "heading": "UNEDITED PUBLIC FOOTAGE",
+        "items": [
+          "Unedited public footage tells a different story.",
+          "Milan gave the wallet to station staff.",
+          "He also stopped traffic while another person helped the cyclist.",
+          "Someone deliberately removed these moments to make him appear cruel."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Police have now connected Milan's death to two earlier victims, Henrik Mauer and Oskar Venn. Both men were publicly humiliated by similar videos."
+      },
+      {
+        "type": "bullets",
+        "heading": "THE INTERVIEW ROOMS",
+        "items": [
+          "The anonymous account then offered each man a recorded chance to answer the accusation.",
+          "All three entered a self-service recording room willingly, where they were stunned and strangled.",
+          "Staffing records show that twelve temporary actors were hired across the three productions, four for each victim.",
+          "The actors believed they were performing harmless street research and never knew the men were targets."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "All three victims had been discussed inside Before You Meet Him, a private social media group where women share dating experiences and safety concerns."
+      },
+      {
+        "type": "callout",
+        "heading": "THE GROUP WAS USED",
+        "text": "The group was created to protect women, but someone inside it used private stories to select targets, design convincing tests, and ruin innocent men's reputations before killing them."
+      },
+      {
+        "type": "paragraph",
+        "text": "Milan spoke with ten women through the dating app. Each woman also viewed, commented on, saved, or moderated his private group thread."
+      },
+      {
+        "type": "callout",
+        "heading": "INVESTIGATIVE FOCUS",
+        "text": "One of them read the discussions, hired the actors, manipulated the footage, and arranged the studio interviews. Find the person turning red flags into death sentences."
+      }
+    ]
   },
   {
     "id": "case_018",
     "gender": "women",
-    "title": "The Unsent Invitations",
+    "title": "Everyone Chose Him",
     "difficulty": "Hard",
-    "profileIds": ["f071", "f072", "f073", "f074", "f075", "f076", "f077", "f078", "f079", "f080"],
-    "killerProfileId": "f077",
-    "caseDescription": "Several victims received invitations that vanished from their inboxes before anyone could open them. The sender kept no visible account, yet one profile’s activity mirrors every missing invitation."
+    "profileIds": [
+      "f071",
+      "f072",
+      "f073",
+      "f074",
+      "f075",
+      "f076",
+      "f077",
+      "f078",
+      "f079",
+      "f080"
+    ],
+    "killerProfileId": "f078",
+    "caseDescription": "At four different dinners, the most wanted man was dead by morning. The Shared Table has arranged hundreds of ordinary dating dinners. At the end of each one, guests privately choose the man and woman they most want to meet again. The two favorites receive gold-tipped wooden stirrers during a final toast. Across eighteen months, four chosen men, Niko Brandes, Emil Kerner, Cem Arslan, and Theo Jensen, died hours after returning home. The chosen women remained unharmed, and many dinners between the deaths ended safely. Theo's autopsy revealed a plant poison. Stored samples from the other three men contained the same substance. Food, drinks, glasses, and restaurant kitchens tested clean, but a fragment of Theo's gold stirrer was found in a dishwasher filter. The poison had soaked into the wood. Restaurants never supplied these stirrers. Each event kit was packed at The Shared Table's warehouse with separate sealed packets for the winning man and woman. Ten women who worked for or contracted with the company knew the shared supply-room code. Keypad records show four unlogged early-morning openings after the fatal kits were marked complete, but the code cannot identify who entered. The killer poisoned the official male stirrer and resealed its original packet. Nothing was missing and no replacement was needed. She did not choose a particular guest. She chose the dinner, then let the private vote select the man. The room chose him for her. Find the woman who turned being chosen into a death sentence.",
+    "caseIntelligenceFormat": [
+      {
+        "type": "paragraph",
+        "text": "At four different dinners, the most wanted man was dead by morning."
+      },
+      {
+        "type": "bullets",
+        "heading": "HOW THE DINNERS WORK",
+        "items": [
+          "The Shared Table has arranged hundreds of ordinary dating dinners.",
+          "At the end of each one, guests privately choose the man and woman they most want to meet again.",
+          "The two favorites receive gold-tipped wooden stirrers during a final toast."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Across eighteen months, four chosen men, Niko Brandes, Emil Kerner, Cem Arslan, and Theo Jensen, died hours after returning home. The chosen women remained unharmed, and many dinners between the deaths ended safely."
+      },
+      {
+        "type": "bullets",
+        "heading": "THE POISON",
+        "items": [
+          "Theo's autopsy revealed a plant poison.",
+          "Stored samples from the other three men contained the same substance.",
+          "Food, drinks, glasses, and restaurant kitchens tested clean, but a fragment of Theo's gold stirrer was found in a dishwasher filter.",
+          "The poison had soaked into the wood."
+        ]
+      },
+      {
+        "type": "bullets",
+        "heading": "THE EVENT KITS",
+        "items": [
+          "Restaurants never supplied these stirrers.",
+          "Each event kit was packed at The Shared Table's warehouse with separate sealed packets for the winning man and woman.",
+          "Ten women who worked for or contracted with the company knew the shared supply-room code.",
+          "Keypad records show four unlogged early-morning openings after the fatal kits were marked complete, but the code cannot identify who entered."
+        ]
+      },
+      {
+        "type": "callout",
+        "heading": "THE METHOD",
+        "text": "The killer poisoned the official male stirrer and resealed its original packet. Nothing was missing and no replacement was needed."
+      },
+      {
+        "type": "paragraph",
+        "heading": "THE SELECTION",
+        "text": "She did not choose a particular guest. She chose the dinner, then let the private vote select the man. The room chose him for her."
+      },
+      {
+        "type": "callout",
+        "heading": "INVESTIGATIVE FOCUS",
+        "text": "Find the woman who turned being chosen into a death sentence."
+      }
+    ]
   },
   {
     "id": "case_019",
     "gender": "women",
-    "title": "The Glass Thread",
+    "title": "The Garden That Knew Their Names",
     "difficulty": "Hard",
-    "profileIds": ["f081", "f082", "f083", "f084", "f085", "f086", "f087", "f088", "f089", "f090"],
+    "profileIds": [
+      "f081",
+      "f082",
+      "f083",
+      "f084",
+      "f085",
+      "f086",
+      "f087",
+      "f088",
+      "f089",
+      "f090"
+    ],
     "killerProfileId": "f087",
-    "caseDescription": "Tiny fragments of blue glass connect four disappearance sites, but the material is common enough to mislead. The decisive clue is a thread linking the victims to a place one profile denies visiting."
+    "caseDescription": "A violent storm uprooted an apple tree at The Second Spring, an award-winning community garden. Its exposed roots lifted the remains of Jakob Renner, who disappeared four years earlier. A ground scan found three more men beneath three other trees: Malik Ozdemir, missing for three years; Tom Rehfeld, missing for nineteen months; and Florian Beck, missing for seven months. The men lived in different neighborhoods and vanished in different seasons. Their cases had never been connected. Root growth and archived planting photographs prove that every body was already beneath its tree when volunteers planted it. Each man disappeared after an evening date on the night before that planting. Toxicology found the same fast-acting sedative, and all four men had been suffocated. Compacted soil from the matching planting beds was embedded across the men's shoe treads in walking patterns, showing that they entered the garden alive. The tree pits had been prepared and fenced off before each planting morning. Someone returned after the crews left, deepened one pit, placed the man inside, and covered him with loose soil. Volunteers lowered the root ball into place the following morning without seeing what lay beneath it. A brass nursery marker was buried with each man. These markers normally identify a tree's species and delivery batch. On the reverse, someone had engraved the victim's first name and a sentence recovered from his private dating conversation. Jakob wanted 'a kitchen full of Sunday noise, with apples from our own tree.' His apple tree stands beside the communal dining area. Malik imagined 'a blue front door that the people I love can always find.' His blue spruce marks the garden entrance. Tom wanted 'enough garden for a dog, muddy paws, and neighbors who do not mind the noise.' His linden shades the open lawn. Florian wanted 'somewhere permanent enough to grow old without packing again.' His oak occupies the garden's central permanent bed. The recipient accounts used different names and stolen photographs before being deleted. Many other dates and planting mornings ended safely. Comparing the men's dating histories with garden employees, suppliers, contractors, and volunteers leaves ten women. Each has a legitimate connection to at least one man, tree, or planting, but none appears under the same identity in all four histories. The killer did not choose trees merely to conceal the men. She chose men whose imagined futures belonged beneath those trees, then returned for years to keep those futures alive. Find the woman tending a garden of stolen lives.",
+    "caseIntelligenceFormat": [
+      {
+        "type": "paragraph",
+        "text": "A violent storm uprooted an apple tree at The Second Spring, an award-winning community garden."
+      },
+      {
+        "type": "bullets",
+        "heading": "BENEATH THE TREES",
+        "items": [
+          "Its exposed roots lifted the remains of Jakob Renner, who disappeared four years earlier.",
+          "A ground scan found three more men beneath three other trees: Malik Ozdemir, missing for three years; Tom Rehfeld, missing for nineteen months; and Florian Beck, missing for seven months.",
+          "The men lived in different neighborhoods and vanished in different seasons.",
+          "Their cases had never been connected."
+        ]
+      },
+      {
+        "type": "bullets",
+        "heading": "HOW THEY WERE BURIED",
+        "items": [
+          "Root growth and archived planting photographs prove that every body was already beneath its tree when volunteers planted it.",
+          "Each man disappeared after an evening date on the night before that planting.",
+          "Toxicology found the same fast-acting sedative, and all four men had been suffocated.",
+          "Compacted soil from the matching planting beds was embedded across the men's shoe treads in walking patterns, showing that they entered the garden alive.",
+          "The tree pits had been prepared and fenced off before each planting morning.",
+          "Someone returned after the crews left, deepened one pit, placed the man inside, and covered him with loose soil.",
+          "Volunteers lowered the root ball into place the following morning without seeing what lay beneath it."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "heading": "THE BRASS MARKERS",
+        "text": "A brass nursery marker was buried with each man. These markers normally identify a tree's species and delivery batch. On the reverse, someone had engraved the victim's first name and a sentence recovered from his private dating conversation."
+      },
+      {
+        "type": "bullets",
+        "heading": "THE FUTURES ENGRAVED",
+        "items": [
+          "Jakob wanted 'a kitchen full of Sunday noise, with apples from our own tree.' His apple tree stands beside the communal dining area.",
+          "Malik imagined 'a blue front door that the people I love can always find.' His blue spruce marks the garden entrance.",
+          "Tom wanted 'enough garden for a dog, muddy paws, and neighbors who do not mind the noise.' His linden shades the open lawn.",
+          "Florian wanted 'somewhere permanent enough to grow old without packing again.' His oak occupies the garden's central permanent bed."
+        ]
+      },
+      {
+        "type": "bullets",
+        "heading": "THE DELETED ACCOUNTS",
+        "items": [
+          "The recipient accounts used different names and stolen photographs before being deleted.",
+          "Many other dates and planting mornings ended safely.",
+          "Comparing the men's dating histories with garden employees, suppliers, contractors, and volunteers leaves ten women.",
+          "Each has a legitimate connection to at least one man, tree, or planting, but none appears under the same identity in all four histories."
+        ]
+      },
+      {
+        "type": "callout",
+        "heading": "THE RITUAL",
+        "text": "The killer did not choose trees merely to conceal the men. She chose men whose imagined futures belonged beneath those trees, then returned for years to keep those futures alive."
+      },
+      {
+        "type": "callout",
+        "heading": "INVESTIGATIVE FOCUS",
+        "text": "Find the woman tending a garden of stolen lives."
+      }
+    ]
   },
   {
     "id": "case_020",
     "gender": "women",
-    "title": "The Witness in Every Photo",
+    "title": "Madam Verdict",
     "difficulty": "Very Hard",
-    "profileIds": ["f091", "f092", "f093", "f094", "f095", "f096", "f097", "f098", "f099", "f100"],
+    "profileIds": [
+      "f091",
+      "f092",
+      "f093",
+      "f094",
+      "f095",
+      "f096",
+      "f097",
+      "f098",
+      "f099",
+      "f100"
+    ],
     "killerProfileId": "f097",
-    "caseDescription": "Every disappearance has a photograph taken nearby, and the same unseen witness appears in the reflections. The final case rewards patient comparison: the truth is hidden in what each image leaves out."
-  },
-  {
-    "id": "case_005",
-    "gender": "men",
-    "title": "The Last Seen Playlist",
-    "difficulty": "Easy",
-    "profileIds": ["m021", "m022", "m023", "m024", "m025", "m026", "m027", "m028", "m029", "m030"],
-    "killerProfileId": "m027",
-    "caseDescription": "Three people vanished after sharing the same late-night playlist. The songs are harmless on their own, but one profile keeps appearing in the listening history just before each disappearance."
-  },
-  {
-    "id": "case_006",
-    "gender": "men",
-    "title": "The Empty Platform",
-    "difficulty": "Medium",
-    "profileIds": ["m031", "m032", "m033", "m034", "m035", "m036", "m037", "m038", "m039", "m040"],
-    "killerProfileId": "m037",
-    "caseDescription": "A commuter disappears from a station platform with no usable camera footage. Ten profiles share the same transit app, but only one has been quietly changing the records after midnight."
-  },
-  {
-    "id": "case_007",
-    "gender": "men",
-    "title": "The Glasshouse Alibi",
-    "difficulty": "Medium",
-    "profileIds": ["m041", "m042", "m043", "m044", "m045", "m046", "m047", "m048", "m049", "m050"],
-    "killerProfileId": "m047",
-    "caseDescription": "A private greenhouse becomes the last known location in a string of disappearances. The killer has built an alibi from weather reports, delivery logs, and one carefully planted photograph."
-  },
-  {
-    "id": "case_008",
-    "gender": "men",
-    "title": "The Borrowed Weekend",
-    "difficulty": "Medium",
-    "profileIds": ["m051", "m052", "m053", "m054", "m055", "m056", "m057", "m058", "m059", "m060"],
-    "killerProfileId": "m057",
-    "caseDescription": "Several dates end with a weekend trip that nobody remembers agreeing to. One profile has been borrowing other people’s plans, locations, and excuses to make every meeting look accidental."
-  },
-  {
-    "id": "case_009",
-    "gender": "men",
-    "title": "The Silent Checkpoint",
-    "difficulty": "Hard",
-    "profileIds": ["m061", "m062", "m063", "m064", "m065", "m066", "m067", "m068", "m069", "m070"],
-    "killerProfileId": "m067",
-    "caseDescription": "A string of disappearances follows a route through quiet border towns. Messages were deleted, checkpoints were skipped, and one profile knows the route without ever admitting to taking it."
-  },
-  {
-    "id": "case_010",
-    "gender": "men",
-    "title": "The False Emergency",
-    "difficulty": "Hard",
-    "profileIds": ["m071", "m072", "m073", "m074", "m075", "m076", "m077", "m078", "m079", "m080"],
-    "killerProfileId": "m077",
-    "caseDescription": "Victims received urgent messages from people they trusted, then disappeared while trying to help. The emergency was always convincing, and one profile understands exactly how to manufacture panic."
-  },
-  {
-    "id": "case_011",
-    "gender": "men",
-    "title": "The Night Archive",
-    "difficulty": "Hard",
-    "profileIds": ["m081", "m082", "m083", "m084", "m085", "m086", "m087", "m088", "m089", "m090"],
-    "killerProfileId": "m087",
-    "caseDescription": "Old case files reveal a pattern that the current disappearances repeat almost perfectly. Someone has been studying the archive closely enough to turn forgotten mistakes into a new method."
-  },
-  {
-    "id": "case_012",
-    "gender": "men",
-    "title": "The Perfect Witness",
-    "difficulty": "Very Hard",
-    "profileIds": ["m091", "m092", "m093", "m094", "m095", "m096", "m097", "m098", "m099", "m100"],
-    "killerProfileId": "m097",
-    "caseDescription": "Every disappearance has a witness, every witness has a story, and every story points somewhere else. The final case is built on a perfect account that may have been rehearsed from the beginning."
+    "caseDescription": "Five powerful men have been murdered across eighteen months. Property developer Arno Feld bribed inspectors before a residential fire killed six tenants. Retired police commander Holger Venn sold the names of protected witnesses. Relief foundation director Roman Dittmer diverted emergency donations into private accounts. Judge Peter Kroll removed evidence for politically connected defendants. Party donor Volker Senn paid intermediaries to threaten journalists. Each man escaped prosecution. Each later received a private warning that proof of his wrongdoing was about to surface, together with an offer for a confidential damage-control meeting. The message contained a detail known only to the man and whoever held the buried records. Each man dismissed his staff, entered the meeting alone, and was later found dead from the same slow-acting heart poison. Beside every body lay a crimson folder marked VERDICT 01 through VERDICT 05 and a red V. Within an hour, an anonymous account calling itself Madam Verdict published a complete dossier. Every allegation was verified. Cases reopened, stolen money was recovered, and officials who had protected the men began resigning. The city turned the unknown killer into a sensation. Her red V appeared on protest signs and clothing. Supporters called her the judgment that money could not buy. Weeks before dying, each man had also confided in a different deleted dating account. The chats were flirtatious rather than direct. The men boasted about favors, complained about people who would not stay quiet, and revealed fragments that completed the confidential files. Each account later warned its match that a political fixer could contain the coming scandal. The fixer was the person waiting at the private meeting. Before disappearing, David left investigators enough of his findings to trace a common route through the five confidential files, though not enough to name the office involved. Following that lead, they compared restored dating records with government access logs, building credentials, political schedules, catering records, and confidential archives, narrowing the inquiry to ten women. Each had access to some part of the chain. No single record connects one woman to all five murders. Now Madam Verdict has announced VERDICT 06 for election night. The target's name is hidden, but the draft describes independent ethics commissioner David Kern. It accuses him of closing the same inquiries he repeatedly fought to keep open. The sixth dossier is a lie. The first five verdicts punished guilty men. The sixth will silence an innocent one. Find the woman behind the red V before murder becomes her path to power.",
+    "caseIntelligenceFormat": [
+      {
+        "type": "paragraph",
+        "text": "Five powerful men have been murdered across eighteen months."
+      },
+      {
+        "type": "bullets",
+        "heading": "THE FIVE VERDICTS",
+        "items": [
+          "Property developer Arno Feld bribed inspectors before a residential fire killed six tenants.",
+          "Retired police commander Holger Venn sold the names of protected witnesses.",
+          "Relief foundation director Roman Dittmer diverted emergency donations into private accounts.",
+          "Judge Peter Kroll removed evidence for politically connected defendants.",
+          "Party donor Volker Senn paid intermediaries to threaten journalists."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Each man escaped prosecution."
+      },
+      {
+        "type": "bullets",
+        "heading": "THE PRIVATE MEETINGS",
+        "items": [
+          "Each later received a private warning that proof of his wrongdoing was about to surface, together with an offer for a confidential damage-control meeting.",
+          "The message contained a detail known only to the man and whoever held the buried records.",
+          "Each man dismissed his staff, entered the meeting alone, and was later found dead from the same slow-acting heart poison.",
+          "Beside every body lay a crimson folder marked VERDICT 01 through VERDICT 05 and a red V."
+        ]
+      },
+      {
+        "type": "bullets",
+        "heading": "AFTER EACH MURDER",
+        "items": [
+          "Within an hour, an anonymous account calling itself Madam Verdict published a complete dossier.",
+          "Every allegation was verified.",
+          "Cases reopened, stolen money was recovered, and officials who had protected the men began resigning."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "heading": "A PUBLIC SENSATION",
+        "text": "The city turned the unknown killer into a sensation. Her red V appeared on protest signs and clothing. Supporters called her the judgment that money could not buy."
+      },
+      {
+        "type": "bullets",
+        "heading": "THE DATING ACCOUNTS",
+        "items": [
+          "Weeks before dying, each man had also confided in a different deleted dating account.",
+          "The chats were flirtatious rather than direct.",
+          "The men boasted about favors, complained about people who would not stay quiet, and revealed fragments that completed the confidential files.",
+          "Each account later warned its match that a political fixer could contain the coming scandal.",
+          "The fixer was the person waiting at the private meeting."
+        ]
+      },
+      {
+        "type": "bullets",
+        "heading": "THE TEN WOMEN",
+        "items": [
+          "Before disappearing, David left investigators enough of his findings to trace a common route through the five confidential files, though not enough to name the office involved.",
+          "Following that lead, they compared restored dating records with government access logs, building credentials, political schedules, catering records, and confidential archives, narrowing the inquiry to ten women.",
+          "Each had access to some part of the chain.",
+          "No single record connects one woman to all five murders."
+        ]
+      },
+      {
+        "type": "callout",
+        "heading": "VERDICT 06",
+        "text": "Now Madam Verdict has announced VERDICT 06 for election night. The target's name is hidden, but the draft describes independent ethics commissioner David Kern. It accuses him of closing the same inquiries he repeatedly fought to keep open. The sixth dossier is a lie. The first five verdicts punished guilty men. The sixth will silence an innocent one."
+      },
+      {
+        "type": "callout",
+        "heading": "INVESTIGATIVE FOCUS",
+        "text": "Find the woman behind the red V before murder becomes her path to power."
+      }
+    ]
   }
 ]

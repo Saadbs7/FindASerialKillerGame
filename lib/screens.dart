@@ -11,11 +11,12 @@ class _CaseHeaderActions extends StatelessWidget {
   final Widget? leading;
 
   @override
-  Widget build(BuildContext context) => Row(mainAxisSize: MainAxisSize.min, children: [
-    if (leading != null) leading!,
-    const _CaseBriefingButton(),
-    const _CaseOptionsButton(),
-  ]);
+  Widget build(BuildContext context) =>
+      Row(mainAxisSize: MainAxisSize.min, children: [
+        if (leading != null) leading!,
+        const _CaseBriefingButton(),
+        const _CaseOptionsButton(),
+      ]);
 }
 
 class _CaseBriefingButton extends StatelessWidget {
@@ -23,21 +24,32 @@ class _CaseBriefingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => IconButton(
-    tooltip: 'Read case briefing',
-    onPressed: () => showGeneralDialog<void>(
-      context: context,
-      barrierDismissible: true,
-      barrierLabel: 'Close case briefing',
-      barrierColor: Colors.transparent,
-      transitionDuration: const Duration(milliseconds: 220),
-      pageBuilder: (_, __, ___) => const _CaseBriefingDialog(),
-      transitionBuilder: (context, animation, secondaryAnimation, child) => Stack(children: [
-        Positioned.fill(child: BackdropFilter(filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7), child: Container(color: Colors.black.withValues(alpha: .48)))),
-        Center(child: FadeTransition(opacity: animation, child: ScaleTransition(scale: CurvedAnimation(parent: animation, curve: Curves.easeOutBack), child: child))),
-      ]),
-    ),
-    icon: const Icon(Icons.article_outlined),
-  );
+        tooltip: 'Read case briefing',
+        onPressed: () => showGeneralDialog<void>(
+          context: context,
+          barrierDismissible: true,
+          barrierLabel: 'Close case briefing',
+          barrierColor: Colors.transparent,
+          transitionDuration: const Duration(milliseconds: 220),
+          pageBuilder: (_, __, ___) => const _CaseBriefingDialog(),
+          transitionBuilder: (context, animation, secondaryAnimation, child) =>
+              Stack(children: [
+            Positioned.fill(
+                child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
+                    child:
+                        Container(color: Colors.black.withValues(alpha: .48)))),
+            Center(
+                child: FadeTransition(
+                    opacity: animation,
+                    child: ScaleTransition(
+                        scale: CurvedAnimation(
+                            parent: animation, curve: Curves.easeOutBack),
+                        child: child))),
+          ]),
+        ),
+        icon: const Icon(Icons.article_outlined),
+      );
 }
 
 class _CaseBriefingDialog extends StatelessWidget {
@@ -46,22 +58,39 @@ class _CaseBriefingDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final game = GameScope.of(context);
-    final genderCases = game.content.levels.values.where((level) => level.gender == game.currentLevel.gender).toList();
-    final caseNumber = (genderCases.indexWhere((level) => level.id == game.currentLevel.id) + 1).toString().padLeft(2, '0');
+    final genderCases = game.content.levels.values
+        .where((level) => level.gender == game.currentLevel.gender)
+        .toList();
+    final caseNumber =
+        (genderCases.indexWhere((level) => level.id == game.currentLevel.id) +
+                1)
+            .toString()
+            .padLeft(2, '0');
     return Dialog(
       backgroundColor: panel,
       insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28), side: BorderSide(color: aqua.withValues(alpha: .55), width: 1.2)),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(28),
+          side: BorderSide(color: aqua.withValues(alpha: .55), width: 1.2)),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 480, maxHeight: 620),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(22, 18, 22, 22),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Row(children: [
-                Container(width: 44, height: 44, decoration: BoxDecoration(color: aqua.withValues(alpha: .14), borderRadius: BorderRadius.circular(14)), child: const Icon(Icons.article_outlined, color: aqua)),
+                Container(
+                    width: 44,
+                    height: 44,
+                    decoration: BoxDecoration(
+                        color: aqua.withValues(alpha: .14),
+                        borderRadius: BorderRadius.circular(14)),
+                    child: const Icon(Icons.article_outlined, color: aqua)),
                 const SizedBox(width: 12),
-                const Text('Case briefing', style: TextStyle(fontSize: 21, fontWeight: FontWeight.w900)),
+                const Text('Case briefing',
+                    style:
+                        TextStyle(fontSize: 21, fontWeight: FontWeight.w900)),
               ]),
               IconButton(
                 tooltip: 'Close briefing',
@@ -71,33 +100,84 @@ class _CaseBriefingDialog extends StatelessWidget {
                   foregroundColor: coral,
                   backgroundColor: coral.withValues(alpha: .12),
                   minimumSize: const Size(52, 52),
-                  shape: CircleBorder(side: BorderSide(color: coral.withValues(alpha: .55))),
+                  shape: CircleBorder(
+                      side: BorderSide(color: coral.withValues(alpha: .55))),
                 ),
               ),
             ]),
             const SizedBox(height: 12),
-            Flexible(child: SingleChildScrollView(child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Expanded(child: Text('CASE $caseNumber — ${game.currentLevel.title}', style: const TextStyle(color: coral, fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1.1))),
-              const SizedBox(width: 10),
-              Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6), decoration: BoxDecoration(color: coral.withValues(alpha: .14), borderRadius: BorderRadius.circular(10)), child: Text(game.currentLevel.difficulty.toUpperCase(), style: const TextStyle(color: coral, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1))),
-            ]),
-            const SizedBox(height: 18),
-            const Text('CASE INTELLIGENCE', style: TextStyle(color: coral, fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1.2)),
-            const SizedBox(height: 8),
-            Text(game.currentLevel.caseDescription, style: const TextStyle(fontSize: 16, height: 1.5)),
-            const SizedBox(height: 18),
-            const Text('YOUR BRIEF', style: TextStyle(color: coral, fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1.2)),
-            const SizedBox(height: 8),
-            const Text('You are a private investigator with access to a dating platform and an unofficial intelligence layer called Goggles. Review ten profiles, select exactly three for deeper investigation, and compare what people say with what the data suggests.', style: TextStyle(color: muted, height: 1.5)),
-            const SizedBox(height: 18),
-            const Text('KEEP YOUR JUDGMENT FLEXIBLE', style: TextStyle(color: coral, fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1.2)),
-            const SizedBox(height: 8),
-            const _BriefBullet(text: 'Goggles provides hidden platform information, not proof.'),
-            const _BriefBullet(text: 'Innocent people can look suspicious, and the killer may seem completely normal.'),
-            const _BriefBullet(text: 'Compare profiles, photos, questions, Goggles, and conversations.'),
-            const _BriefBullet(text: 'Only three profiles can be investigated more closely.'),
-            ]))),
+            Flexible(
+                child: SingleChildScrollView(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                            child: Text(
+                                'CASE $caseNumber — ${game.currentLevel.title}',
+                                style: const TextStyle(
+                                    color: coral,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w900,
+                                    letterSpacing: 1.1))),
+                        const SizedBox(width: 10),
+                        Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 6),
+                            decoration: BoxDecoration(
+                                color: coral.withValues(alpha: .14),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Text(
+                                game.currentLevel.difficulty.toUpperCase(),
+                                style: const TextStyle(
+                                    color: coral,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w900,
+                                    letterSpacing: 1))),
+                      ]),
+                  const SizedBox(height: 18),
+                  const Text('CASE INTELLIGENCE',
+                      style: TextStyle(
+                          color: coral,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 1.2)),
+                  const SizedBox(height: 8),
+                  _CaseIntelligenceView(level: game.currentLevel),
+                  const SizedBox(height: 18),
+                  const Text('YOUR BRIEF',
+                      style: TextStyle(
+                          color: coral,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 1.2)),
+                  const SizedBox(height: 8),
+                  const Text(
+                      'You are a private investigator with access to a dating platform and an unofficial intelligence layer called Goggles. Review ten profiles, select exactly three for deeper investigation, and compare what people say with what the data suggests.',
+                      style: TextStyle(color: muted, height: 1.5)),
+                  const SizedBox(height: 18),
+                  const Text('KEEP YOUR JUDGMENT FLEXIBLE',
+                      style: TextStyle(
+                          color: coral,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 1.2)),
+                  const SizedBox(height: 8),
+                  const _BriefBullet(
+                      text:
+                          'Goggles provides hidden platform information, not proof.'),
+                  const _BriefBullet(
+                      text:
+                          'Innocent people can look suspicious, and the killer may seem completely normal.'),
+                  const _BriefBullet(
+                      text:
+                          'Compare profiles, photos, questions, Goggles, and conversations.'),
+                  const _BriefBullet(
+                      text:
+                          'Only three profiles can be investigated more closely.'),
+                ]))),
           ]),
         ),
       ),
@@ -105,26 +185,252 @@ class _CaseBriefingDialog extends StatelessWidget {
   }
 }
 
+class _CaseIntelligenceView extends StatelessWidget {
+  const _CaseIntelligenceView({required this.level});
+
+  final Level level;
+
+  @override
+  Widget build(BuildContext context) {
+    if (level.caseIntelligenceFormat.isEmpty) {
+      return Text(level.caseDescription,
+          style: const TextStyle(fontSize: 16, height: 1.5));
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (var index = 0;
+            index < level.caseIntelligenceFormat.length;
+            index++) ...[
+          if (index > 0) const SizedBox(height: 14),
+          _CaseIntelligenceBlockView(
+              block: level.caseIntelligenceFormat[index]),
+        ],
+      ],
+    );
+  }
+}
+
+class _CaseIntelligenceBlockView extends StatelessWidget {
+  const _CaseIntelligenceBlockView({required this.block});
+
+  final CaseIntelligenceBlock block;
+
+  Widget _heading() => Text(
+        block.heading!,
+        style: const TextStyle(
+          color: aqua,
+          fontSize: 10,
+          fontWeight: FontWeight.w900,
+          letterSpacing: 1.25,
+        ),
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    switch (block.type) {
+      case CaseIntelligenceBlockType.paragraph:
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (block.heading != null) ...[
+              _heading(),
+              const SizedBox(height: 7),
+            ],
+            Text(block.text, style: const TextStyle(fontSize: 16, height: 1.5)),
+          ],
+        );
+      case CaseIntelligenceBlockType.bullets:
+        return Container(
+          padding: const EdgeInsets.fromLTRB(14, 13, 14, 6),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: .035),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: aqua.withValues(alpha: .16)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (block.heading != null) ...[
+                _heading(),
+                const SizedBox(height: 10),
+              ],
+              for (final item in block.items) _IntelligenceBullet(text: item),
+            ],
+          ),
+        );
+      case CaseIntelligenceBlockType.callout:
+        return Container(
+          padding: const EdgeInsets.all(15),
+          decoration: BoxDecoration(
+            color: coral.withValues(alpha: .10),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: coral.withValues(alpha: .42)),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Icon(Icons.manage_search_rounded, color: coral, size: 23),
+              const SizedBox(width: 11),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (block.heading != null) ...[
+                      Text(
+                        block.heading!,
+                        style: const TextStyle(
+                          color: coral,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 1.25,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                    ],
+                    Text(block.text,
+                        style: const TextStyle(
+                            fontSize: 15,
+                            height: 1.45,
+                            fontWeight: FontWeight.w700)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      case CaseIntelligenceBlockType.quote:
+        return Container(
+          padding: const EdgeInsets.fromLTRB(15, 13, 15, 13),
+          decoration: BoxDecoration(
+            color: aqua.withValues(alpha: .07),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: aqua.withValues(alpha: .28)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (block.heading != null) ...[
+                _heading(),
+                const SizedBox(height: 7),
+              ],
+              Text(block.text,
+                  style: const TextStyle(
+                      fontSize: 15, height: 1.45, fontStyle: FontStyle.italic)),
+            ],
+          ),
+        );
+      case CaseIntelligenceBlockType.timeline:
+        return Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: .035),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: coral.withValues(alpha: .18)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (block.heading != null) ...[
+                _heading(),
+                const SizedBox(height: 10),
+              ],
+              for (var index = 0; index < block.items.length; index++)
+                Padding(
+                  padding: EdgeInsets.only(
+                      bottom: index == block.items.length - 1 ? 0 : 11),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 22,
+                        height: 22,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: coral.withValues(alpha: .16),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Text(
+                          '${index + 1}',
+                          style: const TextStyle(
+                              color: coral,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w900),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(block.items[index],
+                            style: const TextStyle(fontSize: 15, height: 1.4)),
+                      ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+        );
+    }
+  }
+}
+
+class _IntelligenceBullet extends StatelessWidget {
+  const _IntelligenceBullet({required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(bottom: 9),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 6,
+              height: 6,
+              margin: const EdgeInsets.only(top: 8, right: 10),
+              decoration:
+                  const BoxDecoration(color: coral, shape: BoxShape.circle),
+            ),
+            Expanded(
+              child: Text(text,
+                  style: const TextStyle(fontSize: 15, height: 1.45)),
+            ),
+          ],
+        ),
+      );
+}
+
 class _CaseOptionsButton extends StatelessWidget {
   const _CaseOptionsButton();
 
   @override
   Widget build(BuildContext context) => IconButton(
-    tooltip: 'Case options',
-    onPressed: () => showGeneralDialog<void>(
-      context: context,
-      barrierDismissible: true,
-      barrierLabel: 'Close options',
-      barrierColor: Colors.transparent,
-      transitionDuration: const Duration(milliseconds: 220),
-      pageBuilder: (_, __, ___) => const _CaseOptionsDialog(),
-      transitionBuilder: (context, animation, secondaryAnimation, child) => Stack(children: [
-        Positioned.fill(child: BackdropFilter(filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7), child: Container(color: Colors.black.withValues(alpha: .48)))),
-        Center(child: FadeTransition(opacity: animation, child: ScaleTransition(scale: CurvedAnimation(parent: animation, curve: Curves.easeOutBack), child: child))),
-      ]),
-    ),
-    icon: const Icon(Icons.tune_rounded),
-  );
+        tooltip: 'Case options',
+        onPressed: () => showGeneralDialog<void>(
+          context: context,
+          barrierDismissible: true,
+          barrierLabel: 'Close options',
+          barrierColor: Colors.transparent,
+          transitionDuration: const Duration(milliseconds: 220),
+          pageBuilder: (_, __, ___) => const _CaseOptionsDialog(),
+          transitionBuilder: (context, animation, secondaryAnimation, child) =>
+              Stack(children: [
+            Positioned.fill(
+                child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
+                    child:
+                        Container(color: Colors.black.withValues(alpha: .48)))),
+            Center(
+                child: FadeTransition(
+                    opacity: animation,
+                    child: ScaleTransition(
+                        scale: CurvedAnimation(
+                            parent: animation, curve: Curves.easeOutBack),
+                        child: child))),
+          ]),
+        ),
+        icon: const Icon(Icons.tune_rounded),
+      );
 }
 
 class _CaseOptionsDialog extends StatelessWidget {
@@ -136,51 +442,77 @@ class _CaseOptionsDialog extends StatelessWidget {
     return Dialog(
       backgroundColor: panel,
       insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28), side: BorderSide(color: aqua.withValues(alpha: .55), width: 1.2)),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(28),
+          side: BorderSide(color: aqua.withValues(alpha: .55), width: 1.2)),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 480),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(22, 18, 22, 22),
-          child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Row(children: [
-              Container(width: 44, height: 44, decoration: BoxDecoration(color: aqua.withValues(alpha: .14), borderRadius: BorderRadius.circular(14)), child: const Icon(Icons.tune_rounded, color: aqua)),
-              const SizedBox(width: 12),
-              const Text('Case options', style: TextStyle(fontSize: 21, fontWeight: FontWeight.w900)),
-            ]),
-            IconButton(
-              tooltip: 'Close options',
-              onPressed: () => Navigator.of(context).pop(),
-              icon: const Icon(Icons.close_rounded, size: 28),
-              style: IconButton.styleFrom(
-                foregroundColor: coral,
-                backgroundColor: coral.withValues(alpha: .12),
-                minimumSize: const Size(52, 52),
-                shape: CircleBorder(side: BorderSide(color: coral.withValues(alpha: .55))),
-              ),
-            ),
-          ]),
-          const SizedBox(height: 12),
-          SwitchListTile.adaptive(
-            contentPadding: EdgeInsets.zero,
-            secondary: const Icon(Icons.music_note_rounded, color: aqua),
-            title: const Text('Music', style: TextStyle(fontWeight: FontWeight.w700)),
-            value: game.musicVolume > 0,
-            onChanged: (enabled) => game.setMusicVolume(enabled ? .70 : 0),
-          ),
-          SwitchListTile.adaptive(
-            contentPadding: EdgeInsets.zero,
-            secondary: const Icon(Icons.volume_up_rounded, color: aqua),
-            title: const Text('Sound effects', style: TextStyle(fontWeight: FontWeight.w700)),
-            value: game.effectsVolume > 0,
-            onChanged: (enabled) => game.setEffectsVolume(enabled ? .85 : 0),
-          ),
-          const SizedBox(height: 10),
-          MenuActionButton(label: 'Back to main menu', icon: Icons.home_rounded, primary: true, showChevron: false, onPressed: () {
-            Navigator.of(context).pop();
-            game.returnToMainMenu();
-          }),
-          ]),
+          child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(children: [
+                        Container(
+                            width: 44,
+                            height: 44,
+                            decoration: BoxDecoration(
+                                color: aqua.withValues(alpha: .14),
+                                borderRadius: BorderRadius.circular(14)),
+                            child: const Icon(Icons.tune_rounded, color: aqua)),
+                        const SizedBox(width: 12),
+                        const Text('Case options',
+                            style: TextStyle(
+                                fontSize: 21, fontWeight: FontWeight.w900)),
+                      ]),
+                      IconButton(
+                        tooltip: 'Close options',
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: const Icon(Icons.close_rounded, size: 28),
+                        style: IconButton.styleFrom(
+                          foregroundColor: coral,
+                          backgroundColor: coral.withValues(alpha: .12),
+                          minimumSize: const Size(52, 52),
+                          shape: CircleBorder(
+                              side: BorderSide(
+                                  color: coral.withValues(alpha: .55))),
+                        ),
+                      ),
+                    ]),
+                const SizedBox(height: 12),
+                SwitchListTile.adaptive(
+                  contentPadding: EdgeInsets.zero,
+                  secondary: const Icon(Icons.music_note_rounded, color: aqua),
+                  title: const Text('Music',
+                      style: TextStyle(fontWeight: FontWeight.w700)),
+                  value: game.musicVolume > 0,
+                  onChanged: (enabled) =>
+                      game.setMusicVolume(enabled ? .70 : 0),
+                ),
+                SwitchListTile.adaptive(
+                  contentPadding: EdgeInsets.zero,
+                  secondary: const Icon(Icons.volume_up_rounded, color: aqua),
+                  title: const Text('Sound effects',
+                      style: TextStyle(fontWeight: FontWeight.w700)),
+                  value: game.effectsVolume > 0,
+                  onChanged: (enabled) =>
+                      game.setEffectsVolume(enabled ? .85 : 0),
+                ),
+                const SizedBox(height: 10),
+                MenuActionButton(
+                    label: 'Back to main menu',
+                    icon: Icons.home_rounded,
+                    primary: true,
+                    showChevron: false,
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      game.returnToMainMenu();
+                    }),
+              ]),
         ),
       ),
     );
@@ -192,39 +524,128 @@ class MainMenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final game = GameScope.of(context);
-    return Scaffold(body: SafeArea(child: Center(child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 900), child: Padding(padding: const EdgeInsets.all(24), child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [const BrandMark(compact: true), IconButton(tooltip: 'Settings', onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const SettingsScreen())), icon: const Icon(Icons.tune_rounded))]),
-      Expanded(child: SingleChildScrollView(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        // const SizedBox(height: 38),
-        // Text('FIND A', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: coral, fontWeight: FontWeight.w900, letterSpacing: 4)),
-        Row(
-          children: [
-            const SizedBox(width: 65),
-            Text('Serial Killer', style: Theme.of(context).textTheme.displaySmall?.copyWith(fontWeight: FontWeight.w900, height: 1.05,  color: Colors.red)),
-          ],
-        ),
-        // const SizedBox(height: 18),
-        const SizedBox(height: 28),
-        // const Text('A dating profile can tell you a lot.', textAlign: TextAlign.center, style: TextStyle(color: muted, fontSize: 20, height: 1.45)),
-        const SizedBox(
-          width: double.infinity,
-          child: Text(
-            'A dating profile can tell you a lot.',
-            textAlign: TextAlign.center,
-            style: TextStyle(color: muted, fontSize: 20, height: 1.45),
-          ),
-        ),
-        const SizedBox(height: 28),
-        const Text('It can also hide the one thing that matters.', textAlign: TextAlign.center, style: TextStyle(color: muted, fontSize: 20, height: 1.45)),
-        const SizedBox(height: 28),
-        SectionCard(child: Row(children: [Container(width: 48, height: 48, decoration: BoxDecoration(color: aqua.withValues(alpha: .15), borderRadius: BorderRadius.circular(18)), child: const Icon(Icons.radar_rounded, color: aqua, size: 30)), const SizedBox(width: 15), const Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text('Observe. Compare. Deduce.', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 17)), SizedBox(height: 4), Text('Use profile pictures, bio data, conversations, and Goggles intelligence to find red flags.', textAlign: TextAlign.left, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15, color: muted, height: 1.35))]))])),
-      ]))),
-      const SizedBox(height: 18),
-      MenuActionButton(label: 'New Game', icon: Icons.play_arrow_rounded, primary: true, onPressed: game.startNewGame),
-      const SizedBox(height: 10),
-      MenuActionButton(label: 'Continue', icon: Icons.bookmark_outline_rounded, onPressed: game.canContinue ? () => game.resumeSavedGame() : null),
-      if (game.allAvailableLevelsCompleted) const Padding(padding: EdgeInsets.only(top: 12), child: Text('CONGRATS! ALL CASES COMPLETED. MORE CASES COMING SOON!', textAlign: TextAlign.center, style: TextStyle(color: aqua, fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 1))),
-    ]))))));
+    return Scaffold(
+        body: SafeArea(
+            child: Center(
+                child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 900),
+                    child: Padding(
+                        padding: const EdgeInsets.all(24),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const BrandMark(compact: true),
+                                    IconButton(
+                                        tooltip: 'Settings',
+                                        onPressed: () => Navigator.of(context)
+                                            .push(MaterialPageRoute(
+                                                builder: (_) =>
+                                                    const SettingsScreen())),
+                                        icon: const Icon(Icons.tune_rounded))
+                                  ]),
+                              Expanded(
+                                  child: SingleChildScrollView(
+                                      child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                    Row(
+                                      children: [
+                                        const SizedBox(width: 65),
+                                        Text('Serial Killer',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .displaySmall
+                                                ?.copyWith(
+                                                    fontWeight: FontWeight.w900,
+                                                    height: 1.05,
+                                                    color: Colors.red)),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 28),
+                                    const SizedBox(
+                                      width: double.infinity,
+                                      child: Text(
+                                        'A dating profile can tell you a lot.',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: muted,
+                                            fontSize: 20,
+                                            height: 1.45),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 28),
+                                    const Text(
+                                        'It can also hide the one thing that matters.',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: muted,
+                                            fontSize: 20,
+                                            height: 1.45)),
+                                    const SizedBox(height: 28),
+                                    SectionCard(
+                                        child: Row(children: [
+                                      Container(
+                                          width: 48,
+                                          height: 48,
+                                          decoration: BoxDecoration(
+                                              color:
+                                                  aqua.withValues(alpha: .15),
+                                              borderRadius:
+                                                  BorderRadius.circular(18)),
+                                          child: const Icon(Icons.radar_rounded,
+                                              color: aqua, size: 30)),
+                                      const SizedBox(width: 15),
+                                      const Expanded(
+                                          child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                            Text('Observe. Compare. Deduce.',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w800,
+                                                    fontSize: 17)),
+                                            SizedBox(height: 4),
+                                            Text(
+                                                'Use profile pictures, bio data, conversations, and Goggles intelligence to find red flags.',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 15,
+                                                    color: muted,
+                                                    height: 1.35))
+                                          ]))
+                                    ])),
+                                  ]))),
+                              const SizedBox(height: 18),
+                              MenuActionButton(
+                                  label: 'New Game',
+                                  icon: Icons.play_arrow_rounded,
+                                  primary: true,
+                                  onPressed: game.startNewGame),
+                              const SizedBox(height: 10),
+                              MenuActionButton(
+                                  label: 'Continue',
+                                  icon: Icons.bookmark_outline_rounded,
+                                  onPressed: game.canContinue
+                                      ? () => game.resumeSavedGame()
+                                      : null),
+                              if (game.allAvailableLevelsCompleted)
+                                const Padding(
+                                    padding: EdgeInsets.only(top: 12),
+                                    child: Text(
+                                        'CONGRATS! ALL CASES COMPLETED. MORE CASES COMING SOON!',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: aqua,
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.bold,
+                                            letterSpacing: 1))),
+                            ]))))));
   }
 }
 
@@ -241,35 +662,84 @@ class _GenderSelectionScreenState extends State<GenderSelectionScreen> {
   @override
   Widget build(BuildContext context) {
     final game = GameScope.of(context);
-    if (_selectedGender != null) return _buildCaseList(context, game, _selectedGender!);
-    return PageFrame(title: 'Who are you investigating?', subtitle: 'Select a suspect pool and open its case files.', child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      const SizedBox(height: 18),
-    _ChoiceCard(icon: Icons.male_rounded, title: 'Men', body: '${game.content.levels.values.where((level) => level.gender == Gender.men).length} case files available', color: coral, onTap: () => setState(() => _selectedGender = Gender.men)),
-    const SizedBox(height: 14),
-    _ChoiceCard(icon: Icons.female_rounded, title: 'Women', body: '${game.content.levels.values.where((level) => level.gender == Gender.women).length} case files available', color: aqua, onTap: () => setState(() => _selectedGender = Gender.women)),
-    const Spacer(),
-    MenuActionButton(label: 'Back to main menu', icon: Icons.arrow_back_rounded, showChevron: false, onPressed: game.returnToMainMenu),
-  ]));
+    if (_selectedGender != null) {
+      return _buildCaseList(context, game, _selectedGender!);
+    }
+    return PageFrame(
+        title: 'Who are you investigating?',
+        subtitle: 'Select a suspect pool and open its case files.',
+        child:
+            Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          const SizedBox(height: 18),
+          _ChoiceCard(
+              icon: Icons.male_rounded,
+              title: 'Men',
+              body:
+                  '${game.content.levels.values.where((level) => level.gender == Gender.men).length} case files available',
+              color: coral,
+              onTap: () => setState(() => _selectedGender = Gender.men)),
+          const SizedBox(height: 14),
+          _ChoiceCard(
+              icon: Icons.female_rounded,
+              title: 'Women',
+              body:
+                  '${game.content.levels.values.where((level) => level.gender == Gender.women).length} case files available',
+              color: aqua,
+              onTap: () => setState(() => _selectedGender = Gender.women)),
+          const Spacer(),
+          MenuActionButton(
+              label: 'Back to main menu',
+              icon: Icons.arrow_back_rounded,
+              showChevron: false,
+              onPressed: game.returnToMainMenu),
+        ]));
   }
 
-  Widget _buildCaseList(BuildContext context, GameController game, Gender gender) {
-    final cases = game.content.levels.values.where((level) => level.gender == gender).toList();
+  Widget _buildCaseList(
+      BuildContext context, GameController game, Gender gender) {
+    final cases = game.content.levels.values
+        .where((level) => level.gender == gender)
+        .toList();
     final label = gender == Gender.men ? 'Men' : 'Women';
-    return PageFrame(title: '$label · Case files', subtitle: 'Choose an available investigation.', child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      const SizedBox(height: 18),
-      Expanded(child: ListView(children: cases.asMap().entries.map((entry) {
-        final caseNumber = (entry.key + 1).toString().padLeft(2, '0');
-        final level = entry.value;
-        final available = game.unlockedLevelIds.contains(level.id);
-        return Padding(padding: const EdgeInsets.only(bottom: 14), child: _CaseChoiceCard(caseNumber: caseNumber, title: available ? level.title : 'Case Classified', body: available ? '${level.difficulty} · 10 profiles' : 'Locked · Complete the previous case first', available: available, onTap: available ? () => game.chooseCase(level.id) : null));
-      }).toList())),
-      MenuActionButton(label: 'Back to gender selection', icon: Icons.arrow_back_rounded, showChevron: false, onPressed: () => setState(() => _selectedGender = null)),
-    ]));
+    return PageFrame(
+        title: '$label · Case files',
+        subtitle: 'Choose an available investigation.',
+        child:
+            Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          const SizedBox(height: 18),
+          Expanded(
+              child: ListView(
+                  children: cases.asMap().entries.map((entry) {
+            final caseNumber = (entry.key + 1).toString().padLeft(2, '0');
+            final level = entry.value;
+            final available = game.unlockedLevelIds.contains(level.id);
+            return Padding(
+                padding: const EdgeInsets.only(bottom: 14),
+                child: _CaseChoiceCard(
+                    caseNumber: caseNumber,
+                    title: available ? level.title : 'Case Classified',
+                    body: available
+                        ? '${level.difficulty} · 10 profiles'
+                        : 'Locked · Complete the previous case first',
+                    available: available,
+                    onTap: available ? () => game.chooseCase(level.id) : null));
+          }).toList())),
+          MenuActionButton(
+              label: 'Back to gender selection',
+              icon: Icons.arrow_back_rounded,
+              showChevron: false,
+              onPressed: () => setState(() => _selectedGender = null)),
+        ]));
   }
 }
 
 class _CaseChoiceCard extends StatelessWidget {
-  const _CaseChoiceCard({required this.caseNumber, required this.title, required this.body, required this.available, required this.onTap});
+  const _CaseChoiceCard(
+      {required this.caseNumber,
+      required this.title,
+      required this.body,
+      required this.available,
+      required this.onTap});
   final String caseNumber;
   final String title;
   final String body;
@@ -277,14 +747,88 @@ class _CaseChoiceCard extends StatelessWidget {
   final VoidCallback? onTap;
 
   @override
-  Widget build(BuildContext context) => Opacity(opacity: available ? 1 : .55, child: InkWell(borderRadius: BorderRadius.circular(24), onTap: onTap, child: SectionCard(child: Row(children: [Container(width: 58, height: 58, decoration: BoxDecoration(color: (available ? coral : muted).withValues(alpha: .15), borderRadius: BorderRadius.circular(18)), child: Icon(available ? Icons.folder_open_rounded : Icons.lock_outline_rounded, color: available ? coral : muted, size: 30)), const SizedBox(width: 16), Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text('CASE $caseNumber', style: const TextStyle(color: coral, fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1.2)), const SizedBox(height: 4), Text(title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800)), const SizedBox(height: 4), Text(body, style: const TextStyle(color: muted))])), Icon(available ? Icons.chevron_right_rounded : Icons.lock_outline_rounded, color: muted)]))));
+  Widget build(BuildContext context) => Opacity(
+      opacity: available ? 1 : .55,
+      child: InkWell(
+          borderRadius: BorderRadius.circular(24),
+          onTap: onTap,
+          child: SectionCard(
+              child: Row(children: [
+            Container(
+                width: 58,
+                height: 58,
+                decoration: BoxDecoration(
+                    color: (available ? coral : muted).withValues(alpha: .15),
+                    borderRadius: BorderRadius.circular(18)),
+                child: Icon(
+                    available
+                        ? Icons.folder_open_rounded
+                        : Icons.lock_outline_rounded,
+                    color: available ? coral : muted,
+                    size: 30)),
+            const SizedBox(width: 16),
+            Expanded(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                  Text('CASE $caseNumber',
+                      style: const TextStyle(
+                          color: coral,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 1.2)),
+                  const SizedBox(height: 4),
+                  Text(title,
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.w800)),
+                  const SizedBox(height: 4),
+                  Text(body, style: const TextStyle(color: muted))
+                ])),
+            Icon(
+                available
+                    ? Icons.chevron_right_rounded
+                    : Icons.lock_outline_rounded,
+                color: muted)
+          ]))));
 }
 
 class _ChoiceCard extends StatelessWidget {
-  const _ChoiceCard({required this.icon, required this.title, required this.body, required this.color, required this.onTap});
-  final IconData icon; final String title; final String body; final Color color; final VoidCallback onTap;
+  const _ChoiceCard(
+      {required this.icon,
+      required this.title,
+      required this.body,
+      required this.color,
+      required this.onTap});
+  final IconData icon;
+  final String title;
+  final String body;
+  final Color color;
+  final VoidCallback onTap;
   @override
-  Widget build(BuildContext context) => InkWell(borderRadius: BorderRadius.circular(24), onTap: onTap, child: SectionCard(child: Row(children: [Container(width: 58, height: 58, decoration: BoxDecoration(color: color.withValues(alpha: .15), borderRadius: BorderRadius.circular(18)), child: Icon(icon, color: color, size: 30)), const SizedBox(width: 16), Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800)), const SizedBox(height: 4), Text(body, style: const TextStyle(color: muted))])), const Icon(Icons.chevron_right_rounded, color: muted)])));
+  Widget build(BuildContext context) => InkWell(
+      borderRadius: BorderRadius.circular(24),
+      onTap: onTap,
+      child: SectionCard(
+          child: Row(children: [
+        Container(
+            width: 58,
+            height: 58,
+            decoration: BoxDecoration(
+                color: color.withValues(alpha: .15),
+                borderRadius: BorderRadius.circular(18)),
+            child: Icon(icon, color: color, size: 30)),
+        const SizedBox(width: 16),
+        Expanded(
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(title,
+              style:
+                  const TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
+          const SizedBox(height: 4),
+          Text(body, style: const TextStyle(color: muted))
+        ])),
+        const Icon(Icons.chevron_right_rounded, color: muted)
+      ])));
 }
 
 class BriefingScreen extends StatelessWidget {
@@ -292,28 +836,113 @@ class BriefingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final game = GameScope.of(context);
-    final genderCases = game.content.levels.values.where((level) => level.gender == game.currentLevel.gender).toList();
-    final caseNumber = (genderCases.indexWhere((level) => level.id == game.currentLevel.id) + 1).toString().padLeft(2, '0');
-    return PageFrame(title: 'Investigation briefing', leading: ClipRRect(borderRadius: BorderRadius.circular(15), child: Image.asset('assets/logo.jpg', width: 52, height: 52, fit: BoxFit.cover, semanticLabel: 'Find a Serial Killer app logo')), action: const _CaseOptionsButton(), centerTitle: true, child: SingleChildScrollView(child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      SectionCard(color: const Color(0xFF121C2E), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Text('CASE $caseNumber — ${game.currentLevel.title}', style: const TextStyle(color: coral, fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1.4)),
-          Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6), decoration: BoxDecoration(color: coral.withValues(alpha: .14), borderRadius: BorderRadius.circular(10)), child: Text(game.currentLevel.difficulty.toUpperCase(), style: const TextStyle(color: coral, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1))),
-        ]),
-        const SizedBox(height: 18),
-        const Text('CASE INTELLIGENCE', style: TextStyle(color: coral, fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1.2)),
-        const SizedBox(height: 8),
-        Text(game.currentLevel.caseDescription, style: const TextStyle(fontSize: 16, height: 1.5)),
-        const SizedBox(height: 18),
-        const Text('Your brief', style: TextStyle(color: coral, fontWeight: FontWeight.w900, letterSpacing: 1)),
-        const SizedBox(height: 8),
-        const Text('You are a private investigator with access to a dating platform and an unofficial intelligence layer called Goggles. Review ten profiles, select exactly three for deeper investigation, and compare what people say with what the data suggests.', style: TextStyle(color: muted, height: 1.5)),
-      ])),
-      const SizedBox(height: 14),
-      const SectionCard(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text('Keep your judgment flexible', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 17)), SizedBox(height: 12), _BriefBullet(text: 'Goggles provides hidden platform information, not proof.'), _BriefBullet(text: 'Innocent people can look suspicious, and the killer may seem completely normal.'), _BriefBullet(text: 'Compare profiles, photos, questions, Goggles insights, and conversations.'), _BriefBullet(text: 'Only three profiles can be investigated more closely.') ])),
-      const SizedBox(height: 18),
-      MenuActionButton(label: 'Start investigation', icon: Icons.play_arrow_rounded, primary: true, showChevron: false, onPressed: game.beginCase),
-    ])));
+    final genderCases = game.content.levels.values
+        .where((level) => level.gender == game.currentLevel.gender)
+        .toList();
+    final caseNumber =
+        (genderCases.indexWhere((level) => level.id == game.currentLevel.id) +
+                1)
+            .toString()
+            .padLeft(2, '0');
+    return PageFrame(
+        title: 'Investigation briefing',
+        leading: ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: Image.asset('assets/logo.jpg',
+                width: 52,
+                height: 52,
+                fit: BoxFit.cover,
+                semanticLabel: 'Find a Serial Killer app logo')),
+        action: const _CaseOptionsButton(),
+        centerTitle: true,
+        child: SingleChildScrollView(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+              SectionCard(
+                  color: const Color(0xFF121C2E),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                  child: Text(
+                                      'CASE $caseNumber — ${game.currentLevel.title}',
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                          color: coral,
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w900,
+                                          letterSpacing: 1.4))),
+                              const SizedBox(width: 12),
+                              Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 6),
+                                  decoration: BoxDecoration(
+                                      color: coral.withValues(alpha: .14),
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Text(
+                                      game.currentLevel.difficulty
+                                          .toUpperCase(),
+                                      style: const TextStyle(
+                                          color: coral,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w900,
+                                          letterSpacing: 1))),
+                            ]),
+                        const SizedBox(height: 18),
+                        const Text('CASE INTELLIGENCE',
+                            style: TextStyle(
+                                color: coral,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: 1.2)),
+                        const SizedBox(height: 8),
+                        _CaseIntelligenceView(level: game.currentLevel),
+                        const SizedBox(height: 18),
+                        const Text('Your brief',
+                            style: TextStyle(
+                                color: coral,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: 1)),
+                        const SizedBox(height: 8),
+                        const Text(
+                            'You are a private investigator with access to a dating platform and an unofficial intelligence layer called Goggles. Review ten profiles, select exactly three for deeper investigation, and compare what people say with what the data suggests.',
+                            style: TextStyle(color: muted, height: 1.5)),
+                      ])),
+              const SizedBox(height: 14),
+              const SectionCard(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                    Text('Keep your judgment flexible',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 17)),
+                    SizedBox(height: 12),
+                    _BriefBullet(
+                        text:
+                            'Goggles provides hidden platform information, not proof.'),
+                    _BriefBullet(
+                        text:
+                            'Innocent people can look suspicious, and the killer may seem completely normal.'),
+                    _BriefBullet(
+                        text:
+                            'Compare profiles, photos, questions, Goggles insights, and conversations.'),
+                    _BriefBullet(
+                        text:
+                            'Only three profiles can be investigated more closely.')
+                  ])),
+              const SizedBox(height: 18),
+              MenuActionButton(
+                  label: 'Start investigation',
+                  icon: Icons.play_arrow_rounded,
+                  primary: true,
+                  showChevron: false,
+                  onPressed: game.beginCase),
+            ])));
   }
 }
 
@@ -321,7 +950,14 @@ class _BriefBullet extends StatelessWidget {
   const _BriefBullet({required this.text});
   final String text;
   @override
-  Widget build(BuildContext context) => Padding(padding: const EdgeInsets.only(bottom: 10), child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [const Text('•  ', style: TextStyle(color: aqua, fontSize: 18)), Expanded(child: Text(text, style: const TextStyle(color: muted, height: 1.35)))]));
+  Widget build(BuildContext context) => Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        const Text('•  ', style: TextStyle(color: aqua, fontSize: 18)),
+        Expanded(
+            child:
+                Text(text, style: const TextStyle(color: muted, height: 1.35)))
+      ]));
 }
 
 class ProfileReviewScreen extends StatelessWidget {
@@ -331,43 +967,110 @@ class ProfileReviewScreen extends StatelessWidget {
     final game = GameScope.of(context);
     final profile = game.activeProfile;
     final selected = game.selectedSuspectIds.contains(profile.id);
-    final genderCases = game.content.levels.values.where((level) => level.gender == game.currentLevel.gender).toList();
-    final caseNumber = (genderCases.indexWhere((level) => level.id == game.currentLevel.id) + 1).toString().padLeft(2, '0');
-    return PageFrame(title: 'Browse Profiles', subtitle: 'Case $caseNumber  ·  ${game.currentProfileIndex + 1} of ${game.currentProfiles.length} profiles', subtitleAction: SuspectCounter(count: game.selectedCount), action: const _CaseHeaderActions(), child: LayoutBuilder(builder: (context, constraints) {
-      final wide = constraints.maxWidth > 700;
-      final details = _ProfileDetails(profile: profile);
-      final gallery = Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [PlaceholderPhoto(profile: profile), const SizedBox(height: 12), GogglesButton(onPressed: () { game.recordGogglesScan(profile.id); GogglesDialog.show(context, profile); })]);
-      return Stack(
-        fit: StackFit.expand,
-        children: [
-          SingleChildScrollView(
-            padding: const EdgeInsets.only(bottom: 82),
-            child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-              if (wide) Row(crossAxisAlignment: CrossAxisAlignment.start, children: [Expanded(flex: 5, child: gallery), const SizedBox(width: 20), Expanded(flex: 6, child: details)]) else ...[gallery, const SizedBox(height: 18), details],
-              const SizedBox(height: 18),
-              if (selected) const Text('SELECTED FOR INVESTIGATION', style: TextStyle(color: aqua, fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1.3)),
-            ]),
-          ),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Expanded(child: ProfileActionButton(label: 'Previous\nprofile', icon: Icons.arrow_back_rounded, accent: aqua, backgroundColor: panel, onPressed: game.canGoToPreviousProfile ? () => game.goToPreviousProfile() : null)),
-              const SizedBox(width: 8),
-              Expanded(child: ProfileActionButton(label: 'Next\nprofile', icon: Icons.arrow_forward_rounded, accent: aqua, backgroundColor: panel, onPressed: game.canGoToNextProfile ? () => game.goToNextProfile() : null)),
-              const SizedBox(width: 8),
-              Expanded(child: ProfileActionButton(label: 'Investigate', icon: Icons.radar_rounded, accent: coral, primary: true, onPressed: selected ? null : () => _process(context))),
-            ]),
-          ),
-        ],
-      );
-    }));
+    final genderCases = game.content.levels.values
+        .where((level) => level.gender == game.currentLevel.gender)
+        .toList();
+    final caseNumber =
+        (genderCases.indexWhere((level) => level.id == game.currentLevel.id) +
+                1)
+            .toString()
+            .padLeft(2, '0');
+    return PageFrame(
+        title: 'Browse Profiles',
+        subtitle:
+            'Case $caseNumber  ·  ${game.currentProfileIndex + 1} of ${game.currentProfiles.length} profiles',
+        subtitleAction: SuspectCounter(count: game.selectedCount),
+        action: const _CaseHeaderActions(),
+        child: LayoutBuilder(builder: (context, constraints) {
+          final wide = constraints.maxWidth > 700;
+          final details = _ProfileDetails(profile: profile);
+          final gallery =
+              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            PlaceholderPhoto(profile: profile),
+            const SizedBox(height: 12),
+            GogglesButton(onPressed: () {
+              game.recordGogglesScan(profile.id);
+              GogglesDialog.show(context, profile,
+                  conversationComplete:
+                      game.isConversationComplete(profile.id));
+            })
+          ]);
+          return Stack(
+            fit: StackFit.expand,
+            children: [
+              SingleChildScrollView(
+                padding: const EdgeInsets.only(bottom: 82),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      if (wide)
+                        Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(flex: 5, child: gallery),
+                              const SizedBox(width: 20),
+                              Expanded(flex: 6, child: details)
+                            ])
+                      else ...[gallery, const SizedBox(height: 18), details],
+                      const SizedBox(height: 18),
+                      if (selected)
+                        const Text('SELECTED FOR INVESTIGATION',
+                            style: TextStyle(
+                                color: aqua,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: 1.3)),
+                    ]),
+              ),
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                          child: ProfileActionButton(
+                              label: 'Previous\nprofile',
+                              icon: Icons.arrow_back_rounded,
+                              accent: aqua,
+                              backgroundColor: panel,
+                              onPressed: game.canGoToPreviousProfile
+                                  ? () => game.goToPreviousProfile()
+                                  : null)),
+                      const SizedBox(width: 8),
+                      Expanded(
+                          child: ProfileActionButton(
+                              label: 'Next\nprofile',
+                              icon: Icons.arrow_forward_rounded,
+                              accent: aqua,
+                              backgroundColor: panel,
+                              onPressed: game.canGoToNextProfile
+                                  ? () => game.goToNextProfile()
+                                  : null)),
+                      const SizedBox(width: 8),
+                      Expanded(
+                          child: ProfileActionButton(
+                              label: 'Investigate',
+                              icon: Icons.radar_rounded,
+                              accent: coral,
+                              primary: true,
+                              onPressed:
+                                  selected ? null : () => _process(context))),
+                    ]),
+              ),
+            ],
+          );
+        }));
   }
 
   void _process(BuildContext context) {
-    final didProcess = GameScope.of(context).processCurrentProfile(investigate: true);
-    if (!didProcess) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Choose another profile for investigation.')));
+    final didProcess =
+        GameScope.of(context).processCurrentProfile(investigate: true);
+    if (!didProcess) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Choose another profile for investigation.')));
+    }
   }
 }
 
@@ -375,17 +1078,87 @@ class GogglesButton extends StatelessWidget {
   const GogglesButton({super.key, required this.onPressed});
   final VoidCallback onPressed;
   @override
-  Widget build(BuildContext context) => SizedBox(height: 46, child: OutlinedButton.icon(onPressed: onPressed, icon: const Icon(Icons.radar_rounded, color: aqua), label: const Text('Open Goggles scan')));
+  Widget build(BuildContext context) => SizedBox(
+      height: 46,
+      child: OutlinedButton.icon(
+          onPressed: onPressed,
+          icon: const Icon(Icons.radar_rounded, color: aqua),
+          label: const Text('Open Goggles scan')));
 }
 
 class _ProfileDetails extends StatelessWidget {
   const _ProfileDetails({required this.profile});
   final Profile profile;
   @override
-  Widget build(BuildContext context) => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-    ProfileHeader(profile: profile), const SizedBox(height: 16), Text(profile.bio, style: const TextStyle(fontSize: 16, height: 1.45)), const SizedBox(height: 12), Text(profile.description, style: const TextStyle(color: muted, height: 1.45)), const SizedBox(height: 16), Text(profile.intent.toUpperCase(), style: const TextStyle(color: coral, fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1.2)), const SizedBox(height: 10), InterestChips(interests: profile.interests),
-    if (profile.questions.isNotEmpty) ...[const SizedBox(height: 20), const Text('PROFILE QUESTIONS', style: TextStyle(color: muted, fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1.2)), const SizedBox(height: 8), ...profile.questions.map((question) => Padding(padding: const EdgeInsets.only(bottom: 13), child: SectionCard(padding: const EdgeInsets.all(14), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(question.question, style: const TextStyle(color: aqua, fontWeight: FontWeight.w700)), const SizedBox(height: 6), Text('“${question.answer}”', style: const TextStyle(height: 1.35))]))))],
-  ]);
+  Widget build(BuildContext context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ProfileHeader(profile: profile),
+          const SizedBox(height: 16),
+          Text(profile.bio, style: const TextStyle(fontSize: 16, height: 1.45)),
+          const SizedBox(height: 12),
+          Text(profile.description,
+              style: const TextStyle(color: muted, height: 1.45)),
+          const SizedBox(height: 16),
+          Text(profile.intent.toUpperCase(),
+              style: const TextStyle(
+                  color: coral,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 1.2)),
+          const SizedBox(height: 10),
+          InterestChips(interests: profile.interests),
+          const SizedBox(height: 20),
+          const Text("WHAT THEY'RE LOOKING FOR",
+              style: TextStyle(
+                  color: muted,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 1.2)),
+          const SizedBox(height: 8),
+          SectionCard(
+            padding: const EdgeInsets.all(14),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Icon(Icons.person_search_rounded, color: coral, size: 21),
+                const SizedBox(width: 11),
+                Expanded(
+                  child: Text(profile.lookingFor,
+                      style: const TextStyle(height: 1.45)),
+                ),
+              ],
+            ),
+          ),
+          if (profile.questions.isNotEmpty) ...[
+            const SizedBox(height: 20),
+            const Text('PROFILE QUESTIONS',
+                style: TextStyle(
+                    color: muted,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 1.2)),
+            const SizedBox(height: 8),
+            ...profile.questions.map((question) => Padding(
+                  padding: const EdgeInsets.only(bottom: 13),
+                  child: SectionCard(
+                    padding: const EdgeInsets.all(14),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(question.question,
+                            style: const TextStyle(
+                                color: aqua, fontWeight: FontWeight.w700)),
+                        const SizedBox(height: 6),
+                        Text('“${question.answer}”',
+                            style: const TextStyle(height: 1.35)),
+                      ],
+                    ),
+                  ),
+                )),
+          ],
+        ],
+      );
 }
 
 class InboxScreen extends StatefulWidget {
@@ -403,7 +1176,9 @@ class _InboxScreenState extends State<InboxScreen> {
     final game = GameScope.of(context);
     return PageFrame(
       title: _tabIndex == 0 ? 'Suspects' : 'Inbox',
-      subtitle: _tabIndex == 0 ? 'Compare their stories. Find what does not fit.\nRevisit the briefing anytime.' : 'The truth is hidden between their replies.\nRevisit the briefing anytime.',
+      subtitle: _tabIndex == 0
+          ? 'Compare their stories. Find what does not fit.\nRevisit the briefing anytime.'
+          : 'The truth is hidden between their replies.\nRevisit the briefing anytime.',
       action: const _CaseHeaderActions(),
       child: Column(children: [
         Expanded(
@@ -414,8 +1189,30 @@ class _InboxScreenState extends State<InboxScreen> {
         ),
         if (_tabIndex == 1 && game.selectedCount == 3) ...[
           const SizedBox(height: 12),
-          if (!game.allConversationsCompleted) const Padding(padding: EdgeInsets.only(bottom: 8), child: Text('Complete all three conversations to unlock your final accusation.', textAlign: TextAlign.center, style: TextStyle(color: muted, fontSize: 12))),
-          MenuActionButton(label: 'Choose the killer', icon: Icons.gavel_rounded, primary: true, onPressed: game.allConversationsCompleted ? game.openFinalAccusation : null),
+          MenuActionButton(
+              label: 'Open evidence board',
+              icon: Icons.account_tree_rounded,
+              onPressed: () => EvidenceBoardDialog.show(context,
+                  profiles: game.selectedSuspectIds
+                      .map(game.profileById)
+                      .toList(growable: false),
+                  completedProfileIds:
+                      Set<String>.of(game.completedConversationIds))),
+          const SizedBox(height: 8),
+          if (!game.allConversationsCompleted)
+            const Padding(
+                padding: EdgeInsets.only(bottom: 8),
+                child: Text(
+                    'Complete all three conversations to unlock your final accusation.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: muted, fontSize: 12))),
+          MenuActionButton(
+              label: 'Choose the killer',
+              icon: Icons.gavel_rounded,
+              primary: true,
+              onPressed: game.allConversationsCompleted
+                  ? game.openFinalAccusation
+                  : null),
         ],
         const SizedBox(height: 12),
         ClipRRect(
@@ -428,8 +1225,14 @@ class _InboxScreenState extends State<InboxScreen> {
             indicatorColor: coral.withValues(alpha: .2),
             labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
             destinations: const [
-              NavigationDestination(icon: Icon(Icons.people_alt_outlined), selectedIcon: Icon(Icons.people_alt_rounded), label: 'Profiles'),
-              NavigationDestination(icon: Icon(Icons.forum_outlined), selectedIcon: Icon(Icons.forum_rounded), label: 'Messages'),
+              NavigationDestination(
+                  icon: Icon(Icons.people_alt_outlined),
+                  selectedIcon: Icon(Icons.people_alt_rounded),
+                  label: 'Profiles'),
+              NavigationDestination(
+                  icon: Icon(Icons.forum_outlined),
+                  selectedIcon: Icon(Icons.forum_rounded),
+                  label: 'Messages'),
             ],
           ),
         ),
@@ -452,32 +1255,79 @@ class _SelectedProfilesTabState extends State<_SelectedProfilesTab> {
   Widget build(BuildContext context) {
     final game = GameScope.of(context);
     final selectedIds = game.selectedSuspectIds;
-    if (selectedIds.isEmpty) return const Center(child: Text('No profiles selected yet.', style: TextStyle(color: muted)));
+    if (selectedIds.isEmpty) {
+      return const Center(
+          child: Text('No profiles selected yet.',
+              style: TextStyle(color: muted)));
+    }
     final index = _profileIndex.clamp(0, selectedIds.length - 1).toInt();
     final profile = game.profileById(selectedIds[index]);
     return LayoutBuilder(builder: (context, constraints) {
       final wide = constraints.maxWidth > 700;
-      final gallery = Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [PlaceholderPhoto(profile: profile), const SizedBox(height: 12), GogglesButton(onPressed: () { game.recordGogglesScan(profile.id); GogglesDialog.show(context, profile); })]);
+      final gallery =
+          Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        PlaceholderPhoto(profile: profile),
+        const SizedBox(height: 12),
+        GogglesButton(onPressed: () {
+          game.recordGogglesScan(profile.id);
+          GogglesDialog.show(context, profile,
+              conversationComplete: game.isConversationComplete(profile.id));
+        })
+      ]);
       final details = _ProfileDetails(profile: profile);
       return Stack(
         fit: StackFit.expand,
         children: [
           SingleChildScrollView(
             padding: const EdgeInsets.only(bottom: 82),
-            child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-              Text('SELECTED PROFILE  ${index + 1} OF ${selectedIds.length}', style: const TextStyle(color: aqua, fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1.3)),
-              const SizedBox(height: 10),
-              if (wide) Row(crossAxisAlignment: CrossAxisAlignment.start, children: [Expanded(flex: 5, child: gallery), const SizedBox(width: 20), Expanded(flex: 6, child: details)]) else ...[gallery, const SizedBox(height: 18), details],
-            ]),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                      'SELECTED PROFILE  ${index + 1} OF ${selectedIds.length}',
+                      style: const TextStyle(
+                          color: aqua,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 1.3)),
+                  const SizedBox(height: 10),
+                  if (wide)
+                    Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(flex: 5, child: gallery),
+                          const SizedBox(width: 20),
+                          Expanded(flex: 6, child: details)
+                        ])
+                  else ...[gallery, const SizedBox(height: 18), details],
+                ]),
           ),
           Positioned(
             left: 0,
             right: 0,
             bottom: 0,
             child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Expanded(child: ProfileActionButton(label: 'Previous Profile', icon: Icons.arrow_back_rounded, accent: aqua, backgroundColor: panel, horizontal: true, onPressed: index > 0 ? () => setState(() => _profileIndex = index - 1) : null)),
+              Expanded(
+                  child: ProfileActionButton(
+                      label: 'Previous Profile',
+                      icon: Icons.arrow_back_rounded,
+                      accent: aqua,
+                      backgroundColor: panel,
+                      horizontal: true,
+                      onPressed: index > 0
+                          ? () => setState(() => _profileIndex = index - 1)
+                          : null)),
               const SizedBox(width: 10),
-              Expanded(child: ProfileActionButton(label: 'Next Profile', icon: Icons.arrow_forward_rounded, accent: aqua, backgroundColor: panel, horizontal: true, onPressed: index < selectedIds.length - 1 ? () => setState(() => _profileIndex = index + 1) : null)),
+              Expanded(
+                  child: ProfileActionButton(
+                      label: 'Next Profile',
+                      icon: Icons.arrow_forward_rounded,
+                      accent: aqua,
+                      backgroundColor: panel,
+                      horizontal: true,
+                      onPressed: index < selectedIds.length - 1
+                          ? () => setState(() => _profileIndex = index + 1)
+                          : null)),
             ]),
           ),
         ],
@@ -495,19 +1345,76 @@ class _InboxMessagesTab extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.only(bottom: 4),
       children: [
-        const SectionCard(color: Color(0xFF121C2E), child: Row(children: [Icon(Icons.forum_outlined, color: aqua), SizedBox(width: 12), Expanded(child: Text('Your matches are waiting. Every conversation has three short stages and two ways to respond.', style: TextStyle(color: muted, height: 1.4)))])),
+        const SectionCard(
+            color: Color(0xFF121C2E),
+            child: Row(children: [
+              Icon(Icons.forum_outlined, color: aqua),
+              SizedBox(width: 12),
+              Expanded(
+                  child: Text(
+                      'Your matches are waiting. Every conversation has three short stages and two ways to respond.',
+                      style: TextStyle(color: muted, height: 1.4)))
+            ])),
         const SizedBox(height: 16),
-        ...game.selectedSuspectIds.map((id) => _InboxTile(profile: game.profileById(id), complete: game.isConversationComplete(id), onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => ChatScreen(profileId: id))))),
+        ...game.selectedSuspectIds.map((id) => _InboxTile(
+            profile: game.profileById(id),
+            complete: game.isConversationComplete(id),
+            stageIndex: game.stageIndexFor(id),
+            onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => ChatScreen(profileId: id))))),
       ],
     );
   }
 }
 
 class _InboxTile extends StatelessWidget {
-  const _InboxTile({required this.profile, required this.complete, required this.onTap});
-  final Profile profile; final bool complete; final VoidCallback onTap;
+  const _InboxTile(
+      {required this.profile,
+      required this.complete,
+      required this.stageIndex,
+      required this.onTap});
+  final Profile profile;
+  final bool complete;
+  final int stageIndex;
+  final VoidCallback onTap;
   @override
-  Widget build(BuildContext context) => Padding(padding: const EdgeInsets.only(bottom: 12), child: InkWell(borderRadius: BorderRadius.circular(22), onTap: onTap, child: SectionCard(child: Row(children: [Container(width: 54, height: 54, decoration: BoxDecoration(color: coral.withValues(alpha: .16), borderRadius: BorderRadius.circular(17)), child: Center(child: Text(profile.name.substring(0, 1), style: const TextStyle(color: coral, fontSize: 22, fontWeight: FontWeight.w900)))), const SizedBox(width: 14), Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text('${profile.name}, ${profile.age}', style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 17)), const SizedBox(height: 5), Text(complete ? 'Conversation complete' : 'Reply waiting · stage ${complete ? 3 : 1} of 3', style: const TextStyle(color: muted))])), Icon(complete ? Icons.check_circle : Icons.chevron_right_rounded, color: complete ? aqua : muted)]))));
+  Widget build(BuildContext context) => Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: InkWell(
+          borderRadius: BorderRadius.circular(22),
+          onTap: onTap,
+          child: SectionCard(
+              child: Row(children: [
+            Container(
+                width: 54,
+                height: 54,
+                decoration: BoxDecoration(
+                    color: coral.withValues(alpha: .16),
+                    borderRadius: BorderRadius.circular(17)),
+                child: Center(
+                    child: Text(profile.name.substring(0, 1),
+                        style: const TextStyle(
+                            color: coral,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w900)))),
+            const SizedBox(width: 14),
+            Expanded(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                  Text('${profile.name}, ${profile.age}',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 17)),
+                  const SizedBox(height: 5),
+                  Text(
+                      complete
+                          ? 'Conversation complete'
+                          : 'Reply waiting · stage ${(stageIndex + 1).clamp(1, 3)} of 3',
+                      style: const TextStyle(color: muted))
+                ])),
+            Icon(complete ? Icons.check_circle : Icons.chevron_right_rounded,
+                color: complete ? aqua : muted)
+          ]))));
 }
 
 class ChatScreen extends StatefulWidget {
@@ -520,7 +1427,48 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final ScrollController _scrollController = ScrollController();
-  bool _completionScrollScheduled = false;
+  final GlobalKey _latestSuspectReplyKey = GlobalKey();
+  String? _lastAutoScrollSignature;
+
+  void _scheduleScrollToLatestConversationUpdate({
+    required int historyLength,
+    required int stageIndex,
+    required bool complete,
+  }) {
+    final signature = '$historyLength:$stageIndex:$complete';
+    if (_lastAutoScrollSignature == signature) return;
+    _lastAutoScrollSignature = signature;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollToLatestReply(signature);
+    });
+  }
+
+  Future<void> _scrollToLatestReply(String signature) async {
+    for (var pass = 0; pass < 2; pass++) {
+      if (!mounted ||
+          !_scrollController.hasClients ||
+          _lastAutoScrollSignature != signature) {
+        return;
+      }
+      final replyContext = _latestSuspectReplyKey.currentContext;
+      if (replyContext == null) {
+        await _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: Duration(milliseconds: pass == 0 ? 220 : 80),
+          curve: Curves.easeOut,
+        );
+      } else {
+        if (!replyContext.mounted) return;
+        await Scrollable.ensureVisible(
+          replyContext,
+          alignment: .05,
+          duration: Duration(milliseconds: pass == 0 ? 220 : 80),
+          curve: Curves.easeOut,
+        );
+      }
+      if (pass == 0) await WidgetsBinding.instance.endOfFrame;
+    }
+  }
 
   @override
   void dispose() {
@@ -535,26 +1483,79 @@ class _ChatScreenState extends State<ChatScreen> {
     final conversation = game.conversationFor(widget.profileId);
     final complete = game.isConversationComplete(widget.profileId);
     final stageIndex = game.stageIndexFor(widget.profileId);
-    final history = game.conversationHistory[widget.profileId] ?? const <ChatEntry>[];
-    if (complete && !_completionScrollScheduled) {
-      _completionScrollScheduled = true;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted && _scrollController.hasClients) {
-          _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: const Duration(milliseconds: 220), curve: Curves.easeOut);
-        }
-      });
-    } else if (!complete) {
-      _completionScrollScheduled = false;
-    }
-    return PageFrame(title: '${profile.name}, ${profile.age}', subtitle: profile.occupation, action: _CaseHeaderActions(leading: IconButton(tooltip: 'Close conversation', onPressed: () => Navigator.of(context).pop(), icon: const Icon(Icons.close))), child: Column(children: [
-      Expanded(child: ListView(controller: _scrollController, children: [
-        Row(children: [const Icon(Icons.lock_outline, size: 15, color: aqua), const SizedBox(width: 7), Text('PRIVATE MATCH  ·  STAGE ${complete ? 3 : stageIndex + 1} / 3', style: const TextStyle(color: aqua, fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1))]),
-        const SizedBox(height: 16),
-        ...history.map((entry) => ChatBubble(entry: entry)),
-        if (!complete) ChatBubble(entry: ChatEntry(isPlayer: false, text: conversation.stages[stageIndex].suspectMessage)),
-      ])),
-      if (complete) Padding(padding: const EdgeInsets.only(top: 12), child: SectionCard(child: Column(children: [const Icon(Icons.check_circle_outline, color: aqua, size: 29), const SizedBox(height: 8), const Text('Conversation complete', style: TextStyle(fontWeight: FontWeight.w800)), const SizedBox(height: 10), PrimaryButton(label: 'Back to inbox', onPressed: () => Navigator.of(context).pop(), outlined: true)])))
-      else ...conversation.stages[stageIndex].responseOptions.map((option) => Padding(padding: const EdgeInsets.only(top: 8), child: SizedBox(width: double.infinity, child: OutlinedButton(onPressed: () => game.chooseResponse(widget.profileId, option.id), child: Padding(padding: const EdgeInsets.symmetric(vertical: 5), child: Text(option.playerText))))))],));
+    final history =
+        game.conversationHistory[widget.profileId] ?? const <ChatEntry>[];
+    _scheduleScrollToLatestConversationUpdate(
+      historyLength: history.length,
+      stageIndex: stageIndex,
+      complete: complete,
+    );
+    return PageFrame(
+        title: '${profile.name}, ${profile.age}',
+        subtitle: profile.occupation,
+        action: _CaseHeaderActions(
+            leading: IconButton(
+                tooltip: 'Close conversation',
+                onPressed: () => Navigator.of(context).pop(),
+                icon: const Icon(Icons.close))),
+        child: Column(
+          children: [
+            Expanded(
+                child: ListView(controller: _scrollController, children: [
+              Row(children: [
+                const Icon(Icons.lock_outline, size: 15, color: aqua),
+                const SizedBox(width: 7),
+                Text(
+                    'PRIVATE MATCH  ·  STAGE ${complete ? 3 : stageIndex + 1} / 3',
+                    style: const TextStyle(
+                        color: aqua,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 1))
+              ]),
+              const SizedBox(height: 16),
+              ...history.asMap().entries.map((entry) => ChatBubble(
+                  key: entry.key == history.length - 1
+                      ? _latestSuspectReplyKey
+                      : null,
+                  entry: entry.value)),
+              if (!complete)
+                ChatBubble(
+                    entry: ChatEntry(
+                        isPlayer: false,
+                        text: conversation.stages[stageIndex].suspectMessage)),
+            ])),
+            if (complete)
+              Padding(
+                  padding: const EdgeInsets.only(top: 12),
+                  child: SectionCard(
+                      child: Column(children: [
+                    const Icon(Icons.check_circle_outline,
+                        color: aqua, size: 29),
+                    const SizedBox(height: 8),
+                    const Text('Conversation complete',
+                        style: TextStyle(fontWeight: FontWeight.w800)),
+                    const SizedBox(height: 10),
+                    PrimaryButton(
+                        label: 'Back to inbox',
+                        onPressed: () => Navigator.of(context).pop(),
+                        outlined: true)
+                  ])))
+            else
+              ...conversation.stages[stageIndex].responseOptions.map((option) =>
+                  Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: SizedBox(
+                          width: double.infinity,
+                          child: OutlinedButton(
+                              onPressed: () => game.chooseResponse(
+                                  widget.profileId, option.id),
+                              child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 5),
+                                  child: Text(option.playerText))))))
+          ],
+        ));
   }
 }
 
@@ -563,11 +1564,76 @@ class AccusationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final game = GameScope.of(context);
-    return PageFrame(title: 'Who is the killer?', subtitle: 'Choose wisely. Justice depends on you.', action: const _CaseHeaderActions(), child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      Expanded(child: ListView(children: game.selectedSuspectIds.map((id) { final profile = game.profileById(id); final selected = id == game.selectedAccusationId; return Padding(padding: const EdgeInsets.only(bottom: 12), child: InkWell(borderRadius: BorderRadius.circular(22), onTap: () => game.selectAccusation(id), child: Container(padding: const EdgeInsets.all(14), decoration: BoxDecoration(color: selected ? coral.withValues(alpha: .16) : panel, borderRadius: BorderRadius.circular(22), border: Border.all(color: selected ? coral : Colors.white.withValues(alpha: .07), width: selected ? 2 : 1)), child: Row(children: [SizedBox(width: 74, child: PlaceholderPhoto(profile: profile)), const SizedBox(width: 15), Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text('${profile.name}, ${profile.age}', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800)), const SizedBox(height: 5), Text(profile.occupation, style: const TextStyle(color: muted)), const SizedBox(height: 12), Text(selected ? 'SELECTED FOR ACCUSATION' : 'Tap to select', style: TextStyle(color: selected ? coral : muted, fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1))])), Icon(selected ? Icons.radio_button_checked : Icons.radio_button_unchecked, color: selected ? coral : muted)])))); }).toList())),
-      PrimaryButton(label: 'Confirm accusation', icon: Icons.gavel_rounded, onPressed: game.selectedAccusationId == null ? null : () => _confirm(context)),
-    ]));
+    return PageFrame(
+        title: 'Who is the killer?',
+        subtitle: 'Choose wisely. Justice depends on you.',
+        action: const _CaseHeaderActions(),
+        child:
+            Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          Expanded(
+              child: ListView(
+                  children: game.selectedSuspectIds.map((id) {
+            final profile = game.profileById(id);
+            final selected = id == game.selectedAccusationId;
+            return Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: InkWell(
+                    borderRadius: BorderRadius.circular(22),
+                    onTap: () => game.selectAccusation(id),
+                    child: Container(
+                        padding: const EdgeInsets.all(14),
+                        decoration: BoxDecoration(
+                            color:
+                                selected ? coral.withValues(alpha: .16) : panel,
+                            borderRadius: BorderRadius.circular(22),
+                            border: Border.all(
+                                color: selected
+                                    ? coral
+                                    : Colors.white.withValues(alpha: .07),
+                                width: selected ? 2 : 1)),
+                        child: Row(children: [
+                          SizedBox(
+                              width: 74,
+                              child: PlaceholderPhoto(profile: profile)),
+                          const SizedBox(width: 15),
+                          Expanded(
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                Text('${profile.name}, ${profile.age}',
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w800)),
+                                const SizedBox(height: 5),
+                                Text(profile.occupation,
+                                    style: const TextStyle(color: muted)),
+                                const SizedBox(height: 12),
+                                Text(
+                                    selected
+                                        ? 'SELECTED FOR ACCUSATION'
+                                        : 'Tap to select',
+                                    style: TextStyle(
+                                        color: selected ? coral : muted,
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w900,
+                                        letterSpacing: 1))
+                              ])),
+                          Icon(
+                              selected
+                                  ? Icons.radio_button_checked
+                                  : Icons.radio_button_unchecked,
+                              color: selected ? coral : muted)
+                        ]))));
+          }).toList())),
+          PrimaryButton(
+              label: 'Confirm accusation',
+              icon: Icons.gavel_rounded,
+              onPressed: game.selectedAccusationId == null
+                  ? null
+                  : () => _confirm(context)),
+        ]));
   }
+
   void _confirm(BuildContext context) {
     final game = GameScope.of(context);
     final profile = game.profileById(game.selectedAccusationId!);
@@ -577,34 +1643,108 @@ class AccusationScreen extends StatelessWidget {
         backgroundColor: const Color(0xFF101827),
         elevation: 18,
         insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28), side: BorderSide(color: coral.withValues(alpha: .65), width: 1.5)),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(28),
+            side: BorderSide(color: coral.withValues(alpha: .65), width: 1.5)),
         child: Padding(
           padding: const EdgeInsets.all(22),
-          child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            Row(children: [
-              Container(width: 54, height: 54, decoration: BoxDecoration(color: coral.withValues(alpha: .16), borderRadius: BorderRadius.circular(17), border: Border.all(color: coral.withValues(alpha: .55))), child: const Icon(Icons.gavel_rounded, color: coral, size: 28)),
-              const SizedBox(width: 14),
-              const Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text('FINAL DECISION', style: TextStyle(color: coral, fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1.6)), SizedBox(height: 5), Text('Confirm accusation', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900))])),
-            ]),
-            const SizedBox(height: 20),
-            Container(
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(color: coral.withValues(alpha: .09), borderRadius: BorderRadius.circular(18), border: Border.all(color: coral.withValues(alpha: .3))),
-              child: Row(children: [
-                const Icon(Icons.person_search_rounded, color: coral, size: 26),
-                const SizedBox(width: 12),
-                Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [const Text('ACCUSED PROFILE', style: TextStyle(color: muted, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.2)), const SizedBox(height: 4), Text('${profile.name}, ${profile.age}', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900)), Text(profile.occupation, style: const TextStyle(color: muted, fontSize: 12))])),
+          child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(children: [
+                  Container(
+                      width: 54,
+                      height: 54,
+                      decoration: BoxDecoration(
+                          color: coral.withValues(alpha: .16),
+                          borderRadius: BorderRadius.circular(17),
+                          border:
+                              Border.all(color: coral.withValues(alpha: .55))),
+                      child: const Icon(Icons.gavel_rounded,
+                          color: coral, size: 28)),
+                  const SizedBox(width: 14),
+                  const Expanded(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                        Text('FINAL DECISION',
+                            style: TextStyle(
+                                color: coral,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: 1.6)),
+                        SizedBox(height: 5),
+                        Text('Confirm accusation',
+                            style: TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.w900))
+                      ])),
+                ]),
+                const SizedBox(height: 20),
+                Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                      color: coral.withValues(alpha: .09),
+                      borderRadius: BorderRadius.circular(18),
+                      border: Border.all(color: coral.withValues(alpha: .3))),
+                  child: Row(children: [
+                    const Icon(Icons.person_search_rounded,
+                        color: coral, size: 26),
+                    const SizedBox(width: 12),
+                    Expanded(
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                          const Text('ACCUSED PROFILE',
+                              style: TextStyle(
+                                  color: muted,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w900,
+                                  letterSpacing: 1.2)),
+                          const SizedBox(height: 4),
+                          Text('${profile.name}, ${profile.age}',
+                              style: const TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w900)),
+                          Text(profile.occupation,
+                              style:
+                                  const TextStyle(color: muted, fontSize: 12))
+                        ])),
+                  ]),
+                ),
+                const SizedBox(height: 16),
+                const Text('This decision cannot be undone for this attempt.',
+                    style: TextStyle(color: muted, height: 1.4)),
+                const SizedBox(height: 22),
+                Row(children: [
+                  Expanded(
+                      child: OutlinedButton(
+                          onPressed: () => Navigator.of(dialogContext).pop(),
+                          style: OutlinedButton.styleFrom(
+                              foregroundColor: coral,
+                              side: BorderSide(
+                                  color: coral.withValues(alpha: .7)),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 14)),
+                          child: const Text('Review again'))),
+                  const SizedBox(width: 10),
+                  Expanded(
+                      child: FilledButton(
+                          onPressed: () {
+                            Navigator.of(dialogContext).pop();
+                            game.submitAccusation();
+                          },
+                          style: FilledButton.styleFrom(
+                              backgroundColor: coral,
+                              foregroundColor: ink,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 14)),
+                          child: const Text('Submit accusation'))),
+                ]),
               ]),
-            ),
-            const SizedBox(height: 16),
-            const Text('This decision cannot be undone for this attempt.', style: TextStyle(color: muted, height: 1.4)),
-            const SizedBox(height: 22),
-            Row(children: [
-              Expanded(child: OutlinedButton(onPressed: () => Navigator.of(dialogContext).pop(), style: OutlinedButton.styleFrom(foregroundColor: coral, side: BorderSide(color: coral.withValues(alpha: .7)), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)), padding: const EdgeInsets.symmetric(vertical: 14)), child: const Text('Review again'))),
-              const SizedBox(width: 10),
-              Expanded(child: FilledButton(onPressed: () { Navigator.of(dialogContext).pop(); game.submitAccusation(); }, style: FilledButton.styleFrom(backgroundColor: coral, foregroundColor: ink, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)), padding: const EdgeInsets.symmetric(vertical: 14)), child: const Text('Submit accusation'))),
-            ]),
-          ]),
         ),
       ),
     );
@@ -612,7 +1752,12 @@ class AccusationScreen extends StatelessWidget {
 }
 
 class _DetectiveReportCard extends StatelessWidget {
-  const _DetectiveReportCard({required this.won, required this.rank, required this.time, required this.scans, required this.tagline});
+  const _DetectiveReportCard(
+      {required this.won,
+      required this.rank,
+      required this.time,
+      required this.scans,
+      required this.tagline});
   final bool won;
   final String rank;
   final String time;
@@ -626,25 +1771,61 @@ class _DetectiveReportCard extends StatelessWidget {
       color: const Color(0xFF121C2E),
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         Row(children: [
-          Container(width: 44, height: 44, decoration: BoxDecoration(color: accent.withValues(alpha: .14), borderRadius: BorderRadius.circular(14), border: Border.all(color: accent.withValues(alpha: .45))), child: Icon(won ? Icons.workspace_premium_rounded : Icons.fact_check_outlined, color: accent, size: 25)),
+          Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                  color: accent.withValues(alpha: .14),
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(color: accent.withValues(alpha: .45))),
+              child: Icon(
+                  won
+                      ? Icons.workspace_premium_rounded
+                      : Icons.fact_check_outlined,
+                  color: accent,
+                  size: 25)),
           const SizedBox(width: 12),
-          const Expanded(child: Text('DETECTIVE REPORT', style: TextStyle(color: muted, fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1.4))),
-          Text(rank, style: TextStyle(color: accent, fontSize: 30, fontWeight: FontWeight.w900)),
+          const Expanded(
+              child: Text('DETECTIVE REPORT',
+                  style: TextStyle(
+                      color: muted,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 1.4))),
+          Text(rank,
+              style: TextStyle(
+                  color: accent, fontSize: 30, fontWeight: FontWeight.w900)),
         ]),
         const SizedBox(height: 18),
         Row(children: [
-          Expanded(child: _ReportMetric(icon: Icons.timer_outlined, label: 'TIME TO SOLVE', value: time, description: 'From briefing to accusation')),
-          Expanded(child: _ReportMetric(icon: Icons.radar_rounded, label: 'PROFILES SCANNED', value: '$scans', description: 'Using Goggles intelligence')),
+          Expanded(
+              child: _ReportMetric(
+                  icon: Icons.timer_outlined,
+                  label: 'TIME TO SOLVE',
+                  value: time,
+                  description: 'From briefing to accusation')),
+          Expanded(
+              child: _ReportMetric(
+                  icon: Icons.radar_rounded,
+                  label: 'PROFILES SCANNED',
+                  value: '$scans',
+                  description: 'Using Goggles intelligence')),
         ]),
         const SizedBox(height: 16),
-        Text(tagline, textAlign: TextAlign.center, style: const TextStyle(color: muted, height: 1.35)),
+        Text(tagline,
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: muted, height: 1.35)),
       ]),
     );
   }
 }
 
 class _ReportMetric extends StatelessWidget {
-  const _ReportMetric({required this.icon, required this.label, required this.value, required this.description});
+  const _ReportMetric(
+      {required this.icon,
+      required this.label,
+      required this.value,
+      required this.description});
   final IconData icon;
   final String label;
   final String value;
@@ -652,14 +1833,23 @@ class _ReportMetric extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Column(children: [
-    Icon(icon, color: aqua, size: 20),
-    const SizedBox(height: 5),
-    Text(value, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900)),
-    const SizedBox(height: 2),
-    Text(label, textAlign: TextAlign.center, style: const TextStyle(color: muted, fontSize: 9, fontWeight: FontWeight.w900, letterSpacing: .8)),
-    const SizedBox(height: 4),
-    Text(description, textAlign: TextAlign.center, style: const TextStyle(color: muted, fontSize: 10, height: 1.2)),
-  ]);
+        Icon(icon, color: aqua, size: 20),
+        const SizedBox(height: 5),
+        Text(value,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900)),
+        const SizedBox(height: 2),
+        Text(label,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+                color: muted,
+                fontSize: 9,
+                fontWeight: FontWeight.w900,
+                letterSpacing: .8)),
+        const SizedBox(height: 4),
+        Text(description,
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: muted, fontSize: 10, height: 1.2)),
+      ]);
 }
 
 class ResultScreen extends StatefulWidget {
@@ -692,19 +1882,45 @@ class _ResultScreenState extends State<ResultScreen> {
   @override
   Widget build(BuildContext context) {
     final game = GameScope.of(context);
-    return PageFrame(child: Center(child: SingleChildScrollView(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      widget.won ? const CaseClosedScene() : const CaseDismissedScene(),
-      const SizedBox(height: 24),
-      Text(widget.won ? 'CASE CLOSED' : 'WRONG SUSPECT', style: Theme.of(context).textTheme.displaySmall?.copyWith(fontWeight: FontWeight.w900, color: widget.won ? aqua : coral), textAlign: TextAlign.center),
-      const SizedBox(height: 14),
-      Text(widget.won ? 'You found the killer.' : 'Your accusation could not be proven. The killer remains free.', style: const TextStyle(color: muted, fontSize: 17), textAlign: TextAlign.center),
-      const SizedBox(height: 20),
-      _DetectiveReportCard(won: widget.won, rank: _rank, time: _time, scans: _scans, tagline: _tagline),
-      const SizedBox(height: 30),
-      MenuActionButton(label: widget.won ? 'Continue to next case' : 'Retry case', icon: widget.won ? Icons.arrow_forward : Icons.replay, primary: true, onPressed: widget.won ? game.continueToNextCase : game.retryCase),
-      const SizedBox(height: 10),
-      MenuActionButton(label: 'Return to main menu', icon: Icons.home_rounded, onPressed: game.returnToMainMenu),
-    ]))));
+    return PageFrame(
+        child: Center(
+            child: SingleChildScrollView(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+          widget.won ? const CaseClosedScene() : const CaseDismissedScene(),
+          const SizedBox(height: 24),
+          Text(widget.won ? 'CASE CLOSED' : 'WRONG SUSPECT',
+              style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                  fontWeight: FontWeight.w900,
+                  color: widget.won ? aqua : coral),
+              textAlign: TextAlign.center),
+          const SizedBox(height: 14),
+          Text(
+              widget.won
+                  ? 'You found the killer.'
+                  : 'Your accusation could not be proven. The killer remains free.',
+              style: const TextStyle(color: muted, fontSize: 17),
+              textAlign: TextAlign.center),
+          const SizedBox(height: 20),
+          _DetectiveReportCard(
+              won: widget.won,
+              rank: _rank,
+              time: _time,
+              scans: _scans,
+              tagline: _tagline),
+          const SizedBox(height: 30),
+          MenuActionButton(
+              label: widget.won ? 'Continue to next case' : 'Retry case',
+              icon: widget.won ? Icons.arrow_forward : Icons.replay,
+              primary: true,
+              onPressed: widget.won ? game.continueToNextCase : game.retryCase),
+          const SizedBox(height: 10),
+          MenuActionButton(
+              label: 'Return to main menu',
+              icon: Icons.home_rounded,
+              onPressed: game.returnToMainMenu),
+        ]))));
   }
 }
 
@@ -713,12 +1929,53 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final game = GameScope.of(context);
-    return PageFrame(title: 'Settings', subtitle: 'Preferences are saved on this device.', child: ListView(children: [
-      SectionCard(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [const Text('Music volume', style: TextStyle(fontWeight: FontWeight.w800)), Slider(value: game.musicVolume, onChanged: game.setMusicVolume), Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [const Text('Muted', style: TextStyle(color: muted, fontSize: 12)), Text('${(game.musicVolume * 100).round()}%', style: const TextStyle(color: aqua, fontWeight: FontWeight.bold))])])),
-      const SizedBox(height: 12),
-      SectionCard(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [const Text('Sound effects volume', style: TextStyle(fontWeight: FontWeight.w800)), Slider(value: game.effectsVolume, onChanged: game.setEffectsVolume), Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [const Text('Muted', style: TextStyle(color: muted, fontSize: 12)), Text('${(game.effectsVolume * 100).round()}%', style: const TextStyle(color: aqua, fontWeight: FontWeight.bold))])])),
-      const SizedBox(height: 20), const Text('Audio hooks are ready for future music and sound assets.', style: TextStyle(color: muted, height: 1.4)),
-      const SizedBox(height: 22), PrimaryButton(label: 'Done', onPressed: () => Navigator.of(context).pop()),
-    ]));
+    return PageFrame(
+        title: 'Settings',
+        subtitle: 'Preferences are saved on this device.',
+        child: ListView(children: [
+          SectionCard(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                const Text('Music volume',
+                    style: TextStyle(fontWeight: FontWeight.w800)),
+                Slider(value: game.musicVolume, onChanged: game.setMusicVolume),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Muted',
+                          style: TextStyle(color: muted, fontSize: 12)),
+                      Text('${(game.musicVolume * 100).round()}%',
+                          style: const TextStyle(
+                              color: aqua, fontWeight: FontWeight.bold))
+                    ])
+              ])),
+          const SizedBox(height: 12),
+          SectionCard(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                const Text('Sound effects volume',
+                    style: TextStyle(fontWeight: FontWeight.w800)),
+                Slider(
+                    value: game.effectsVolume,
+                    onChanged: game.setEffectsVolume),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Muted',
+                          style: TextStyle(color: muted, fontSize: 12)),
+                      Text('${(game.effectsVolume * 100).round()}%',
+                          style: const TextStyle(
+                              color: aqua, fontWeight: FontWeight.bold))
+                    ])
+              ])),
+          const SizedBox(height: 20),
+          const Text('Audio hooks are ready for future music and sound assets.',
+              style: TextStyle(color: muted, height: 1.4)),
+          const SizedBox(height: 22),
+          PrimaryButton(
+              label: 'Done', onPressed: () => Navigator.of(context).pop()),
+        ]));
   }
 }
