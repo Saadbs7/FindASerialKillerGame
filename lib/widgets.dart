@@ -469,94 +469,295 @@ class SectionCard extends StatelessWidget {
       child: child);
 }
 
-class PlaceholderPhoto extends StatefulWidget {
-  const PlaceholderPhoto({super.key, required this.profile, this.height});
+class ProfilePhotoGallery extends StatefulWidget {
+  const ProfilePhotoGallery(
+      {super.key,
+      required this.profile,
+      this.height,
+      this.allowFullscreen = true});
   final Profile profile;
   final double? height;
+  final bool allowFullscreen;
   @override
-  State<PlaceholderPhoto> createState() => _PlaceholderPhotoState();
+  State<ProfilePhotoGallery> createState() => _ProfilePhotoGalleryState();
 }
 
-class _PlaceholderPhotoState extends State<PlaceholderPhoto> {
+class _ProfilePhotoGalleryState extends State<ProfilePhotoGallery> {
+  late final PageController _pageController;
   int index = 0;
+
+  List<String> get photos =>
+      widget.profile.photos.isEmpty ? const <String>[] : widget.profile.photos;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+  }
+
+  @override
+  void didUpdateWidget(covariant ProfilePhotoGallery oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.profile.id != widget.profile.id) {
+      index = 0;
+      if (_pageController.hasClients) _pageController.jumpToPage(0);
+    }
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final color = [
-      const Color(0xFF354667),
-      const Color(0xFF684B59),
-      const Color(0xFF35605E)
-    ][index % 3];
-    return GestureDetector(
-      onTap: () =>
-          setState(() => index = (index + 1) % widget.profile.photos.length),
-      onHorizontalDragEnd: (details) => setState(() => index =
-          (details.primaryVelocity ?? 0) < 0
-              ? (index + 1) % widget.profile.photos.length
-              : (index - 1 + widget.profile.photos.length) %
-                  widget.profile.photos.length),
-      child: AspectRatio(
-        aspectRatio: 0.88,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 250),
-          decoration: BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.circular(26),
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [color, ink])),
-          child: LayoutBuilder(builder: (context, constraints) {
-            final compact = constraints.maxWidth < 140;
-            final iconSize = compact ? 38.0 : 82.0;
-            final gap = compact ? 5.0 : 14.0;
-            final idSize = compact ? 14.0 : 28.0;
-            final photoSize = compact ? 9.0 : 14.0;
-            return Stack(children: [
-              Center(
-                  child: Column(mainAxisSize: MainAxisSize.min, children: [
-                Icon(Icons.person_outline_rounded,
-                    size: iconSize, color: Colors.white.withValues(alpha: .72)),
-                SizedBox(height: gap),
-                Text(widget.profile.id.toUpperCase(),
-                    style: TextStyle(
-                        fontSize: idSize,
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: compact ? 1 : 3)),
-                Text('PHOTO ${index + 1}',
-                    style: TextStyle(
-                        color: aqua,
-                        fontSize: photoSize,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: compact ? .8 : 2))
-              ])),
+    final photoCount = photos.isEmpty ? 1 : photos.length;
+    final gallery = AspectRatio(
+      aspectRatio: .88,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(26),
+        child: LayoutBuilder(builder: (context, constraints) {
+          final compact = constraints.maxWidth < 140;
+          return Stack(fit: StackFit.expand, children: [
+            PageView.builder(
+                controller: _pageController,
+                physics: widget.allowFullscreen
+                    ? const PageScrollPhysics()
+                    : const NeverScrollableScrollPhysics(),
+                itemCount: photoCount,
+                onPageChanged: (value) => setState(() => index = value),
+                itemBuilder: (_, photoIndex) => GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: widget.allowFullscreen
+                          ? () => ProfilePhotoViewer.show(context,
+                              profile: widget.profile, initialIndex: photoIndex)
+                          : null,
+                      child: _ProfileAssetImage(
+                          path: photos.isEmpty ? '' : photos[photoIndex],
+                          profile: widget.profile,
+                          photoIndex: photoIndex,
+                          compact: compact),
+                    )),
+            if (widget.allowFullscreen && photoCount > 1)
               Positioned(
+                  key: const ValueKey('photo-gallery-progress'),
                   top: compact ? 8 : 14,
                   left: compact ? 8 : 14,
                   right: compact ? 8 : 14,
-                  child: Row(
-                      children: List.generate(
-                          widget.profile.photos.length,
-                          (dot) => Expanded(
-                              child: Container(
-                                  height: compact ? 3 : 4,
-                                  margin:
-                                      const EdgeInsets.symmetric(horizontal: 2),
-                                  decoration: BoxDecoration(
-                                      color: dot == index
-                                          ? Colors.white
-                                          : Colors.white.withValues(alpha: .25),
-                                      borderRadius:
-                                          BorderRadius.circular(4))))))),
-              if (!compact)
-                const Positioned(
-                    bottom: 15,
-                    left: 17,
-                    child: Text('Tap or swipe to browse',
-                        style: TextStyle(color: Colors.white70, fontSize: 11))),
-            ]);
-          }),
-        ),
+                  child: IgnorePointer(
+                      child: Row(
+                          children: List.generate(
+                              photoCount,
+                              (dot) => Expanded(
+                                  child: Container(
+                                      height: compact ? 3 : 4,
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 2),
+                                      decoration: BoxDecoration(
+                                          color: dot == index
+                                              ? Colors.white
+                                              : Colors.white
+                                                  .withValues(alpha: .32),
+                                          borderRadius:
+                                              BorderRadius.circular(4)))))))),
+            if (!compact)
+              Positioned(
+                  left: 16,
+                  right: 12,
+                  bottom: 12,
+                  child: IgnorePointer(
+                      child: Row(children: [
+                    Expanded(
+                        child: Text(
+                            photoCount > 1
+                                ? 'Tap to enlarge  ·  Swipe to browse'
+                                : 'Tap to enlarge',
+                            style: const TextStyle(
+                                color: Colors.white70, fontSize: 11))),
+                    if (widget.allowFullscreen)
+                      const Icon(Icons.fullscreen_rounded,
+                          color: Colors.white70, size: 23),
+                  ]))),
+          ]);
+        }),
       ),
+    );
+    return widget.height == null
+        ? gallery
+        : SizedBox(height: widget.height, child: gallery);
+  }
+}
+
+class _ProfileAssetImage extends StatelessWidget {
+  const _ProfileAssetImage(
+      {required this.path,
+      required this.profile,
+      required this.photoIndex,
+      this.compact = false,
+      this.fit = BoxFit.cover});
+  final String path;
+  final Profile profile;
+  final int photoIndex;
+  final bool compact;
+  final BoxFit fit;
+
+  @override
+  Widget build(BuildContext context) {
+    if (path.isEmpty || path == 'assets/logo.jpg') {
+      return _ProfilePhotoFallback(
+          profile: profile, photoIndex: photoIndex, compact: compact);
+    }
+    return Image.asset(path,
+        fit: fit,
+        gaplessPlayback: true,
+        filterQuality: FilterQuality.medium,
+        semanticLabel: '${profile.name}, photo ${photoIndex + 1}',
+        errorBuilder: (_, __, ___) => _ProfilePhotoFallback(
+            profile: profile, photoIndex: photoIndex, compact: compact));
+  }
+}
+
+class _ProfilePhotoFallback extends StatelessWidget {
+  const _ProfilePhotoFallback(
+      {required this.profile, required this.photoIndex, required this.compact});
+  final Profile profile;
+  final int photoIndex;
+  final bool compact;
+
+  @override
+  Widget build(BuildContext context) {
+    final color = const [
+      Color(0xFF354667),
+      Color(0xFF684B59),
+      Color(0xFF35605E)
+    ][photoIndex % 3];
+    return DecoratedBox(
+      decoration: BoxDecoration(
+          color: color,
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [color, ink])),
+      child: Center(
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
+        Icon(Icons.person_outline_rounded,
+            size: compact ? 38 : 82,
+            color: Colors.white.withValues(alpha: .72)),
+        SizedBox(height: compact ? 5 : 14),
+        Text(profile.id.toUpperCase(),
+            style: TextStyle(
+                fontSize: compact ? 14 : 28,
+                fontWeight: FontWeight.w900,
+                letterSpacing: compact ? 1 : 3)),
+        Text('PHOTO ${photoIndex + 1}',
+            style: TextStyle(
+                color: aqua,
+                fontSize: compact ? 9 : 14,
+                fontWeight: FontWeight.bold,
+                letterSpacing: compact ? .8 : 2))
+      ])),
+    );
+  }
+}
+
+class ProfilePhotoViewer extends StatefulWidget {
+  const ProfilePhotoViewer(
+      {super.key, required this.profile, this.initialIndex = 0});
+  final Profile profile;
+  final int initialIndex;
+
+  static Future<void> show(BuildContext context,
+          {required Profile profile, int initialIndex = 0}) =>
+      showDialog<void>(
+          context: context,
+          useSafeArea: false,
+          barrierColor: Colors.black,
+          builder: (_) => Dialog.fullscreen(
+              backgroundColor: const Color(0xFF070B13),
+              child: ProfilePhotoViewer(
+                  profile: profile, initialIndex: initialIndex)));
+
+  @override
+  State<ProfilePhotoViewer> createState() => _ProfilePhotoViewerState();
+}
+
+class _ProfilePhotoViewerState extends State<ProfilePhotoViewer> {
+  late final PageController _pageController;
+  late int index;
+
+  List<String> get photos =>
+      widget.profile.photos.isEmpty ? const <String>[] : widget.profile.photos;
+
+  @override
+  void initState() {
+    super.initState();
+    final lastIndex = photos.isEmpty ? 0 : photos.length - 1;
+    index = widget.initialIndex.clamp(0, lastIndex);
+    _pageController = PageController(initialPage: index);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final photoCount = photos.isEmpty ? 1 : photos.length;
+    return SafeArea(
+      child: Column(children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(18, 12, 10, 8),
+          child: Row(children: [
+            Expanded(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                  Text(widget.profile.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          fontSize: 19, fontWeight: FontWeight.w900)),
+                  const SizedBox(height: 2),
+                  Text('PHOTO ${index + 1} OF $photoCount',
+                      style: const TextStyle(
+                          color: aqua,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 1.1))
+                ])),
+            IconButton(
+                tooltip: 'Close photos',
+                iconSize: 30,
+                onPressed: () => Navigator.of(context).pop(),
+                icon: const Icon(Icons.close_rounded)),
+          ]),
+        ),
+        Expanded(
+            child: PageView.builder(
+                controller: _pageController,
+                itemCount: photoCount,
+                onPageChanged: (value) => setState(() => index = value),
+                itemBuilder: (_, photoIndex) => Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(24),
+                        child: _ProfileAssetImage(
+                            path: photos.isEmpty ? '' : photos[photoIndex],
+                            profile: widget.profile,
+                            photoIndex: photoIndex,
+                            fit: BoxFit.contain))))),
+        Padding(
+            padding: const EdgeInsets.fromLTRB(20, 8, 20, 18),
+            child: Text(
+                photoCount > 1
+                    ? 'Swipe to inspect the other pictures'
+                    : 'Profile picture',
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: muted, fontSize: 12))),
+      ]),
     );
   }
 }
@@ -593,22 +794,70 @@ class InterestChips extends StatelessWidget {
           .toList());
 }
 
-class GogglesDialog extends StatelessWidget {
+class GogglesDialog extends StatefulWidget {
   const GogglesDialog(
-      {super.key, required this.profile, this.conversationComplete = false});
+      {super.key,
+      required this.profile,
+      required this.photosAnalyzed,
+      required this.onAnalyzePictures,
+      this.conversationComplete = false});
   final Profile profile;
   final bool conversationComplete;
+  final bool photosAnalyzed;
+  final VoidCallback onAnalyzePictures;
   static Future<void> show(BuildContext context, Profile profile,
-          {bool conversationComplete = false}) =>
+          {required bool conversationComplete,
+          required bool photosAnalyzed,
+          required VoidCallback onAnalyzePictures}) =>
       showDialog<void>(
           context: context,
           builder: (_) => GogglesDialog(
-              profile: profile, conversationComplete: conversationComplete));
+              profile: profile,
+              conversationComplete: conversationComplete,
+              photosAnalyzed: photosAnalyzed,
+              onAnalyzePictures: onAnalyzePictures));
+
+  @override
+  State<GogglesDialog> createState() => _GogglesDialogState();
+}
+
+class _GogglesDialogState extends State<GogglesDialog> {
+  late bool _photosAnalyzed;
+  bool _analyzingPictures = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _photosAnalyzed = widget.photosAnalyzed;
+  }
+
+  @override
+  void didUpdateWidget(covariant GogglesDialog oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.photosAnalyzed != oldWidget.photosAnalyzed) {
+      _photosAnalyzed = widget.photosAnalyzed;
+    }
+  }
+
   ClueDefinition? _firstClue(ClueSource source) {
-    for (final clue in profile.clues) {
+    for (final clue in widget.profile.clues) {
       if (clue.source == source) return clue;
     }
     return null;
+  }
+
+  Future<void> _analyzePictures() async {
+    if (_analyzingPictures || _photosAnalyzed) {
+      return;
+    }
+    setState(() => _analyzingPictures = true);
+    await Future<void>.delayed(const Duration(milliseconds: 1400));
+    if (!mounted) return;
+    widget.onAnalyzePictures();
+    setState(() {
+      _analyzingPictures = false;
+      _photosAnalyzed = true;
+    });
   }
 
   @override
@@ -654,7 +903,8 @@ class GogglesDialog extends StatelessWidget {
                             fontWeight: FontWeight.w900,
                             letterSpacing: 1.1)),
                     const SizedBox(height: 5),
-                    Text('${profile.name} · ${profile.id.toUpperCase()}',
+                    Text(
+                        '${widget.profile.name} · ${widget.profile.id.toUpperCase()}',
                         style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.w900)),
                   ])),
@@ -684,44 +934,45 @@ class GogglesDialog extends StatelessWidget {
               Expanded(
                   child: _GoggleMetric(
                       icon: Icons.people_alt_outlined,
-                      value: '${profile.gogglesData.activeConnections}',
+                      value: '${widget.profile.gogglesData.activeConnections}',
                       label: 'ACTIVE CONTACTS')),
               const SizedBox(width: 10),
               Expanded(
                   child: _GoggleMetric(
                       icon: Icons.person_off_outlined,
-                      value: '${profile.gogglesData.inactiveFormerConnections}',
+                      value:
+                          '${widget.profile.gogglesData.inactiveFormerConnections}',
                       label: 'FORMER CONTACTS')),
             ]),
             const SizedBox(height: 10),
             _GogglesInfoSection(
                 icon: Icons.schedule_outlined,
                 title: 'LAST ACTIVE',
-                body: profile.gogglesData.lastActive),
+                body: widget.profile.gogglesData.lastActive),
             _GogglesInfoSection(
                 icon: Icons.timeline_rounded,
                 title: 'ACTIVITY TRACE',
                 body: scanClue?.description ??
                     'Connection activity appears ordinary for this profile.'),
-            _GogglesUnlockBanner(unlocked: conversationComplete),
+            _PhotoMetadataSection(
+                body: photoClue?.description ??
+                    'No unusual photo metadata surfaced in this scan.',
+                photosAnalyzed: _photosAnalyzed,
+                analyzing: _analyzingPictures,
+                onAnalyze: _analyzePictures),
+            _GogglesUnlockBanner(unlocked: widget.conversationComplete),
             _GogglesInfoSection(
                 icon: Icons.manage_search_rounded,
                 title: 'PROFILE CROSS-CHECK',
                 body: profileClue?.description ??
                     'No direct contradiction surfaced in the profile data.',
-                locked: !conversationComplete),
-            _GogglesInfoSection(
-                icon: Icons.photo_camera_back_outlined,
-                title: 'PHOTO METADATA',
-                body: photoClue?.description ??
-                    'No unusual photo metadata surfaced in this scan.',
-                locked: !conversationComplete),
+                locked: !widget.conversationComplete),
             _GogglesInfoSection(
                 icon: Icons.forum_outlined,
                 title: 'CONVERSATION CROSS-CHECK',
                 body: conversationClue?.description ??
                     'No conversation anomaly detected yet. Revisit this profile after questioning.',
-                locked: !conversationComplete),
+                locked: !widget.conversationComplete),
             const Text(
                 'This is a lead, not proof. Compare it with the profile, photos, and conversation.',
                 style: TextStyle(color: muted, height: 1.4, fontSize: 12)),
@@ -819,6 +1070,69 @@ class _GogglesInfoSection extends StatelessWidget {
       );
 }
 
+class _PhotoMetadataSection extends StatelessWidget {
+  const _PhotoMetadataSection(
+      {required this.body,
+      required this.photosAnalyzed,
+      required this.analyzing,
+      required this.onAnalyze});
+  final String body;
+  final bool photosAnalyzed;
+  final bool analyzing;
+  final VoidCallback onAnalyze;
+
+  @override
+  Widget build(BuildContext context) {
+    if (photosAnalyzed) {
+      return _GogglesInfoSection(
+          icon: Icons.photo_camera_back_outlined,
+          title: 'PHOTO METADATA',
+          body: body);
+    }
+    final canAnalyze = !analyzing;
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.all(13),
+      decoration: BoxDecoration(
+          color: panel,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.white.withValues(alpha: .07))),
+      child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        const Icon(Icons.image_search_rounded, color: aqua, size: 21),
+        const SizedBox(width: 11),
+        Expanded(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+              const Text('PHOTO METADATA',
+                  style: TextStyle(
+                      color: aqua,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 1)),
+              const SizedBox(height: 5),
+              const Text(
+                  'Analyze pictures to decrypt this evidence.',
+                  style: TextStyle(
+                      color: muted, fontSize: 12, height: 1.35)),
+              const SizedBox(height: 10),
+              OutlinedButton.icon(
+                  onPressed: canAnalyze ? onAnalyze : null,
+                  icon: analyzing
+                      ? const SizedBox.square(
+                          dimension: 16,
+                          child: CircularProgressIndicator(
+                              strokeWidth: 2, color: aqua))
+                      : const Icon(Icons.image_search_rounded, size: 19),
+                  label: Text(analyzing
+                      ? 'Decrypting photo metadata...'
+                      : 'Analyze pictures')),
+            ])),
+      ]),
+    );
+  }
+}
+
 class _GogglesUnlockBanner extends StatelessWidget {
   const _GogglesUnlockBanner({required this.unlocked});
   final bool unlocked;
@@ -840,8 +1154,8 @@ class _GogglesUnlockBanner extends StatelessWidget {
         Expanded(
             child: Text(
                 unlocked
-                    ? 'DEEP INTELLIGENCE UNLOCKED'
-                    : 'DEEP INTELLIGENCE LOCKED',
+                    ? 'CROSS-CHECKS AVAILABLE'
+                    : 'COMPLETE CHAT TO UNLOCK CROSS-CHECKS',
                 style: TextStyle(
                     color: color,
                     fontSize: 10,
@@ -1106,14 +1420,13 @@ class _BoardProfileCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(7),
                           child: AspectRatio(
                               aspectRatio: 1.05,
-                              child: Image.asset(profile.photos.first,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (_, __, ___) => Container(
-                                      color: const Color(0xFF354667),
-                                      child: const Icon(
-                                          Icons.person_outline_rounded,
-                                          color: Colors.white70,
-                                          size: 36))))),
+                              child: _ProfileAssetImage(
+                                  path: profile.photos.isEmpty
+                                      ? ''
+                                      : profile.photos.first,
+                                  profile: profile,
+                                  photoIndex: 0,
+                                  compact: true))),
                       const SizedBox(height: 7),
                       Text(profile.name,
                           maxLines: 2,

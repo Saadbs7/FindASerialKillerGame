@@ -9,14 +9,14 @@
 </p>
 
 <p align="center">
-  Offline narrative deduction game | 20 cases | 200 profiles | Built with Flutter
+  Offline narrative deduction game | 20 cases | 200 profiles | 600 portraits | Built with Flutter
 </p>
 
 ## About the Game
 
 **Find a Serial Killer** is a fictional, offline mystery game in which you investigate dating-platform profiles connected to a series of crimes.
 
-Choose a male or female suspect campaign, open an unlocked case file, and study ten possible suspects. Profiles contain personal details, interests, answers, activity traces, hidden contradictions, and carefully placed red herrings. Shortlist exactly three people, speak to them as a potential date, connect their evidence, and make one final accusation.
+Choose a male or female suspect campaign, open an unlocked case file, and study ten possible suspects. Each profile has three photos alongside personal details, interests, answers, activity traces, hidden contradictions, and carefully placed red herrings. Shortlist exactly three people, speak to them as a potential date, connect their evidence, and make one final accusation.
 
 The most suspicious person is not always the killer.
 
@@ -26,6 +26,7 @@ The most suspicious person is not always the killer.
 - 10 cases per campaign
 - 10 profiles per case
 - 200 distinct profiles and 200 three-stage conversations
+- 600 bundled WebP portraits, three for each profile
 - Exactly one fixed killer in every case
 - Progressive case unlocking and difficulty
 - Fully data-driven case, profile, clue, and conversation content
@@ -51,12 +52,12 @@ The most suspicious person is not always the killer.
 2. Read the formatted investigation briefing and case intelligence.
 3. Browse ten profiles presented in a randomized order.
 4. Use Goggles to inspect activity information and potential leads.
-5. Shortlist exactly three suspects for deeper investigation.
-6. Complete three-stage private conversations with each suspect.
-7. Reopen Goggles to unlock profile, photo, and conversation cross-checks.
-8. Use the evidence board to compare suspicious leads connected by red threads.
-9. Select one suspect and confirm the final accusation.
-10. Receive a detective report based on time and Goggles usage.
+5. Analyze a profile's pictures at any time to decrypt its Photo Metadata evidence.
+6. Shortlist exactly three suspects for deeper investigation.
+7. Complete three-stage private conversations with each suspect.
+8. Reopen Goggles to unlock profile and conversation cross-checks.
+9. Use the evidence board to compare suspicious leads connected by red threads.
+10. Once all three conversations are complete, select one suspect, confirm the accusation, and receive a detective report.
 
 Choose wisely. Justice depends on you.
 
@@ -64,14 +65,16 @@ Choose wisely. Justice depends on you.
 
 - Dark, game-focused interface with responsive mobile layouts
 - Randomized profile order on every new case attempt
+- Three-photo galleries with fullscreen viewing and swipe navigation
 - Distinct profiles written to feel like real potential dates
 - Choice-based conversations with two responses at each stage
-- Goggles intelligence with post-conversation evidence unlocks
+- Goggles intelligence with independent picture analysis plus profile and conversation cross-checks that unlock after chatting
 - An evidence board that develops as conversations are completed
 - Case briefing and options popups available during an investigation
 - Browsable shortlisted profiles and a dedicated messages inbox
 - Confirmed accusation flow with animated win and loss scenes
 - Local campaign progression and settings storage
+- Picture-analysis progress saved across restarts
 - Detective ranks: **S**, **A**, **B**, **C**, and **FAILED**
 - Runtime content validation in debug and release builds
 - No account, server, or internet connection required
@@ -97,8 +100,8 @@ Successful investigations are ranked using the time taken and the number of prof
 | --- | --- |
 | S | Solve within 4 minutes using no more than 3 scans |
 | A | Solve within 10 minutes using no more than 6 scans |
-| B | Solve successfully without meeting another rank condition |
 | C | Solve after scanning all 10 profiles |
+| B | Solve successfully without meeting another rank condition |
 | FAILED | Accuse the wrong suspect |
 
 ## Progress and Saving
@@ -171,6 +174,9 @@ assets/
 |   |-- levels.json        # 20 cases, briefings, difficulty, and profile sets
 |   |-- profiles.json      # 200 profiles, clues, and evidence-board leads
 |   `-- conversations.json # 200 distinct three-stage conversations
+|-- images/profiles/
+|   |-- male/              # Flat WebP portrait assets such as m001_01.webp
+|   `-- female/            # Flat WebP portrait assets such as f001_01.webp
 |-- logo.jpg
 `-- splash_logo.jpg
 
@@ -183,7 +189,7 @@ test/
 The narrative content is separated from the Flutter interface:
 
 - `levels.json` defines each case, its formatted intelligence, difficulty, ten profiles, and single killer.
-- `profiles.json` stores character details, profile questions, Goggles data, clues, and concise suspicious leads.
+- `profiles.json` stores character details, profile questions, portrait paths, Goggles data, clues, and concise suspicious leads.
 - `conversations.json` stores three conversation stages and two response choices per stage for every profile.
 
 At startup, the game validates IDs, profile ownership, case size, killer count, clue references, conversation structure, and formatted case intelligence. Invalid content produces a clear error instead of silently entering the game.
@@ -191,13 +197,12 @@ At startup, the game validates IDs, profile ownership, case size, killer count, 
 ## Current Development Notes
 
 - The primary release target is Android.
-- Profile photography currently uses stylized placeholder cards; unique character artwork remains planned.
-- Music and effects preferences are stored, but final audio assets and playback are not yet bundled.
+- All 600 profile portraits are bundled and used in the galleries. Accusation choices show a single static portrait rather than an interactive gallery.
+- Music and effects preferences are stored, but playback is currently a no-op; music and sound assets are not yet bundled.
 - Android production signing and Play Store preparation are still required.
 
 ## Roadmap
 
-- Add unique portrait artwork for every profile
 - Add background music and sound effects
 - Configure production Android signing
 - Prepare the Google Play listing and release bundle

@@ -1699,6 +1699,18 @@ void main() {
             .singleWhere((clue) => clue.source == ClueSource.conversation)
             .strength,
         ClueStrength.strong);
+
+    final jonasPhoto = content.profiles['m068']!.clues
+        .singleWhere((clue) => clue.source == ClueSource.photo)
+        .description;
+    expect(
+      jonasPhoto,
+      allOf(
+        contains('repairing bus 214'),
+        contains("five months before Nora's call"),
+        contains('beneath a different bus with two coworkers'),
+      ),
+    );
   });
 
   test('case 7 stores three concise board leads per profile', () {
@@ -1995,6 +2007,12 @@ void main() {
             .singleWhere((clue) => clue.source == ClueSource.conversation)
             .strength,
         ClueStrength.strong);
+
+    final nicoPhoto = content.profiles['m074']!.clues
+        .singleWhere((clue) => clue.source == ClueSource.photo);
+    expect(nicoPhoto.description, contains('ambulance 47'));
+    expect(nicoPhoto.description, contains('predates Eva'));
+    expect(nicoPhoto.description, contains("Nico's supervisor"));
   });
 
   test('case 8 stores three concise board leads per profile', () {
@@ -5832,6 +5850,449 @@ void main() {
     await restored.restore();
     expect(restored.gogglesViewedProfileIds, contains(firstProfileId));
     expect(restored.gogglesScansViewed, 1);
+  });
+
+  test('photo analysis is independent of conversation and is persisted',
+      () async {
+    game.chooseGender(Gender.men);
+    game.beginCase();
+    for (var i = 0; i < 3; i++) {
+      game.processCurrentProfile(investigate: true);
+    }
+    final profileId = game.selectedSuspects.first;
+
+    expect(game.analyzeProfilePhotos(profileId), isTrue);
+    expect(game.analyzeProfilePhotos(profileId), isFalse);
+    expect(game.areProfilePhotosAnalyzed(profileId), isTrue);
+    await game.flushPendingWrites();
+
+    final restored = GameController(
+        content: content, preferences: await SharedPreferences.getInstance());
+    await restored.restore();
+    expect(restored.areProfilePhotosAnalyzed(profileId), isTrue);
+  });
+
+  testWidgets('Goggles decrypts photo metadata through picture analysis',
+      (tester) async {
+    final profile = content.profiles['m001']!;
+    final photoClue = profile.clues
+        .singleWhere((clue) => clue.source == ClueSource.photo)
+        .description;
+    var analysisRequests = 0;
+
+    await tester.pumpWidget(MaterialApp(
+      home: Scaffold(
+        body: GogglesDialog(
+          profile: profile,
+          conversationComplete: true,
+          photosAnalyzed: false,
+          onAnalyzePictures: () => analysisRequests += 1,
+        ),
+      ),
+    ));
+
+    expect(find.text('Analyze pictures to decrypt this evidence.'),
+        findsOneWidget);
+    expect(find.text(photoClue), findsNothing);
+
+    final analyzeButton =
+        find.widgetWithText(OutlinedButton, 'Analyze pictures');
+    await tester.ensureVisible(analyzeButton);
+    await tester.pumpAndSettle();
+    await tester.tap(analyzeButton);
+    await tester.pump();
+    expect(find.text('Decrypting photo metadata...'), findsOneWidget);
+    await tester.pump(const Duration(milliseconds: 1400));
+
+    expect(analysisRequests, 1);
+    expect(find.text(photoClue), findsOneWidget);
+  });
+
+  testWidgets('Goggles allows picture analysis while chat is locked',
+      (tester) async {
+    final profile = content.profiles['m001']!;
+
+    await tester.pumpWidget(MaterialApp(
+      home: Scaffold(
+        body: GogglesDialog(
+          profile: profile,
+          conversationComplete: false,
+          photosAnalyzed: false,
+          onAnalyzePictures: () {},
+        ),
+      ),
+    ));
+
+    expect(find.text('Analyze pictures to decrypt this evidence.'),
+        findsOneWidget);
+    final analyzeButton =
+        tester.widget<OutlinedButton>(find.widgetWithText(
+      OutlinedButton,
+      'Analyze pictures',
+    ));
+    expect(analyzeButton.onPressed, isNotNull);
+  });
+
+  testWidgets('profile gallery loads its asset and opens fullscreen',
+      (tester) async {
+    final profile = content.profiles['m001']!;
+
+    await tester.pumpWidget(MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: SizedBox(
+              width: 320, child: ProfilePhotoGallery(profile: profile)),
+        ),
+      ),
+    ));
+    await tester.pump();
+
+    expect(tester.takeException(), isNull);
+    expect(find.byType(Image), findsOneWidget);
+    expect(find.text('PHOTO 1'), findsNothing);
+    expect(find.byKey(const ValueKey('photo-gallery-progress')), findsOneWidget);
+
+    await tester.tap(find.byType(ProfilePhotoGallery));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(ProfilePhotoViewer), findsOneWidget);
+    expect(find.text('PHOTO 1 OF ${profile.photos.length}'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('non-interactive suspect portraits hide gallery progress',
+      (tester) async {
+    final profile = content.profiles['m001']!;
+
+    await tester.pumpWidget(MaterialApp(
+      home: Scaffold(
+        body: SizedBox(
+          width: 74,
+          child: ProfilePhotoGallery(
+              profile: profile, allowFullscreen: false),
+        ),
+      ),
+    ));
+    await tester.pump();
+
+    expect(find.byKey(const ValueKey('photo-gallery-progress')), findsNothing);
+    expect(tester.widget<PageView>(find.byType(PageView)).physics,
+        isA<NeverScrollableScrollPhysics>());
+    await tester.tap(find.byType(ProfilePhotoGallery));
+    await tester.pumpAndSettle();
+    expect(find.byType(ProfilePhotoViewer), findsNothing);
+    expect(tester.takeException(), isNull);
+  });
+
+  test('case 3 profiles use their complete portrait galleries', () {
+    for (var index = 21; index <= 30; index++) {
+      final id = 'm${index.toString().padLeft(3, '0')}';
+      expect(
+        content.profiles[id]!.photos,
+        <String>[
+          'assets/images/profiles/male/${id}_01.webp',
+          'assets/images/profiles/male/${id}_02.webp',
+          'assets/images/profiles/male/${id}_03.webp',
+        ],
+      );
+    }
+  });
+
+  test('case 4 profiles use their complete portrait galleries', () {
+    for (var index = 31; index <= 40; index++) {
+      final id = 'm${index.toString().padLeft(3, '0')}';
+      expect(
+        content.profiles[id]!.photos,
+        <String>[
+          'assets/images/profiles/male/${id}_01.webp',
+          'assets/images/profiles/male/${id}_02.webp',
+          'assets/images/profiles/male/${id}_03.webp',
+        ],
+      );
+    }
+  });
+
+  test('case 5 profiles use their complete portrait galleries', () {
+    for (var index = 41; index <= 50; index++) {
+      final id = 'm${index.toString().padLeft(3, '0')}';
+      expect(
+        content.profiles[id]!.photos,
+        <String>[
+          'assets/images/profiles/male/${id}_01.webp',
+          'assets/images/profiles/male/${id}_02.webp',
+          'assets/images/profiles/male/${id}_03.webp',
+        ],
+      );
+    }
+  });
+
+  test('case 6 profiles use their complete portrait galleries', () {
+    for (var index = 51; index <= 60; index++) {
+      final id = 'm${index.toString().padLeft(3, '0')}';
+      expect(
+        content.profiles[id]!.photos,
+        <String>[
+          'assets/images/profiles/male/${id}_01.webp',
+          'assets/images/profiles/male/${id}_02.webp',
+          'assets/images/profiles/male/${id}_03.webp',
+        ],
+      );
+    }
+  });
+
+  test('case 7 profiles use their complete portrait galleries', () {
+    for (var index = 61; index <= 70; index++) {
+      final id = 'm${index.toString().padLeft(3, '0')}';
+      expect(
+        content.profiles[id]!.photos,
+        <String>[
+          'assets/images/profiles/male/${id}_01.webp',
+          'assets/images/profiles/male/${id}_02.webp',
+          'assets/images/profiles/male/${id}_03.webp',
+        ],
+      );
+    }
+  });
+
+  test('case 8 profiles use their complete portrait galleries', () {
+    for (var index = 71; index <= 80; index++) {
+      final id = 'm${index.toString().padLeft(3, '0')}';
+      expect(
+        content.profiles[id]!.photos,
+        <String>[
+          'assets/images/profiles/male/${id}_01.webp',
+          'assets/images/profiles/male/${id}_02.webp',
+          'assets/images/profiles/male/${id}_03.webp',
+        ],
+      );
+    }
+  });
+
+  test('case 9 profiles use their complete portrait galleries', () {
+    for (var index = 81; index <= 90; index++) {
+      final id = 'm${index.toString().padLeft(3, '0')}';
+      expect(
+        content.profiles[id]!.photos,
+        <String>[
+          'assets/images/profiles/male/${id}_01.webp',
+          'assets/images/profiles/male/${id}_02.webp',
+          'assets/images/profiles/male/${id}_03.webp',
+        ],
+      );
+    }
+  });
+
+  test('case 10 profiles use their complete portrait galleries', () {
+    for (var index = 91; index <= 100; index++) {
+      final id = 'm${index.toString().padLeft(3, '0')}';
+      expect(
+        content.profiles[id]!.photos,
+        <String>[
+          'assets/images/profiles/male/${id}_01.webp',
+          'assets/images/profiles/male/${id}_02.webp',
+          'assets/images/profiles/male/${id}_03.webp',
+        ],
+      );
+    }
+  });
+
+  test('women case 1 profiles use their complete portrait galleries', () {
+    for (var index = 1; index <= 10; index++) {
+      final id = 'f${index.toString().padLeft(3, '0')}';
+      expect(
+        content.profiles[id]!.photos,
+        <String>[
+          'assets/images/profiles/female/${id}_01.webp',
+          'assets/images/profiles/female/${id}_02.webp',
+          'assets/images/profiles/female/${id}_03.webp',
+        ],
+      );
+    }
+  });
+
+  test('case 9 killer photo clue preserves the decisive physical match', () {
+    final photoClue = content.profiles['m087']!.clues
+        .singleWhere((clue) => clue.source == ClueSource.photo);
+
+    expect(photoClue.description, contains('original paper index card'));
+    expect(photoClue.description, contains('nine days before Leona died'));
+    expect(photoClue.description, contains('torn corner'));
+  });
+
+  test('case 10 killer photo clue preserves the decisive locker evidence', () {
+    final photoClue = content.profiles['m097']!.clues
+        .singleWhere((clue) => clue.source == ClueSource.photo);
+
+    expect(photoClue.description, contains('West Station locker key'));
+    expect(photoClue.description, contains('reversible coat'));
+    expect(photoClue.description, contains('fibers matching Alina'));
+  });
+
+  test('women case 1 killer photo preserves the cup timeline and match', () {
+    final photoClue = content.profiles['f007']!.clues
+        .singleWhere((clue) => clue.source == ClueSource.photo);
+
+    expect(photoClue.description, contains('six weeks after Mathias died'));
+    expect(photoClue.description, contains('chipped rim'));
+    expect(photoClue.description, contains('uneven cream stripe'));
+    expect(photoClue.description, contains("Oscar's table"));
+  });
+
+  test('women case 2 profiles use their complete portrait galleries', () {
+    for (var index = 11; index <= 20; index++) {
+      final id = 'f${index.toString().padLeft(3, '0')}';
+      expect(
+        content.profiles[id]!.photos,
+        <String>[
+          'assets/images/profiles/female/${id}_01.webp',
+          'assets/images/profiles/female/${id}_02.webp',
+          'assets/images/profiles/female/${id}_03.webp',
+        ],
+      );
+    }
+  });
+
+  test('women case 3 profiles use their complete portrait galleries', () {
+    for (var index = 21; index <= 30; index++) {
+      final id = 'f${index.toString().padLeft(3, '0')}';
+      expect(
+        content.profiles[id]!.photos,
+        <String>[
+          'assets/images/profiles/female/${id}_01.webp',
+          'assets/images/profiles/female/${id}_02.webp',
+          'assets/images/profiles/female/${id}_03.webp',
+        ],
+      );
+    }
+  });
+
+  test('women case 4 profiles use their complete portrait galleries', () {
+    for (var index = 31; index <= 40; index++) {
+      final id = 'f${index.toString().padLeft(3, '0')}';
+      expect(
+        content.profiles[id]!.photos,
+        <String>[
+          'assets/images/profiles/female/${id}_01.webp',
+          'assets/images/profiles/female/${id}_02.webp',
+          'assets/images/profiles/female/${id}_03.webp',
+        ],
+      );
+    }
+  });
+  test('women case 5 profiles use their complete portrait galleries', () {
+    for (var index = 41; index <= 50; index++) {
+      final id = 'f${index.toString().padLeft(3, '0')}';
+      expect(
+        content.profiles[id]!.photos,
+        <String>[
+          'assets/images/profiles/female/${id}_01.webp',
+          'assets/images/profiles/female/${id}_02.webp',
+          'assets/images/profiles/female/${id}_03.webp',
+        ],
+      );
+    }
+  });
+  test('women case 6 profiles use their complete portrait galleries', () {
+    for (var index = 51; index <= 60; index++) {
+      final id = 'f${index.toString().padLeft(3, '0')}';
+      expect(
+        content.profiles[id]!.photos,
+        <String>[
+          'assets/images/profiles/female/${id}_01.webp',
+          'assets/images/profiles/female/${id}_02.webp',
+          'assets/images/profiles/female/${id}_03.webp',
+        ],
+      );
+    }
+  });
+  test('women case 7 profiles use their complete portrait galleries', () {
+    for (var index = 61; index <= 70; index++) {
+      final id = 'f${index.toString().padLeft(3, '0')}';
+      expect(
+        content.profiles[id]!.photos,
+        <String>[
+          'assets/images/profiles/female/${id}_01.webp',
+          'assets/images/profiles/female/${id}_02.webp',
+          'assets/images/profiles/female/${id}_03.webp',
+        ],
+      );
+    }
+  });
+  test('women case 8 profiles use their complete portrait galleries', () {
+    for (var index = 71; index <= 80; index++) {
+      final id = 'f${index.toString().padLeft(3, '0')}';
+      expect(
+        content.profiles[id]!.photos,
+        <String>[
+          'assets/images/profiles/female/${id}_01.webp',
+          'assets/images/profiles/female/${id}_02.webp',
+          'assets/images/profiles/female/${id}_03.webp',
+        ],
+      );
+    }
+  });
+  test('women case 9 profiles use their complete portrait galleries', () {
+    for (var index = 81; index <= 90; index++) {
+      final id = 'f${index.toString().padLeft(3, '0')}';
+      expect(
+        content.profiles[id]!.photos,
+        <String>[
+          'assets/images/profiles/female/${id}_01.webp',
+          'assets/images/profiles/female/${id}_02.webp',
+          'assets/images/profiles/female/${id}_03.webp',
+        ],
+      );
+    }
+  });
+  test('women case 10 profiles use their complete portrait galleries', () {
+    for (var index = 91; index <= 100; index++) {
+      final id = 'f${index.toString().padLeft(3, '0')}';
+      expect(
+        content.profiles[id]!.photos,
+        <String>[
+          'assets/images/profiles/female/${id}_01.webp',
+          'assets/images/profiles/female/${id}_02.webp',
+          'assets/images/profiles/female/${id}_03.webp',
+        ],
+      );
+    }
+  });
+  testWidgets('temporary logo portrait references remain placeholders',
+      (tester) async {
+    final source = content.profiles['f091']!;
+    final profile = Profile(
+      id: 'placeholder-profile',
+      levelId: source.levelId,
+      gender: source.gender,
+      name: source.name,
+      age: source.age,
+      location: source.location,
+      occupation: source.occupation,
+      bio: source.bio,
+      description: source.description,
+      intent: source.intent,
+      lookingFor: source.lookingFor,
+      interests: source.interests,
+      photos: const <String>['assets/logo.jpg'],
+      questions: source.questions,
+      gogglesData: source.gogglesData,
+      conversationId: source.conversationId,
+      isKiller: source.isKiller,
+      clues: source.clues,
+      redHerrings: source.redHerrings,
+    );
+    expect(profile.photos, <String>['assets/logo.jpg']);
+
+    await tester.pumpWidget(MaterialApp(
+      home: Scaffold(
+        body:
+            SizedBox(width: 320, child: ProfilePhotoGallery(profile: profile)),
+      ),
+    ));
+
+    expect(find.text('PHOTO 1'), findsOneWidget);
+    expect(find.byType(Image), findsNothing);
+    expect(tester.takeException(), isNull);
   });
 
   test('detective ranks include failed and full-scan C rank', () {

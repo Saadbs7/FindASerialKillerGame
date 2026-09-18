@@ -50,6 +50,7 @@ class GameController extends ChangeNotifier {
   final Set<String> unlockedLevelIds = {};
   final Map<String, List<String>> _profileOrderByLevel = {};
   final Set<String> gogglesViewedProfileIds = {};
+  final Set<String> analyzedPhotoProfileIds = {};
   final math.Random _random = math.Random();
   String? _pendingSavePayload;
   Future<void>? _saveOperation;
@@ -138,6 +139,8 @@ class GameController extends ChangeNotifier {
       conversationStageIndexes[profileId] ?? 0;
   bool isConversationComplete(String profileId) =>
       completedConversationIds.contains(profileId);
+  bool areProfilePhotosAnalyzed(String profileId) =>
+      analyzedPhotoProfileIds.contains(profileId);
 
   String _restoredLevelId(String savedLevelId, int savedSchemeVersion) {
     if (savedSchemeVersion >= _caseIdSchemeVersion) {
@@ -213,6 +216,8 @@ class GameController extends ChangeNotifier {
           List<String>.from(data['selectedSuspectIds'] as List? ?? const []));
       gogglesViewedProfileIds.addAll(List<String>.from(
           data['gogglesViewedProfileIds'] as List? ?? const []));
+      analyzedPhotoProfileIds.addAll(List<String>.from(
+          data['analyzedPhotoProfileIds'] as List? ?? const []));
       completedLevelIds.addAll(
           List<String>.from(data['completedLevelIds'] as List? ?? const []).map(
               (levelId) =>
@@ -251,7 +256,8 @@ class GameController extends ChangeNotifier {
       if (!reviewedProfileIds.every(validProfileIds.contains) ||
           !rejectedProfileIds.every(validProfileIds.contains) ||
           !selectedSuspectIds.every(validProfileIds.contains) ||
-          !gogglesViewedProfileIds.every(validProfileIds.contains)) {
+          !gogglesViewedProfileIds.every(validProfileIds.contains) ||
+          !analyzedPhotoProfileIds.every(validProfileIds.contains)) {
         throw const FormatException('Invalid profile reference');
       }
       if (selectedSuspectIds.toSet().length != selectedSuspectIds.length ||
@@ -395,6 +401,15 @@ class GameController extends ChangeNotifier {
         gogglesViewedProfileIds.add(profileId)) {
       _commit();
     }
+  }
+
+  bool analyzeProfilePhotos(String profileId) {
+    if (!currentProfiles.any((profile) => profile.id == profileId) ||
+        !analyzedPhotoProfileIds.add(profileId)) {
+      return false;
+    }
+    _commit();
+    return true;
   }
 
   void _moveToNextUnselectedProfile() {
@@ -543,6 +558,7 @@ class GameController extends ChangeNotifier {
         'rejectedProfileIds': rejectedProfileIds.toList(),
         'selectedSuspectIds': selectedSuspectIds,
         'gogglesViewedProfileIds': gogglesViewedProfileIds.toList(),
+        'analyzedPhotoProfileIds': analyzedPhotoProfileIds.toList(),
         'conversationStageIndexes': conversationStageIndexes,
         'conversationHistory': conversationHistory.map((key, value) =>
             MapEntry(key, value.map((entry) => entry.toJson()).toList())),
@@ -570,6 +586,7 @@ class GameController extends ChangeNotifier {
     completedConversationIds.clear();
     selectedAccusationId = null;
     gogglesViewedProfileIds.clear();
+    analyzedPhotoProfileIds.clear();
     _caseStartedAt = null;
     _completedInvestigationDuration = null;
     _profileOrderByLevel.clear();

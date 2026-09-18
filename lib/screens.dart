@@ -986,13 +986,15 @@ class ProfileReviewScreen extends StatelessWidget {
           final details = _ProfileDetails(profile: profile);
           final gallery =
               Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            PlaceholderPhoto(profile: profile),
+            ProfilePhotoGallery(profile: profile),
             const SizedBox(height: 12),
             GogglesButton(onPressed: () {
               game.recordGogglesScan(profile.id);
               GogglesDialog.show(context, profile,
-                  conversationComplete:
-                      game.isConversationComplete(profile.id));
+                  conversationComplete: game.isConversationComplete(profile.id),
+                  photosAnalyzed: game.areProfilePhotosAnalyzed(profile.id),
+                  onAnalyzePictures: () =>
+                      game.analyzeProfilePhotos(profile.id));
             })
           ]);
           return Stack(
@@ -1266,12 +1268,14 @@ class _SelectedProfilesTabState extends State<_SelectedProfilesTab> {
       final wide = constraints.maxWidth > 700;
       final gallery =
           Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        PlaceholderPhoto(profile: profile),
+        ProfilePhotoGallery(profile: profile),
         const SizedBox(height: 12),
         GogglesButton(onPressed: () {
           game.recordGogglesScan(profile.id);
           GogglesDialog.show(context, profile,
-              conversationComplete: game.isConversationComplete(profile.id));
+              conversationComplete: game.isConversationComplete(profile.id),
+              photosAnalyzed: game.areProfilePhotosAnalyzed(profile.id),
+              onAnalyzePictures: () => game.analyzeProfilePhotos(profile.id));
         })
       ]);
       final details = _ProfileDetails(profile: profile);
@@ -1594,7 +1598,8 @@ class AccusationScreen extends StatelessWidget {
                         child: Row(children: [
                           SizedBox(
                               width: 74,
-                              child: PlaceholderPhoto(profile: profile)),
+                              child: ProfilePhotoGallery(
+                                  profile: profile, allowFullscreen: false)),
                           const SizedBox(width: 15),
                           Expanded(
                               child: Column(

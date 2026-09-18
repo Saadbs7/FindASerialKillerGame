@@ -1,7 +1,7 @@
 name: find_a_serial_killer
 description: A data-driven offline deduction game vertical slice.
 publish_to: "none"
-version: 0.1.0+1
+version: 0.9.5+2
 
 environment:
   sdk: ">=3.2.0 <4.0.0"
@@ -41,3 +41,5 @@ flutter:
     - assets/data/conversations.json
     - assets/logo.jpg
     - assets/splash_logo.jpg
+    - assets/images/profiles/male/
+    - assets/images/profiles/female/
