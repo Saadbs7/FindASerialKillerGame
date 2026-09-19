@@ -4,9 +4,11 @@ publish_to: "none"
 version: 0.9.5+2
 
 environment:
-  sdk: ">=3.2.0 <4.0.0"
+  sdk: ">=3.12.0 <4.0.0"
+  flutter: ">=3.44.0"
 
 dependencies:
+  audioplayers: ^6.8.1
   flutter:
     sdk: flutter
   shared_preferences: ^2.2.3
@@ -41,5 +43,16 @@ flutter:
     - assets/data/conversations.json
     - assets/logo.jpg
     - assets/splash_logo.jpg
+    - assets/audio/menu.wav
+    - assets/audio/investigation.wav
+    - assets/audio/accusation.wav
+    - assets/audio/click.wav
+    - assets/audio/shortlist.wav
+    - assets/audio/message.wav
+    - assets/audio/scan.wav
+    - assets/audio/analyzed.wav
+    - assets/audio/evidence.wav
+    - assets/audio/success.wav
+    - assets/audio/failure.wav
     - assets/images/profiles/male/
     - assets/images/profiles/female/

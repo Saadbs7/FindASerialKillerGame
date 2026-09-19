@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
@@ -35,6 +36,8 @@ class GameController extends ChangeNotifier {
   final GameContent content;
   final SharedPreferences preferences;
   final AudioService audioService;
+
+  void playSound(String asset) => unawaited(audioService.playEffect(asset));
 
   GamePhase phase = GamePhase.mainMenu;
   Gender? investigationGender;
@@ -313,11 +316,13 @@ class GameController extends ChangeNotifier {
   }
 
   void startNewGame() {
+    playSound(GameAudio.click);
     phase = GamePhase.genderSelection;
     notifyListeners();
   }
 
   void returnToMainMenu() {
+    playSound(GameAudio.click);
     phase = GamePhase.mainMenu;
     _commit();
   }
@@ -336,6 +341,7 @@ class GameController extends ChangeNotifier {
   }
 
   void beginCase() {
+    playSound(GameAudio.scan);
     _ensureProfileOrder(currentLevelId);
     phase = GamePhase.profileReview;
     _commit();
@@ -350,6 +356,7 @@ class GameController extends ChangeNotifier {
     }
     reviewedProfileIds.add(activeProfile.id);
     selectedSuspectIds.add(activeProfile.id);
+    playSound(GameAudio.shortlist);
     if (selectedSuspectIds.length == 3) {
       phase = GamePhase.messaging;
     } else {
@@ -378,6 +385,7 @@ class GameController extends ChangeNotifier {
       return false;
     }
     currentProfileIndex -= 1;
+    playSound(GameAudio.click);
     _commit();
     return true;
   }
@@ -385,6 +393,7 @@ class GameController extends ChangeNotifier {
   bool goToNextProfile() {
     if (phase != GamePhase.profileReview || !canGoToNextProfile) return false;
     currentProfileIndex += 1;
+    playSound(GameAudio.click);
     _commit();
     return true;
   }
@@ -397,6 +406,9 @@ class GameController extends ChangeNotifier {
   }
 
   void recordGogglesScan(String profileId) {
+    if (currentProfiles.any((profile) => profile.id == profileId)) {
+      playSound(GameAudio.scan);
+    }
     if (currentProfiles.any((profile) => profile.id == profileId) &&
         gogglesViewedProfileIds.add(profileId)) {
       _commit();
@@ -408,6 +420,7 @@ class GameController extends ChangeNotifier {
         !analyzedPhotoProfileIds.add(profileId)) {
       return false;
     }
+    playSound(GameAudio.analyzed);
     _commit();
     return true;
   }
@@ -430,6 +443,7 @@ class GameController extends ChangeNotifier {
     final stage = conversation.stages[index];
     final option =
         stage.responseOptions.firstWhere((item) => item.id == optionId);
+    playSound(GameAudio.message);
     final history = conversationHistory.putIfAbsent(profileId, () => []);
     history.add(ChatEntry(isPlayer: false, text: stage.suspectMessage));
     history.add(ChatEntry(isPlayer: true, text: option.playerText));
@@ -445,12 +459,14 @@ class GameController extends ChangeNotifier {
 
   void openFinalAccusation() {
     if (!allConversationsCompleted) return;
+    playSound(GameAudio.shortlist);
     phase = GamePhase.finalAccusation;
     _commit();
   }
 
   void selectAccusation(String profileId) {
     if (selectedSuspectIds.contains(profileId)) {
+      playSound(GameAudio.click);
       selectedAccusationId = profileId;
       notifyListeners();
     }
@@ -460,6 +476,7 @@ class GameController extends ChangeNotifier {
     if (selectedAccusationId == null || !allConversationsCompleted) {
       return false;
     }
+    playSound(GameAudio.evidence);
     final correct = selectedAccusationId == currentLevel.killerProfileId;
     _completedInvestigationDuration = investigationDuration;
     if (correct) _markCurrentLevelComplete();
@@ -469,6 +486,7 @@ class GameController extends ChangeNotifier {
   }
 
   void retryCase() {
+    playSound(GameAudio.click);
     final previousOrder = List<String>.from(
         _profileOrderByLevel[currentLevelId] ?? currentLevel.profileIds);
     _resetCaseState();
@@ -479,6 +497,7 @@ class GameController extends ChangeNotifier {
   }
 
   void continueToNextCase() {
+    playSound(GameAudio.click);
     _markCurrentLevelComplete();
     final nextLevel = _nextLevel();
     if (nextLevel == null) {

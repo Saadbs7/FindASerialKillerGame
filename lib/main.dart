@@ -6,13 +6,18 @@ import 'game_controller.dart';
 import 'screens.dart';
 import 'app_scope.dart';
 import 'models.dart';
+import 'player_audio_service.dart';
+import 'game_soundtrack.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final content = await const ContentRepository().load();
   final preferences = await SharedPreferences.getInstance();
-  final controller = GameController(content: content, preferences: preferences);
+  final audio = PlayerAudioService();
+  final controller = GameController(
+      content: content, preferences: preferences, audioService: audio);
   await controller.restore(openMainMenu: true);
+  unawaited(audio.preload());
   runApp(GameScope(controller: controller, child: const SerialKillerApp()));
 }
 
@@ -26,6 +31,7 @@ class _SerialKillerAppState extends State<SerialKillerApp>
     with WidgetsBindingObserver {
   Timer? _splashTimer;
   GameController? _controller;
+  GameSoundtrack? _soundtrack;
   bool _showSplash = true;
 
   @override
@@ -33,7 +39,11 @@ class _SerialKillerAppState extends State<SerialKillerApp>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _splashTimer = Timer(const Duration(milliseconds: 2200), () {
-      if (mounted) setState(() => _showSplash = false);
+      if (mounted) {
+        setState(() => _showSplash = false);
+        final controller = _controller;
+        if (controller != null) _soundtrack = GameSoundtrack(controller);
+      }
     });
   }
 
@@ -45,6 +55,10 @@ class _SerialKillerAppState extends State<SerialKillerApp>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    final audio = _controller?.audioService;
+    if (audio is PlayerAudioService) {
+      unawaited(audio.setSuspended(state != AppLifecycleState.resumed));
+    }
     if (state == AppLifecycleState.inactive ||
         state == AppLifecycleState.paused ||
         state == AppLifecycleState.detached ||
@@ -60,9 +74,12 @@ class _SerialKillerAppState extends State<SerialKillerApp>
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _splashTimer?.cancel();
+    _soundtrack?.dispose();
     final controller = _controller;
     if (controller != null) {
       unawaited(controller.flushPendingWrites());
+      final audio = controller.audioService;
+      if (audio is PlayerAudioService) unawaited(audio.dispose());
     }
     super.dispose();
   }

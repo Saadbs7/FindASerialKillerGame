@@ -1,0 +1,90 @@
+[
+  {
+    "file": "menu.wav",
+    "seconds": 48.0,
+    "peak": 0.27,
+    "rms": 0.0693,
+    "boundary_step": 0.001653,
+    "sha256": "965ce7627298f59bb5a25f9e1fb0fee12f2bb4de378858ede289e822d372acae"
+  },
+  {
+    "file": "investigation.wav",
+    "seconds": 48.0,
+    "peak": 0.22,
+    "rms": 0.0653,
+    "boundary_step": 0.001577,
+    "sha256": "4f86057fd1bc2c3f95e5938925d465a5eafaa03c747c1be42f531f680b4b1122"
+  },
+  {
+    "file": "accusation.wav",
+    "seconds": 48.0,
+    "peak": 0.27,
+    "rms": 0.0695,
+    "boundary_step": 0.001563,
+    "sha256": "9bf4aae220f15dc9f816b4ab1b1038f70328d1ece45de1836864f5bbcd48bd42"
+  },
+  {
+    "file": "click.wav",
+    "seconds": 0.12,
+    "peak": 0.18,
+    "rms": 0.0869,
+    "boundary_step": 0.0,
+    "sha256": "769d83afba51a1119b2babbf1f2ce47302f37238081413afa8c8bb882f0ef998"
+  },
+  {
+    "file": "shortlist.wav",
+    "seconds": 0.5500226757369614,
+    "peak": 0.18,
+    "rms": 0.0642,
+    "boundary_step": 0.0,
+    "sha256": "cd580e6ffa28bfd957a1e19db14297d4083b8c22a3b42bcc4cd9b587dd20aa9f"
+  },
+  {
+    "file": "message.wav",
+    "seconds": 0.44997732426303855,
+    "peak": 0.18,
+    "rms": 0.0666,
+    "boundary_step": 0.0,
+    "sha256": "e49679ed5dc00557cb4db07b2072252bfb9a9df3119ac80ee2bc225047ef6b1e"
+  },
+  {
+    "file": "scan.wav",
+    "seconds": 0.8,
+    "peak": 0.18,
+    "rms": 0.09,
+    "boundary_step": 0.0,
+    "sha256": "1887d296d7c0f8a624862afb0fab16d2a80120e24402024dd4143b083cd9bef3"
+  },
+  {
+    "file": "analyzed.wav",
+    "seconds": 0.7500226757369615,
+    "peak": 0.18,
+    "rms": 0.0703,
+    "boundary_step": 0.0,
+    "sha256": "2d1fda331b48c4c7c74d26344b554bb2945331824cab3dad28038935b82bae00"
+  },
+  {
+    "file": "evidence.wav",
+    "seconds": 0.24997732426303854,
+    "peak": 0.18,
+    "rms": 0.0897,
+    "boundary_step": 0.0,
+    "sha256": "342d16572d817dc77fcf31ac3affe13d68f0c7469f6adb9739d13616c8d53402"
+  },
+  {
+    "file": "success.wav",
+    "seconds": 3.5,
+    "peak": 0.25,
+    "rms": 0.0557,
+    "boundary_step": 0.0,
+    "sha256": "cc4ff01daf64c9433c1ae9eef0c7d0c7c1b637e294e1cbdbc2b950b1a8edcf71"
+  },
+  {
+    "file": "failure.wav",
+    "seconds": 3.5,
+    "peak": 0.25,
+    "rms": 0.058,
+    "boundary_step": 0.0,
+    "sha256": "29835f03bfd740e9bc353bd73ebf82092a4207630c27d7a9be521dc4580edd97"
+  }
+]

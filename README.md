@@ -119,7 +119,7 @@ Progress is stored locally with `shared_preferences`.
 
 ### Requirements
 
-- Flutter SDK with Dart `>=3.2.0 <4.0.0`
+- Flutter SDK `>=3.44.0` with Dart `>=3.12.0 <4.0.0`
 - Android Studio, VS Code, or another Flutter-compatible editor
 - An Android emulator or physical Android device
 
@@ -167,13 +167,16 @@ lib/
 |-- screens.dart           # Main menu and all gameplay screens
 |-- widgets.dart           # Shared UI, Goggles, and evidence board
 |-- result_scene.dart      # Animated case-closed and case-dismissed scenes
-`-- audio_service.dart     # Audio boundary for future playback support
+|-- audio_service.dart     # Audio interface and asset names
+|-- player_audio_service.dart # Offline playback, fades, volumes, and lifecycle
+`-- game_soundtrack.dart   # Music and outcome cues driven by game phase
 
 assets/
 |-- data/
 |   |-- levels.json        # 20 cases, briefings, difficulty, and profile sets
 |   |-- profiles.json      # 200 profiles, clues, and evidence-board leads
 |   `-- conversations.json # 200 distinct three-stage conversations
+|-- audio/                 # Original synthesized music, effects, and provenance
 |-- images/profiles/
 |   |-- male/              # Flat WebP portrait assets such as m001_01.webp
 |   `-- female/            # Flat WebP portrait assets such as f001_01.webp
@@ -198,12 +201,15 @@ At startup, the game validates IDs, profile ownership, case size, killer count, 
 
 - The primary release target is Android.
 - All 600 profile portraits are bundled and used in the galleries. Accusation choices show a single static portrait rather than an interactive gallery.
-- Music and effects preferences are stored, but playback is currently a no-op; music and sound assets are not yet bundled.
+- Offline audio includes three 48-second music loops and eight short interaction/result effects. Music continues across profile browsing and chats, changes for the final accusation, and fades out for the result cue.
+- Existing music and effects sliders control separate channels; zero mutes that channel. Backgrounding pauses music and stops effects. Returning resumes the current music without replaying old effects.
+- Audio was synthesized specifically for this project without external recordings or samples. See `assets/audio/PROVENANCE.md`, the reproducible generator `tools/generate_audio.py`, and the asset hashes in `assets/audio/manifest.json`.
+- Playback uses `audioplayers`. Native device listening, phone-call interruptions, silent-mode behavior, and speaker balance still need manual verification.
 - Android production signing and Play Store preparation are still required.
 
 ## Roadmap
 
-- Add background music and sound effects
+- Refine audio balance through device listening tests
 - Configure production Android signing
 - Prepare the Google Play listing and release bundle
 - Add achievements and longer-term player statistics
