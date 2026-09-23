@@ -202,6 +202,8 @@ At startup, the game validates IDs, profile ownership, case size, killer count, 
 - The primary release target is Android.
 - All 600 profile portraits are bundled and used in the galleries. Accusation choices show a single static portrait rather than an interactive gallery.
 - Offline audio includes three 48-second music loops and eight short interaction/result effects. Music continues across profile browsing and chats, changes for the final accusation, and fades out for the result cue.
+- Long music uses 44.1 kHz stereo MP3 at 192 kbps; short effects use WAV. The original music WAV masters remain in the repository but are excluded from the app's asset bundle. Regenerate MP3s with `tools/encode_music.py --ffmpeg <path>` after changing the masters.
+- Music uses two preloaded players with a three-second equal-power overlap before the end of each file, avoiding an audible stop/restart at loop boundaries. One shared audio session manages focus and interruptions for both players.
 - Existing music and effects sliders control separate channels; zero mutes that channel. Backgrounding pauses music and stops effects. Returning resumes the current music without replaying old effects.
 - Audio was synthesized specifically for this project without external recordings or samples. See `assets/audio/PROVENANCE.md`, the reproducible generator `tools/generate_audio.py`, and the asset hashes in `assets/audio/manifest.json`.
 - Playback uses `audioplayers`. Native device listening, phone-call interruptions, silent-mode behavior, and speaker balance still need manual verification.

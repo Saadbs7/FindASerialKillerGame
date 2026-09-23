@@ -8,9 +8,9 @@ abstract interface class AudioService {
 }
 
 class GameAudio {
-  static const menu = 'audio/menu.wav';
-  static const investigation = 'audio/investigation.wav';
-  static const accusation = 'audio/accusation.wav';
+  static const menu = 'audio/menu.mp3';
+  static const investigation = 'audio/investigation.mp3';
+  static const accusation = 'audio/accusation.mp3';
   static const click = 'audio/click.wav';
   static const shortlist = 'audio/shortlist.wav';
   static const message = 'audio/message.wav';

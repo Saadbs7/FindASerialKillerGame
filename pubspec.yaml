@@ -8,6 +8,7 @@ environment:
   flutter: ">=3.44.0"
 
 dependencies:
+  audio_session: ^0.2.4
   audioplayers: ^6.8.1
   flutter:
     sdk: flutter
@@ -43,9 +44,9 @@ flutter:
     - assets/data/conversations.json
     - assets/logo.jpg
     - assets/splash_logo.jpg
-    - assets/audio/menu.wav
-    - assets/audio/investigation.wav
-    - assets/audio/accusation.wav
+    - assets/audio/menu.mp3
+    - assets/audio/investigation.mp3
+    - assets/audio/accusation.mp3
     - assets/audio/click.wav
     - assets/audio/shortlist.wav
     - assets/audio/message.wav

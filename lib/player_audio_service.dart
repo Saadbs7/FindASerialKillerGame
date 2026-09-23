@@ -1,30 +1,40 @@
 import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:audio_session/audio_session.dart' as session;
 import 'package:flutter/foundation.dart';
 import 'audio_service.dart';
+import 'audio_voice.dart';
+import 'looping_audio_voice.dart';
+export 'audio_voice.dart';
 
-/// Small playback seam for testing transitions without native audio hardware.
-abstract interface class AudioVoice {
-  Future<void> load(String asset, {required bool loop});
-  Future<void> volume(double value);
-  Future<void> resume();
-  Future<void> pause();
-  Future<void> stop();
-  Future<void> dispose();
-}
-
-class _PlayerVoice implements AudioVoice {
+class _PlayerVoice implements PositionedAudioVoice {
+  _PlayerVoice({bool music = false}) {
+    if (music) {
+      _player.positionUpdater = TimerPositionUpdater(
+        getPosition: _player.getCurrentPosition,
+        interval: const Duration(milliseconds: 40),
+      );
+    }
+  }
   final _player = AudioPlayer();
 
   @override
+  Stream<Duration> get positions => _player.onPositionChanged;
+  @override
+  Future<Duration?> duration() => _player.getDuration();
+
+  @override
   Future<void> load(String asset, {required bool loop}) async {
-    await _player.setAudioContext(AudioContext(
-      android: AudioContextAndroid(
-        usageType: AndroidUsageType.game,
-        audioFocus: loop ? AndroidAudioFocus.gain : AndroidAudioFocus.none,
+    await _player.setAudioContext(
+      AudioContext(
+        android: const AudioContextAndroid(
+          usageType: AndroidUsageType.game,
+          // One shared session owns focus, not each overlapping deck.
+          audioFocus: AndroidAudioFocus.none,
+        ),
+        iOS: AudioContextIOS(category: AVAudioSessionCategory.ambient),
       ),
-      iOS: AudioContextIOS(category: AVAudioSessionCategory.ambient),
-    ));
+    );
     await _player.setReleaseMode(loop ? ReleaseMode.loop : ReleaseMode.stop);
     await _player.setSource(AssetSource(asset));
   }
@@ -41,19 +51,37 @@ class _PlayerVoice implements AudioVoice {
   Future<void> dispose() => _player.dispose();
 }
 
-/// One music voice, cached effect voices, and serialized music transitions.
+/// Crossfading music decks, cached effects, and serialized phase transitions.
 /// New requests cancel an in-flight fade so stale tracks cannot start later.
 class PlayerAudioService implements AudioService {
-  PlayerAudioService(
-      {AudioVoice Function()? createVoice,
-      this.fadeStep = const Duration(milliseconds: 35)})
-      : _createVoice = createVoice ?? _PlayerVoice.new {
-    _music = _createVoice();
+  PlayerAudioService({
+    AudioVoice Function()? createVoice,
+    this.fadeStep = const Duration(milliseconds: 35),
+  }) : _createVoice = createVoice ?? _PlayerVoice.new {
+    _music = createVoice == null
+        ? LoopingAudioVoice(
+            _PlayerVoice(music: true),
+            _PlayerVoice(music: true),
+          )
+        : _createVoice();
+    _useSession =
+        createVoice == null &&
+        !kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.android ||
+            defaultTargetPlatform == TargetPlatform.iOS ||
+            defaultTargetPlatform == TargetPlatform.macOS);
   }
 
   final AudioVoice Function() _createVoice;
   final Duration fadeStep;
   late final AudioVoice _music;
+  late final bool _useSession;
+  session.AudioSession? _session;
+  Future<void>? _sessionReady;
+  StreamSubscription<session.AudioInterruptionEvent>? _interruptions;
+  bool _focusActive = false;
+  bool _appSuspended = false;
+  bool _interrupted = false;
   final Map<String, AudioVoice> _effects = {};
   final Map<String, Future<void>> _loading = {};
   final Set<String> _busy = {};
@@ -69,6 +97,39 @@ class PlayerAudioService implements AudioService {
   int _revision = 0;
   int _effectRevision = 0;
 
+  Future<bool> _acquireFocus() async {
+    if (!_useSession) return true;
+    _sessionReady ??= () async {
+      final shared = await session.AudioSession.instance;
+      _session = shared;
+      await shared.configure(
+        const session.AudioSessionConfiguration(
+          avAudioSessionCategory: session.AVAudioSessionCategory.ambient,
+          androidAudioAttributes: session.AndroidAudioAttributes(
+            contentType: session.AndroidAudioContentType.music,
+            usage: session.AndroidAudioUsage.game,
+          ),
+          androidAudioFocusGainType: session.AndroidAudioFocusGainType.gain,
+          androidWillPauseWhenDucked: true,
+        ),
+      );
+      _interruptions = shared.interruptionEventStream.listen((event) {
+        if (_disposed) return;
+        if (event.begin) {
+          _focusActive = false;
+          _interrupted = true;
+        } else if (event.type != session.AudioInterruptionType.unknown) {
+          _interrupted = false;
+        }
+        unawaited(_safe(_updateSuspension));
+      });
+    }();
+    await _sessionReady;
+    if (_disposed || _suspended) return false;
+    if (!_focusActive) _focusActive = await _session!.setActive(true);
+    return _focusActive;
+  }
+
   Future<void> _safe(Future<void> Function() action) async {
     try {
       await action();
@@ -78,9 +139,9 @@ class PlayerAudioService implements AudioService {
   }
 
   Future<void> _loadEffect(String asset) => _loading.putIfAbsent(asset, () {
-        final voice = _effects.putIfAbsent(asset, _createVoice);
-        return voice.load(asset, loop: false);
-      });
+    final voice = _effects.putIfAbsent(asset, _createVoice);
+    return voice.load(asset, loop: false);
+  });
 
   Future<void> preload() async {
     for (final asset in GameAudio.effects) {
@@ -91,38 +152,41 @@ class PlayerAudioService implements AudioService {
 
   Future<void> _scheduleMusic() {
     final revision = ++_revision;
-    _musicQueue = _musicQueue.then((_) => _safe(() async {
-          bool current() => !_disposed && revision == _revision;
-          if (!current()) return;
-          if (_suspended || _musicVolume == 0) {
-            await _music.pause();
-            return;
-          }
-          if (_loadedTrack != _wantedTrack) {
-            final startFade = _fade;
-            for (var i = 7; i >= 0 && current(); i--) {
-              _fade = startFade * i / 8;
-              await _music.volume(_fade * _musicVolume);
-              await Future<void>.delayed(fadeStep);
-            }
-            if (!current()) return;
-            await _music.stop();
-            _loadedTrack = null;
-            final wanted = _wantedTrack;
-            if (wanted == null || !current()) return;
-            await _music.load(wanted, loop: true);
-            _loadedTrack = wanted;
-          }
-          if (_loadedTrack == null || !current()) return;
-          await _music.volume(0);
-          if (!current()) return;
-          await _music.resume();
-          for (var i = 1; i <= 8 && current(); i++) {
-            _fade = i / 8;
+    _musicQueue = _musicQueue.then(
+      (_) => _safe(() async {
+        bool current() => !_disposed && revision == _revision;
+        if (!current()) return;
+        if (_suspended || _musicVolume == 0) {
+          await _music.pause();
+          return;
+        }
+        if (_loadedTrack != _wantedTrack) {
+          final startFade = _fade;
+          for (var i = 7; i >= 0 && current(); i--) {
+            _fade = startFade * i / 8;
             await _music.volume(_fade * _musicVolume);
             await Future<void>.delayed(fadeStep);
           }
-        }));
+          if (!current()) return;
+          await _music.stop();
+          _loadedTrack = null;
+          final wanted = _wantedTrack;
+          if (wanted == null || !current()) return;
+          await _music.load(wanted, loop: true);
+          _loadedTrack = wanted;
+        }
+        if (_loadedTrack == null || !current()) return;
+        await _music.volume(0);
+        if (!current()) return;
+        if (!await _acquireFocus() || !current()) return;
+        await _music.resume();
+        for (var i = 1; i <= 8 && current(); i++) {
+          _fade = i / 8;
+          await _music.volume(_fade * _musicVolume);
+          await Future<void>.delayed(fadeStep);
+        }
+      }),
+    );
     return _musicQueue;
   }
 
@@ -161,6 +225,12 @@ class PlayerAudioService implements AudioService {
         await voice.stop();
         await voice.volume(_effectsVolume);
         if (_disposed || _suspended || revision != _effectRevision) return;
+        if (!await _acquireFocus() ||
+            _disposed ||
+            _suspended ||
+            revision != _effectRevision) {
+          return;
+        }
         await voice.resume();
       });
     } finally {
@@ -191,6 +261,13 @@ class PlayerAudioService implements AudioService {
   }
 
   Future<void> setSuspended(bool value) async {
+    if (_appSuspended && !value) _interrupted = false;
+    _appSuspended = value;
+    await _updateSuspension();
+  }
+
+  Future<void> _updateSuspension() async {
+    final value = _appSuspended || _interrupted;
     if (_disposed || _suspended == value) return;
     _suspended = value;
     _effectRevision++;
@@ -202,6 +279,10 @@ class PlayerAudioService implements AudioService {
       }
     }
     await transition;
+    if (value && _appSuspended && _focusActive) {
+      _focusActive = false;
+      await _session?.setActive(false);
+    }
   }
 
   Future<void> dispose() async {
@@ -210,6 +291,13 @@ class PlayerAudioService implements AudioService {
     _revision++;
     _effectRevision++;
     await _musicQueue;
+    if (_sessionReady != null) await _safe(() => _sessionReady!);
+    await _interruptions?.cancel();
+    if (_focusActive) {
+      await _safe(() async {
+        await _session?.setActive(false);
+      });
+    }
     for (final load in _loading.values) {
       await _safe(() => load);
     }
