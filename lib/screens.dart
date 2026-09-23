@@ -5,6 +5,7 @@ import 'game_controller.dart';
 import 'widgets.dart';
 import 'app_scope.dart';
 import 'result_scene.dart';
+import 'audio_service.dart';
 
 class _CaseHeaderActions extends StatelessWidget {
   const _CaseHeaderActions({this.leading});
@@ -541,10 +542,13 @@ class MainMenuScreen extends StatelessWidget {
                                     const BrandMark(compact: true),
                                     IconButton(
                                         tooltip: 'Settings',
-                                        onPressed: () => Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                                builder: (_) =>
-                                                    const SettingsScreen())),
+                                        onPressed: () {
+                                          game.playSound(GameAudio.click);
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (_) =>
+                                                      const SettingsScreen()));
+                                        },
                                         icon: const Icon(Icons.tune_rounded))
                                   ]),
                               Expanded(
@@ -677,7 +681,10 @@ class _GenderSelectionScreenState extends State<GenderSelectionScreen> {
               body:
                   '${game.content.levels.values.where((level) => level.gender == Gender.men).length} case files available',
               color: coral,
-              onTap: () => setState(() => _selectedGender = Gender.men)),
+              onTap: () {
+                game.playSound(GameAudio.click);
+                setState(() => _selectedGender = Gender.men);
+              }),
           const SizedBox(height: 14),
           _ChoiceCard(
               icon: Icons.female_rounded,
@@ -685,7 +692,10 @@ class _GenderSelectionScreenState extends State<GenderSelectionScreen> {
               body:
                   '${game.content.levels.values.where((level) => level.gender == Gender.women).length} case files available',
               color: aqua,
-              onTap: () => setState(() => _selectedGender = Gender.women)),
+              onTap: () {
+                game.playSound(GameAudio.click);
+                setState(() => _selectedGender = Gender.women);
+              }),
           const Spacer(),
           MenuActionButton(
               label: 'Back to main menu',
@@ -728,7 +738,10 @@ class _GenderSelectionScreenState extends State<GenderSelectionScreen> {
               label: 'Back to gender selection',
               icon: Icons.arrow_back_rounded,
               showChevron: false,
-              onPressed: () => setState(() => _selectedGender = null)),
+              onPressed: () {
+                game.playSound(GameAudio.click);
+                setState(() => _selectedGender = null);
+              }),
         ]));
   }
 }
@@ -1194,12 +1207,15 @@ class _InboxScreenState extends State<InboxScreen> {
           MenuActionButton(
               label: 'Open evidence board',
               icon: Icons.account_tree_rounded,
-              onPressed: () => EvidenceBoardDialog.show(context,
-                  profiles: game.selectedSuspectIds
-                      .map(game.profileById)
-                      .toList(growable: false),
-                  completedProfileIds:
-                      Set<String>.of(game.completedConversationIds))),
+              onPressed: () {
+                game.playSound(GameAudio.evidence);
+                EvidenceBoardDialog.show(context,
+                    profiles: game.selectedSuspectIds
+                        .map(game.profileById)
+                        .toList(growable: false),
+                    completedProfileIds:
+                        Set<String>.of(game.completedConversationIds));
+              }),
           const SizedBox(height: 8),
           if (!game.allConversationsCompleted)
             const Padding(
@@ -1222,7 +1238,10 @@ class _InboxScreenState extends State<InboxScreen> {
           child: NavigationBar(
             height: 72,
             selectedIndex: _tabIndex,
-            onDestinationSelected: (index) => setState(() => _tabIndex = index),
+            onDestinationSelected: (index) {
+              game.playSound(GameAudio.click);
+              setState(() => _tabIndex = index);
+            },
             backgroundColor: const Color(0xFF121A2B),
             indicatorColor: coral.withValues(alpha: .2),
             labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
@@ -1319,7 +1338,10 @@ class _SelectedProfilesTabState extends State<_SelectedProfilesTab> {
                       backgroundColor: panel,
                       horizontal: true,
                       onPressed: index > 0
-                          ? () => setState(() => _profileIndex = index - 1)
+                          ? () {
+                              game.playSound(GameAudio.click);
+                              setState(() => _profileIndex = index - 1);
+                            }
                           : null)),
               const SizedBox(width: 10),
               Expanded(
@@ -1330,7 +1352,10 @@ class _SelectedProfilesTabState extends State<_SelectedProfilesTab> {
                       backgroundColor: panel,
                       horizontal: true,
                       onPressed: index < selectedIds.length - 1
-                          ? () => setState(() => _profileIndex = index + 1)
+                          ? () {
+                              game.playSound(GameAudio.click);
+                              setState(() => _profileIndex = index + 1);
+                            }
                           : null)),
             ]),
           ),
@@ -1364,8 +1389,11 @@ class _InboxMessagesTab extends StatelessWidget {
             profile: game.profileById(id),
             complete: game.isConversationComplete(id),
             stageIndex: game.stageIndexFor(id),
-            onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => ChatScreen(profileId: id))))),
+            onTap: () {
+              game.playSound(GameAudio.message);
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => ChatScreen(profileId: id)));
+            })),
       ],
     );
   }
@@ -1635,7 +1663,10 @@ class AccusationScreen extends StatelessWidget {
               icon: Icons.gavel_rounded,
               onPressed: game.selectedAccusationId == null
                   ? null
-                  : () => _confirm(context)),
+                  : () {
+                      game.playSound(GameAudio.shortlist);
+                      _confirm(context);
+                    }),
         ]));
   }
 
@@ -1976,11 +2007,16 @@ class SettingsScreen extends StatelessWidget {
                     ])
               ])),
           const SizedBox(height: 20),
-          const Text('Audio hooks are ready for future music and sound assets.',
+          const Text(
+              'Music and sounds play offline. Set either slider to zero to mute.',
               style: TextStyle(color: muted, height: 1.4)),
           const SizedBox(height: 22),
           PrimaryButton(
-              label: 'Done', onPressed: () => Navigator.of(context).pop()),
+              label: 'Done',
+              onPressed: () {
+                game.playSound(GameAudio.click);
+                Navigator.of(context).pop();
+              }),
         ]));
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'models.dart';
+import 'app_scope.dart';
+import 'audio_service.dart';
 
 const ink = Color(0xFF0C1220);
 const panel = Color(0xFF151E31);
@@ -1111,10 +1113,8 @@ class _PhotoMetadataSection extends StatelessWidget {
                       fontWeight: FontWeight.w900,
                       letterSpacing: 1)),
               const SizedBox(height: 5),
-              const Text(
-                  'Analyze pictures to decrypt this evidence.',
-                  style: TextStyle(
-                      color: muted, fontSize: 12, height: 1.35)),
+              const Text('Analyze pictures to decrypt this evidence.',
+                  style: TextStyle(color: muted, fontSize: 12, height: 1.35)),
               const SizedBox(height: 10),
               OutlinedButton.icon(
                   onPressed: canAnalyze ? onAnalyze : null,
@@ -1175,15 +1175,20 @@ class EvidenceBoardDialog extends StatelessWidget {
   final Set<String> completedProfileIds;
 
   static Future<void> show(BuildContext context,
-          {required List<Profile> profiles,
-          required Set<String> completedProfileIds}) =>
-      showDialog<void>(
-        context: context,
-        barrierColor: Colors.black.withValues(alpha: .88),
-        builder: (_) => Dialog.fullscreen(
-            child: EvidenceBoardDialog(
-                profiles: profiles, completedProfileIds: completedProfileIds)),
-      );
+      {required List<Profile> profiles,
+      required Set<String> completedProfileIds}) {
+    context
+        .getInheritedWidgetOfExactType<GameScope>()
+        ?.notifier
+        ?.playSound(GameAudio.evidence);
+    return showDialog<void>(
+      context: context,
+      barrierColor: Colors.black.withValues(alpha: .88),
+      builder: (_) => Dialog.fullscreen(
+          child: EvidenceBoardDialog(
+              profiles: profiles, completedProfileIds: completedProfileIds)),
+    );
+  }
 
   List<Profile> get completedProfiles => profiles
       .where((profile) => completedProfileIds.contains(profile.id))
